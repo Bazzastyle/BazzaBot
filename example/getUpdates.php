@@ -18,10 +18,9 @@
   $offset = 0;
 
   function handleUpdate ( Client $client, object $update, array $env ) : void {
-    require __DIR__ . '/localVars.php';
-		require_once __DIR__ . '/functions.php';
+    require_once __DIR__ . '/includes/class-autoload.php';
 
-    set_exception_handler( "errorLog" );
+		set_exception_handler( 'Globals::errorLog' );
 
     if ( isset( $update->message ) || isset( $update->edited_message ) ) require __DIR__ . '/update/message.php';
 		elseif ( isset( $update->channel_post ) || isset( $update->edited_channel_post ) ) require __DIR__ . '/update/channel.php';
