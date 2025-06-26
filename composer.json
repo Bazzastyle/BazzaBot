@@ -1,0 +1,25 @@
+{
+  "name": "bazzastyle/bazzabot",
+  "description": "A simple way to communicate with Telegram APIs in PHP.",
+  "type": "project",
+  "license": "AGPL-3.0-or-later",
+  "require": {
+    "ext-json": "*",
+    "php": "^8.4",
+    "amphp/http-client": "^v5.0@dev",
+    "amphp/file": "^v3.0@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "BazzaBot\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Bazzastyle",
+      "email": "bazzastyle@hotmail.it"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
