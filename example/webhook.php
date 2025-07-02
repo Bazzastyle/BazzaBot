@@ -44,7 +44,7 @@
 	function handleUpdate ( Client $client, stdClass $update, array $env ) : void {
 		require_once __DIR__ . '/includes/class-autoload.php';
 
-		set_exception_handler( 'Globals::errorLog' );
+		set_exception_handler( 'UsernameBot\Globals::errorLog' );
 
 		if ( isset( $update->message ) || isset( $update->edited_message ) ) require_once __DIR__ . '/update/message.php';
 		elseif ( isset( $update->channel_post ) || isset( $update->edited_channel_post ) ) require_once __DIR__ . '/update/channel.php';

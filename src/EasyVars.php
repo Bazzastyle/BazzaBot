@@ -319,7 +319,8 @@
 
 		public function ReplyParameters () {}
 
-		public function MessageOrigin ( object $update, string $prefix ) {
+		public function MessageOrigin ( object|array $update, string $prefix ) {
+			if ( is_array( $update ) ) $update = (object) $update;
 			$this->{$prefix . '_type'}              = $update->type ?? NULL;
 			$this->{$prefix . '_date'}              = $update->date ?? NULL;
 			$this->{$prefix . '_sender_user'}       = $update->sender_user ?? NULL;
@@ -857,7 +858,8 @@
 				];
 		}
 
-		public function ReactionCount ( object $update, string $prefix = '' ) {
+		public function ReactionCount ( object|array $update, string $prefix = '' ) {
+			if ( is_array( $update ) ) $update = (object) $update;
 			$this->{$prefix . '_type'}        = $update->type ?? NULL;
 			if ( isset( $update->type ) ) $this->ReactionType( $update->type, $prefix . '_type' );
 			$this->{$prefix . '_total_count'} = $update->total_count ?? NULL;

@@ -2,19 +2,24 @@
   /**
    * Globals.
    *
-   * @package Classes
+   * @package UsernameBot
    */
 
-  if ( ! class_exists( 'Globals' ) ) {
-    class Globals {
-      protected static BazzaBot\Client $client;
+  namespace UsernameBot;
+  use BazzaBot\Client;
+  use BazzaBot\Database;
+  use BazzaBot\EasyVars;
 
-      public static ?BazzaBot\EasyVars $tg;
-      public static ?BazzaBot\Database $db;
+  if ( ! class_exists( __NAMESPACE__ . '\\Globals' ) ) {
+    class Globals {
+      protected static Client $client;
+
+      public static ?EasyVars $tg;
+      public static ?Database $db;
       public static array $env;
       public static string $symbol;
 
-      public static function init ( BazzaBot\Client $client, array $env ) {
+      public static function init ( Client $client, array $env ) {
         self::$client  = $client;
         self::$tg      = isset( $client->easy ) ? $client->easy : null;
         self::$db      = isset( $client->db ) ? $client->db : null;

@@ -25,9 +25,8 @@
 	function handleUpdate ( Client $client, array $env ) : void {
 		require_once __DIR__ . '/includes/class-autoload.php';
 
-		set_exception_handler( 'Globals::errorLog' );
-
-		Cron::execute();
+		set_exception_handler( 'UsernameBot\Globals::errorLog' );
+		UsernameBot\Cron::execute();
 	}
 
 	$future = async( handleUpdate( ... ), $client, $env );

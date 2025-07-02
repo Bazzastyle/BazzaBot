@@ -2,10 +2,12 @@
   /**
    * Autoloader.
    *
-   * @package Classes
+   * @package UsernameBot
    */
 
-  if ( ! class_exists( 'Autoloader' ) ) {
+  namespace UsernameBot;
+
+  if ( ! class_exists( __NAMESPACE__ . '\\Autoloader' ) ) {
     /**
      * Autoloader class.
      */
@@ -29,45 +31,17 @@
       }
 
       /**
-       * Take a class name and turn it into a file name.
-       *
-       * @param string $class Class name.
-       *
-       * @return string
-       */
-      private function getFileNameFromClass ( string $class ) : string {
-        return 'class-' . str_replace( '_', '-', $class ) . '.php';
-      }
-
-      /**
-       * Include a class file.
-       *
-       * @param string $path File path.
-       *
-       * @return bool Successful or not.
-       */
-      private function loadFile ( string $path ) : bool {
-        if ( $path && is_readable( $path ) ) {
-          include_once $path;
-
-          return true;
-        }
-
-        return false;
-      }
-
-      /**
        * Autoload plugins' classes on demand to reduce memory consumption.
        *
        * @param string $class Class name.
        */
-      public function autoload ( string $class ) : void {
-        $class = strtolower( $class );
+      public function autoload( string $class ): void {
+        if ( str_starts_with( $class, __NAMESPACE__ . '\\' ) ) {
+          $filePath = $this->includePath . 'class-' . strtolower( str_replace( '\\', '-', substr( $class, strlen( __NAMESPACE__ ) + 1 ) ) ) . '.php';
 
-        $file = $this->getFileNameFromClass( $class );
-        $path = '';
-
-        if ( empty( $path ) || ! $this->loadFile( $path . $file ) ) $this->loadFile( $this->includePath . $file );
+          if ( is_readable( $filePath ) ) include_once $filePath;
+          else error_log( "❌ Autoloader: classe [$class] non trovata. Atteso: $filePath" );
+        }
       }
     }
   }

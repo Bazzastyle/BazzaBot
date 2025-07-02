@@ -2,10 +2,12 @@
   /**
    * Cron.
    *
-   * @package Classes
+   * @package UsernameBot
    */
 
-  if ( ! class_exists( 'Cron' ) ) {
+  namespace UsernameBot;
+
+  if ( ! class_exists( __NAMESPACE__ . '\\Cron' ) ) {
     class Cron extends Globals {
       public static function add ( int $chat_id, int $msg_id, int $minutes, string $type ) : array {
         return self::$db->query(
