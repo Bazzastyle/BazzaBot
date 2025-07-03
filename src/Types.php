@@ -357,6 +357,7 @@
      *                              in the caption
      * @param bool|NULL $show_caption_above_media True, if the caption must be shown above the message media
      * @param bool|NULL $has_media_spoiler True, if the message media is covered by a spoiler animation
+     * @param Checklist|NULL $checklist Message is a checklist
      * @param Contact|NULL $contact Message is a shared contact, information about the contact
      * @param Dice|NULL $dice Message is a dice with random value
      * @param Game|NULL $game Message is a game, information about the game. More about games »
@@ -405,6 +406,10 @@
      * @param ProximityAlertTriggered|NULL $proximity_alert_triggered Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
      * @param ChatBoostAdded|NULL $boost_added Service message: user boosted the chat
      * @param ChatBackground|NULL $chat_background_set Service message: chat background set
+     * @param ChecklistTasksDone|NULL $checklist_tasks_done Service message: some tasks in a checklist were marked as done or not done
+     * @param ChecklistTasksAdded|NULL $checklist_tasks_added Service message: tasks were added to a checklist
+     * @param DirectMessagePriceChanged|NULL $direct_message_price_changed Service message: the price for paid messages in the corresponding direct messages chat of a channel
+     *                              has changed
      * @param ForumTopicCreated|NULL $forum_topic_created Service message: forum topic created
      * @param ForumTopicEdited|NULL $forum_topic_edited Service message: forum topic edited
      * @param ForumTopicClosed|NULL $forum_topic_closed Service message: forum topic closed
@@ -425,7 +430,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $from !== NULL ) $args['from'] = $from;
@@ -465,6 +470,7 @@
       if ( $caption_entities !== NULL ) $args['caption_entities'] = $caption_entities;
       if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
       if ( $has_media_spoiler !== NULL ) $args['has_media_spoiler'] = $has_media_spoiler;
+      if ( $checklist !== NULL ) $args['checklist'] = $checklist;
       if ( $contact !== NULL ) $args['contact'] = $contact;
       if ( $dice !== NULL ) $args['dice'] = $dice;
       if ( $game !== NULL ) $args['game'] = $game;
@@ -496,6 +502,9 @@
       if ( $proximity_alert_triggered !== NULL ) $args['proximity_alert_triggered'] = $proximity_alert_triggered;
       if ( $boost_added !== NULL ) $args['boost_added'] = $boost_added;
       if ( $chat_background_set !== NULL ) $args['chat_background_set'] = $chat_background_set;
+      if ( $checklist_tasks_done !== NULL ) $args['checklist_tasks_done'] = $checklist_tasks_done;
+      if ( $checklist_tasks_added !== NULL ) $args['checklist_tasks_added'] = $checklist_tasks_added;
+      if ( $direct_message_price_changed !== NULL ) $args['direct_message_price_changed'] = $direct_message_price_changed;
       if ( $forum_topic_created !== NULL ) $args['forum_topic_created'] = $forum_topic_created;
       if ( $forum_topic_edited !== NULL ) $args['forum_topic_edited'] = $forum_topic_edited;
       if ( $forum_topic_closed !== NULL ) $args['forum_topic_closed'] = $forum_topic_closed;
@@ -635,6 +644,7 @@
      * @param VideoNote|NULL $video_note Message is a video note, information about the video message
      * @param Voice|NULL $voice Message is a voice message, information about the file
      * @param bool|NULL $has_media_spoiler True, if the message media is covered by a spoiler animation
+     * @param Checklist|NULL $checklist Message is a checklist
      * @param Contact|NULL $contact Message is a shared contact, information about the contact
      * @param Dice|NULL $dice Message is a dice with random value
      * @param Game|NULL $game Message is a game, information about the game. More about games »
@@ -647,7 +657,7 @@
      *
      * @return array $args
      */
-    public function ExternalReplyInfo ( array $origin, ?array $chat = NULL, ?int $message_id = NULL, ?array $link_preview_options = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?bool $has_media_spoiler = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $invoice = NULL, ?array $location = NULL, ?array $poll = NULL, ?array $venue = NULL ) : array {
+    public function ExternalReplyInfo ( array $origin, ?array $chat = NULL, ?int $message_id = NULL, ?array $link_preview_options = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $invoice = NULL, ?array $location = NULL, ?array $poll = NULL, ?array $venue = NULL ) : array {
       $args = [ 'origin' => $origin ]; 
       if ( $chat !== NULL ) $args['chat'] = $chat;
       if ( $message_id !== NULL ) $args['message_id'] = $message_id;
@@ -663,6 +673,7 @@
       if ( $video_note !== NULL ) $args['video_note'] = $video_note;
       if ( $voice !== NULL ) $args['voice'] = $voice;
       if ( $has_media_spoiler !== NULL ) $args['has_media_spoiler'] = $has_media_spoiler;
+      if ( $checklist !== NULL ) $args['checklist'] = $checklist;
       if ( $contact !== NULL ) $args['contact'] = $contact;
       if ( $dice !== NULL ) $args['dice'] = $dice;
       if ( $game !== NULL ) $args['game'] = $game;
@@ -1192,6 +1203,130 @@
     }
 
     /**
+     * Describes a task in a checklist.
+     * 
+     * @see https://core.telegram.org/bots/api#ChecklistTask
+     *
+     * @param int $id Unique identifier of the task
+     * @param string $text Text of the task
+     * @param MessageEntity[]|NULL $text_entities Special entities that appear in the task text
+     * @param User|NULL $completed_by_user User that completed the task; omitted if the task wasn't completed
+     * @param int|NULL $completion_date Point in time (Unix timestamp) when the task was completed; 0 if the task wasn't completed
+     *
+     * @return array $args
+     */
+    public function ChecklistTask ( int $id, string $text, ?array $text_entities = NULL, ?array $completed_by_user = NULL, ?int $completion_date = NULL ) : array {
+      $args = [ 'id' => $id, 'text' => $text ]; 
+      if ( $text_entities !== NULL ) $args['text_entities'] = $text_entities;
+      if ( $completed_by_user !== NULL ) $args['completed_by_user'] = $completed_by_user;
+      if ( $completion_date !== NULL ) $args['completion_date'] = $completion_date;
+      return $args;
+    }
+
+    /**
+     * Describes a checklist.
+     * 
+     * @see https://core.telegram.org/bots/api#Checklist
+     *
+     * @param string $title Title of the checklist
+     * @param MessageEntity[]|NULL $title_entities Special entities that appear in the checklist title
+     * @param ChecklistTask[] $tasks List of tasks in the checklist
+     * @param bool|NULL $others_can_add_tasks True, if users other than the creator of the list can add tasks to the list
+     * @param bool|NULL $others_can_mark_tasks_as_done True, if users other than the creator of the list can mark tasks as done or not done
+     *
+     * @return array $args
+     */
+    public function Checklist ( string $title, array $tasks, ?array $title_entities = NULL, ?bool $others_can_add_tasks = NULL, ?bool $others_can_mark_tasks_as_done = NULL ) : array {
+      $args = [ 'title' => $title, 'tasks' => $tasks ]; 
+      if ( $title_entities !== NULL ) $args['title_entities'] = $title_entities;
+      if ( $others_can_add_tasks !== NULL ) $args['others_can_add_tasks'] = $others_can_add_tasks;
+      if ( $others_can_mark_tasks_as_done !== NULL ) $args['others_can_mark_tasks_as_done'] = $others_can_mark_tasks_as_done;
+      return $args;
+    }
+
+    /**
+     * Describes a task to add to a checklist.
+     * 
+     * @see https://core.telegram.org/bots/api#InputChecklistTask
+     *
+     * @param int $id Unique identifier of the task; must be positive and unique among all task identifiers currently
+     *                              present in the checklist
+     * @param string $text Text of the task; 1-100 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the text. See formatting options for more details.
+     * @param MessageEntity[]|NULL $text_entities List of special entities that appear in the text, which can be specified instead of parse_mode.
+     *                              Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed.
+     *
+     * @return array $args
+     */
+    public function InputChecklistTask ( int $id, string $text, ?string $parse_mode = NULL, ?array $text_entities = NULL ) : array {
+      $args = [ 'id' => $id, 'text' => $text ]; 
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $text_entities !== NULL ) $args['text_entities'] = $text_entities;
+      return $args;
+    }
+
+    /**
+     * Describes a checklist to create.
+     * 
+     * @see https://core.telegram.org/bots/api#InputChecklist
+     *
+     * @param string $title Title of the checklist; 1-255 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the title. See formatting options for more details.
+     * @param MessageEntity[]|NULL $title_entities List of special entities that appear in the title, which can be specified instead of parse_mode.
+     *                              Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed.
+     * @param InputChecklistTask[] $tasks List of 1-30 tasks in the checklist
+     * @param bool|NULL $others_can_add_tasks Pass True if other users can add tasks to the checklist
+     * @param bool|NULL $others_can_mark_tasks_as_done Pass True if other users can mark tasks as done or not done in the checklist
+     *
+     * @return array $args
+     */
+    public function InputChecklist ( string $title, array $tasks, ?string $parse_mode = NULL, ?array $title_entities = NULL, ?bool $others_can_add_tasks = NULL, ?bool $others_can_mark_tasks_as_done = NULL ) : array {
+      $args = [ 'title' => $title, 'tasks' => $tasks ]; 
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $title_entities !== NULL ) $args['title_entities'] = $title_entities;
+      if ( $others_can_add_tasks !== NULL ) $args['others_can_add_tasks'] = $others_can_add_tasks;
+      if ( $others_can_mark_tasks_as_done !== NULL ) $args['others_can_mark_tasks_as_done'] = $others_can_mark_tasks_as_done;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about checklist tasks marked as done or not done.
+     * 
+     * @see https://core.telegram.org/bots/api#ChecklistTasksDone
+     *
+     * @param Message|NULL $checklist_message Message containing the checklist whose tasks were marked as done or not done. Note that the Message
+     *                              object in this field will not contain the reply_to_message field even if it itself is a reply.
+     * @param int[]|NULL $marked_as_done_task_ids Identifiers of the tasks that were marked as done
+     * @param int[]|NULL $marked_as_not_done_task_ids Identifiers of the tasks that were marked as not done
+     *
+     * @return array $args
+     */
+    public function ChecklistTasksDone ( ?array $checklist_message = NULL, ?array $marked_as_done_task_ids = NULL, ?array $marked_as_not_done_task_ids = NULL ) : array {
+      $args = []; 
+      if ( $checklist_message !== NULL ) $args['checklist_message'] = $checklist_message;
+      if ( $marked_as_done_task_ids !== NULL ) $args['marked_as_done_task_ids'] = $marked_as_done_task_ids;
+      if ( $marked_as_not_done_task_ids !== NULL ) $args['marked_as_not_done_task_ids'] = $marked_as_not_done_task_ids;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about tasks added to a checklist.
+     * 
+     * @see https://core.telegram.org/bots/api#ChecklistTasksAdded
+     *
+     * @param Message|NULL $checklist_message Message containing the checklist to which the tasks were added. Note that the Message object in this
+     *                              field will not contain the reply_to_message field even if it itself is a reply.
+     * @param ChecklistTask[] $tasks List of tasks added to the checklist
+     *
+     * @return array $args
+     */
+    public function ChecklistTasksAdded ( array $tasks, ?array $checklist_message = NULL ) : array {
+      $args = [ 'tasks' => $tasks ]; 
+      if ( $checklist_message !== NULL ) $args['checklist_message'] = $checklist_message;
+      return $args;
+    }
+
+    /**
      * This object represents a point on the map.
      * 
      * @see https://core.telegram.org/bots/api#Location
@@ -1691,6 +1826,23 @@
      */
     public function PaidMessagePriceChanged ( int $paid_message_star_count ) : array {
       return [ 'paid_message_star_count' => $paid_message_star_count ];
+    }
+
+    /**
+     * Describes a service message about a change in the price of direct messages sent to a channel chat.
+     * 
+     * @see https://core.telegram.org/bots/api#DirectMessagePriceChanged
+     *
+     * @param bool $are_direct_messages_enabled True, if direct messages are enabled for the channel chat; false otherwise
+     * @param int|NULL $direct_message_star_count The new number of Telegram Stars that must be paid by users for each direct message sent to the
+     *                              channel. Does not apply to users who have been exempted by administrators. Defaults to 0.
+     *
+     * @return array $args
+     */
+    public function DirectMessagePriceChanged ( bool $are_direct_messages_enabled, ?int $direct_message_star_count = NULL ) : array {
+      $args = [ 'are_direct_messages_enabled' => $are_direct_messages_enabled ]; 
+      if ( $direct_message_star_count !== NULL ) $args['direct_message_star_count'] = $direct_message_star_count;
+      return $args;
     }
 
     /**
@@ -2300,7 +2452,8 @@
      *
      * @param bool $is_anonymous True, if the user's presence in the chat is hidden
      * @param bool $can_manage_chat True, if the administrator can access the chat event log, get boost list, see hidden supergroup and
-     *                              channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+     *                              channel members, report spam messages, ignore slow mode, and send messages to the chat without
+     *                              paying Telegram Stars. Implied by any other administrator privilege.
      * @param bool $can_delete_messages True, if the administrator can delete messages of other users
      * @param bool $can_manage_video_chats True, if the administrator can manage video chats
      * @param bool $can_restrict_members True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
@@ -2313,8 +2466,8 @@
      * @param bool $can_edit_stories True, if the administrator can edit stories posted by other users, post stories to the chat page,
      *                              pin chat stories, and access the chat's story archive
      * @param bool $can_delete_stories True, if the administrator can delete stories posted by other users
-     * @param bool|NULL $can_post_messages True, if the administrator can post messages in the channel, or access channel statistics; for
-     *                              channels only
+     * @param bool|NULL $can_post_messages True, if the administrator can post messages in the channel, approve suggested posts, or access
+     *                              channel statistics; for channels only
      * @param bool|NULL $can_edit_messages True, if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|NULL $can_manage_topics True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
@@ -2396,7 +2549,8 @@
      * @param bool $can_be_edited True, if the bot is allowed to edit administrator privileges of that user
      * @param bool $is_anonymous True, if the user's presence in the chat is hidden
      * @param bool $can_manage_chat True, if the administrator can access the chat event log, get boost list, see hidden supergroup and
-     *                              channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+     *                              channel members, report spam messages, ignore slow mode, and send messages to the chat without
+     *                              paying Telegram Stars. Implied by any other administrator privilege.
      * @param bool $can_delete_messages True, if the administrator can delete messages of other users
      * @param bool $can_manage_video_chats True, if the administrator can manage video chats
      * @param bool $can_restrict_members True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
@@ -2409,8 +2563,8 @@
      * @param bool $can_edit_stories True, if the administrator can edit stories posted by other users, post stories to the chat page,
      *                              pin chat stories, and access the chat's story archive
      * @param bool $can_delete_stories True, if the administrator can delete stories posted by other users
-     * @param bool|NULL $can_post_messages True, if the administrator can post messages in the channel, or access channel statistics; for
-     *                              channels only
+     * @param bool|NULL $can_post_messages True, if the administrator can post messages in the channel, approve suggested posts, or access
+     *                              channel statistics; for channels only
      * @param bool|NULL $can_edit_messages True, if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|NULL $can_manage_topics True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
@@ -2461,7 +2615,7 @@
      * @param bool $can_send_videos True, if the user is allowed to send videos
      * @param bool $can_send_video_notes True, if the user is allowed to send video notes
      * @param bool $can_send_voice_notes True, if the user is allowed to send voice notes
-     * @param bool $can_send_polls True, if the user is allowed to send polls
+     * @param bool $can_send_polls True, if the user is allowed to send polls and checklists
      * @param bool $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
      * @param bool $can_change_info True, if the user is allowed to change the chat title, photo and other settings
@@ -2543,7 +2697,7 @@
      * @param bool|NULL $can_send_videos True, if the user is allowed to send videos
      * @param bool|NULL $can_send_video_notes True, if the user is allowed to send video notes
      * @param bool|NULL $can_send_voice_notes True, if the user is allowed to send voice notes
-     * @param bool|NULL $can_send_polls True, if the user is allowed to send polls
+     * @param bool|NULL $can_send_polls True, if the user is allowed to send polls and checklists
      * @param bool|NULL $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|NULL $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
      * @param bool|NULL $can_change_info True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
@@ -2832,7 +2986,7 @@
      * @see https://core.telegram.org/bots/api#ReactionTypeEmoji
      *
      * @param string $type Type of the reaction, always “emoji”
-     * @param string $emoji Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁",
+     * @param string $emoji Reaction emoji. Currently, it can be one of "❤", "👍", "👎", "🔥", "🥰", "👏", "😁",
      *                              "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊",
      *                              "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌",
      *                              "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓",
@@ -3094,18 +3248,25 @@
      * @see https://core.telegram.org/bots/api#UniqueGiftInfo
      *
      * @param UniqueGift $gift Information about the gift
-     * @param string $origin Origin of the gift. Currently, either “upgrade” or “transfer”
+     * @param string $origin Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts,
+     *                              “transfer” for gifts transferred from other users or channels, or “resale” for gifts bought
+     *                              from other users
+     * @param int|NULL $last_resale_star_count For gifts bought from other users, the price paid for the gift
      * @param string|NULL $owned_gift_id Unique identifier of the received gift for the bot; only present for gifts received on behalf of
      *                              business accounts
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
      *                              the gift
+     * @param string|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
+     *                              can be transferred now
      *
      * @return array $args
      */
-    public function UniqueGiftInfo ( array $gift, string $origin, ?string $owned_gift_id = NULL, ?int $transfer_star_count = NULL ) : array {
+    public function UniqueGiftInfo ( array $gift, string $origin, ?int $last_resale_star_count = NULL, ?string $owned_gift_id = NULL, ?int $transfer_star_count = NULL, ?string $next_transfer_date = NULL ) : array {
       $args = [ 'gift' => $gift, 'origin' => $origin ]; 
+      if ( $last_resale_star_count !== NULL ) $args['last_resale_star_count'] = $last_resale_star_count;
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
       if ( $transfer_star_count !== NULL ) $args['transfer_star_count'] = $transfer_star_count;
+      if ( $next_transfer_date !== NULL ) $args['next_transfer_date'] = $next_transfer_date;
       return $args;
     }
 
@@ -3178,16 +3339,19 @@
      *                              accounts only
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
      *                              the gift
+     * @param string|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
+     *                              can be transferred now
      *
      * @return array $args
      */
-    public function OwnedGiftUnique ( string $type = 'unique', array $gift, int $send_date, ?string $owned_gift_id = NULL, ?array $sender_user = NULL, ?bool $is_saved = NULL, ?bool $can_be_transferred = NULL, ?int $transfer_star_count = NULL ) : array {
+    public function OwnedGiftUnique ( string $type = 'unique', array $gift, int $send_date, ?string $owned_gift_id = NULL, ?array $sender_user = NULL, ?bool $is_saved = NULL, ?bool $can_be_transferred = NULL, ?int $transfer_star_count = NULL, ?string $next_transfer_date = NULL ) : array {
       $args = [ 'type' => $type, 'gift' => $gift, 'send_date' => $send_date ]; 
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
       if ( $sender_user !== NULL ) $args['sender_user'] = $sender_user;
       if ( $is_saved !== NULL ) $args['is_saved'] = $is_saved;
       if ( $can_be_transferred !== NULL ) $args['can_be_transferred'] = $can_be_transferred;
       if ( $transfer_star_count !== NULL ) $args['transfer_star_count'] = $transfer_star_count;
+      if ( $next_transfer_date !== NULL ) $args['next_transfer_date'] = $next_transfer_date;
       return $args;
     }
 
@@ -3593,7 +3757,7 @@
      * @param bool|NULL $can_reply True, if the bot can send and edit messages in the private chats that had incoming messages in the
      *                              last 24 hours
      * @param bool|NULL $can_read_messages True, if the bot can mark incoming private messages as read
-     * @param bool|NULL $can_delete_outgoing_messages True, if the bot can delete messages sent by the bot
+     * @param bool|NULL $can_delete_sent_messages True, if the bot can delete messages sent by the bot
      * @param bool|NULL $can_delete_all_messages True, if the bot can delete all private messages in managed chats
      * @param bool|NULL $can_edit_name True, if the bot can edit the first and last name of the business account
      * @param bool|NULL $can_edit_bio True, if the bot can edit the bio of the business account
@@ -3609,11 +3773,11 @@
      *
      * @return array $args
      */
-    public function BusinessBotRights ( ?bool $can_reply = NULL, ?bool $can_read_messages = NULL, ?bool $can_delete_outgoing_messages = NULL, ?bool $can_delete_all_messages = NULL, ?bool $can_edit_name = NULL, ?bool $can_edit_bio = NULL, ?bool $can_edit_profile_photo = NULL, ?bool $can_edit_username = NULL, ?bool $can_change_gift_settings = NULL, ?bool $can_view_gifts_and_stars = NULL, ?bool $can_convert_gifts_to_stars = NULL, ?bool $can_transfer_and_upgrade_gifts = NULL, ?bool $can_transfer_stars = NULL, ?bool $can_manage_stories = NULL ) : array {
+    public function BusinessBotRights ( ?bool $can_reply = NULL, ?bool $can_read_messages = NULL, ?bool $can_delete_sent_messages = NULL, ?bool $can_delete_all_messages = NULL, ?bool $can_edit_name = NULL, ?bool $can_edit_bio = NULL, ?bool $can_edit_profile_photo = NULL, ?bool $can_edit_username = NULL, ?bool $can_change_gift_settings = NULL, ?bool $can_view_gifts_and_stars = NULL, ?bool $can_convert_gifts_to_stars = NULL, ?bool $can_transfer_and_upgrade_gifts = NULL, ?bool $can_transfer_stars = NULL, ?bool $can_manage_stories = NULL ) : array {
       $args = []; 
       if ( $can_reply !== NULL ) $args['can_reply'] = $can_reply;
       if ( $can_read_messages !== NULL ) $args['can_read_messages'] = $can_read_messages;
-      if ( $can_delete_outgoing_messages !== NULL ) $args['can_delete_outgoing_messages'] = $can_delete_outgoing_messages;
+      if ( $can_delete_sent_messages !== NULL ) $args['can_delete_sent_messages'] = $can_delete_sent_messages;
       if ( $can_delete_all_messages !== NULL ) $args['can_delete_all_messages'] = $can_delete_all_messages;
       if ( $can_edit_name !== NULL ) $args['can_edit_name'] = $can_edit_name;
       if ( $can_edit_bio !== NULL ) $args['can_edit_bio'] = $can_edit_bio;
@@ -3988,7 +4152,7 @@
      * 
      * @see https://core.telegram.org/bots/api#InputProfilePhotoStatic
      *
-     * @param string $type Type of the profile photo, must be “static”
+     * @param string $type Type of the profile photo, must be static
      * @param string $photo The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so
      *                              you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data
      *                              under <file_attach_name>. More information on Sending Files »
@@ -4004,7 +4168,7 @@
      * 
      * @see https://core.telegram.org/bots/api#InputProfilePhotoAnimated
      *
-     * @param string $type Type of the profile photo, must be “animated”
+     * @param string $type Type of the profile photo, must be animated
      * @param string $animation The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file,
      *                              so you can pass “attach://<file_attach_name>” if the photo was uploaded using
      *                              multipart/form-data under <file_attach_name>. More information on Sending Files »
@@ -4035,7 +4199,7 @@
      * 
      * @see https://core.telegram.org/bots/api#InputStoryContentPhoto
      *
-     * @param string $type Type of the content, must be “photo”
+     * @param string $type Type of the content, must be photo
      * @param string $photo The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The
      *                              photo can't be reused and can only be uploaded as a new file, so you can pass
      *                              “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under
@@ -4052,7 +4216,7 @@
      * 
      * @see https://core.telegram.org/bots/api#InputStoryContentVideo
      *
-     * @param string $type Type of the content, must be “video”
+     * @param string $type Type of the content, must be video
      * @param string $video The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265
      *                              codec, with key frames added each second in the MPEG4 format, and must not exceed 30 MB. The video
      *                              can't be reused and can only be uploaded as a new file, so you can pass

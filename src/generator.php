@@ -3,7 +3,7 @@
     $curl = curl_init();
 
     curl_setopt_array($curl, [
-      CURLOPT_URL => 'https://raw.githubusercontent.com/davtur19/BazzaBotGen/master/botapi.json',
+      CURLOPT_URL => 'https://raw.githubusercontent.com/davtur19/TuriBotGen/refs/heads/master/botapi.json',
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_ENCODING => "",

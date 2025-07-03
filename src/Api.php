@@ -70,7 +70,7 @@
      *
      * @return stdClass
      */
-    public function setWebhook ( string $url, ?CURLFile $certificate = NULL, ?string $ip_address = NULL, ?int $max_connections = NULL, ?array $allowed_updates = NULL, ?bool $drop_pending_updates = NULL, ?string $secret_token = NULL ) : stdClass {
+    public function setWebhook ( string $url, CURLFile|InputFile|null $certificate = NULL, ?string $ip_address = NULL, ?int $max_connections = NULL, ?array $allowed_updates = NULL, ?bool $drop_pending_updates = NULL, ?string $secret_token = NULL ) : stdClass {
       $args = [ 'url' => $url ]; 
       if ( $certificate !== NULL ) $args['certificate'] = $certificate;
       if ( $ip_address !== NULL ) $args['ip_address'] = $ip_address;
@@ -354,7 +354,7 @@
      *
      * @return stdClass
      */
-    public function sendPhoto ( int|string $chat_id, CURLFile|string $photo, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendPhoto ( int|string $chat_id, CURLFile|InputFile|string $photo, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'photo' => $photo ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -411,7 +411,7 @@
      *
      * @return stdClass
      */
-    public function sendAudio ( int|string $chat_id, CURLFile|string $audio, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?string $performer = NULL, ?string $title = NULL, CURLFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendAudio ( int|string $chat_id, CURLFile|InputFile|string $audio, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?string $performer = NULL, ?string $title = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'audio' => $audio ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -466,7 +466,7 @@
      *
      * @return stdClass
      */
-    public function sendDocument ( int|string $chat_id, CURLFile|string $document, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, CURLFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $disable_content_type_detection = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendDocument ( int|string $chat_id, CURLFile|InputFile|string $document, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $disable_content_type_detection = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'document' => $document ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -529,7 +529,7 @@
      *
      * @return stdClass
      */
-    public function sendVideo ( int|string $chat_id, CURLFile|InputFile|string $video, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|string|null $thumbnail = NULL, CURLFile|string|null $cover = NULL, ?int $start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $supports_streaming = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVideo ( int|string $chat_id, CURLFile|InputFile|string $video, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, CURLFile|InputFile|string|null $cover = NULL, ?int $start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $supports_streaming = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'video' => $video ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -594,7 +594,7 @@
      *
      * @return stdClass
      */
-    public function sendAnimation ( int|string $chat_id, CURLFile|string $animation, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendAnimation ( int|string $chat_id, CURLFile|InputFile|string $animation, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'animation' => $animation ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -647,7 +647,7 @@
      *
      * @return stdClass
      */
-    public function sendVoice ( int|string $chat_id, CURLFile|string $voice, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVoice ( int|string $chat_id, CURLFile|InputFile|string $voice, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'voice' => $voice ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -695,7 +695,7 @@
      *
      * @return stdClass
      */
-    public function sendVideoNote ( int|string $chat_id, CURLFile|string $video_note, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $length = NULL, CURLFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVideoNote ( int|string $chat_id, CURLFile|InputFile|string $video_note, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $length = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'video_note' => $video_note ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -928,7 +928,7 @@
      *                              custom emoji entities are allowed
      * @param MessageEntity[]|NULL $question_entities A JSON-serialized list of special entities that appear in the poll question. It can be specified
      *                              instead of question_parse_mode
-     * @param InputPollOption[] $options A JSON-serialized list of 2-10 answer options
+     * @param InputPollOption[] $options A JSON-serialized list of 2-12 answer options
      * @param bool|NULL $is_anonymous True, if the poll needs to be anonymous, defaults to True
      * @param string|NULL $type Poll type, “quiz” or “regular”, defaults to “regular”
      * @param bool|NULL $allows_multiple_answers True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
@@ -973,6 +973,33 @@
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
+      if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to send a checklist on behalf of a connected business account. On success, the sent
+     * Message is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#sendChecklist
+     *
+     * @param string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int $chat_id Unique identifier for the target chat
+     * @param InputChecklist $checklist A JSON-serialized object for the checklist to send
+     * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message
+     * @param ReplyParameters|NULL $reply_parameters A JSON-serialized object for description of the message to reply to
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard
+     *
+     * @return stdClass
+     */
+    public function sendChecklist ( string $business_connection_id, int $chat_id, array $checklist, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'business_connection_id' => $business_connection_id, 'chat_id' => $chat_id, 'checklist' => json_encode( $checklist ) ]; 
+      if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
+      if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
@@ -1209,7 +1236,8 @@
      * @param int $user_id Unique identifier of the target user
      * @param bool|NULL $is_anonymous Pass True if the administrator's presence in the chat is hidden
      * @param bool|NULL $can_manage_chat Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup
-     *                              and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
+     *                              and channel members, report spam messages, ignore slow mode, and send messages to the chat without
+     *                              paying Telegram Stars. Implied by any other administrator privilege.
      * @param bool|NULL $can_delete_messages Pass True if the administrator can delete messages of other users
      * @param bool|NULL $can_manage_video_chats Pass True if the administrator can manage video chats
      * @param bool|NULL $can_restrict_members Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
@@ -1222,8 +1250,8 @@
      * @param bool|NULL $can_edit_stories Pass True if the administrator can edit stories posted by other users, post stories to the chat
      *                              page, pin chat stories, and access the chat's story archive
      * @param bool|NULL $can_delete_stories Pass True if the administrator can delete stories posted by other users
-     * @param bool|NULL $can_post_messages Pass True if the administrator can post messages in the channel, or access channel statistics; for
-     *                              channels only
+     * @param bool|NULL $can_post_messages Pass True if the administrator can post messages in the channel, approve suggested posts, or access
+     *                              channel statistics; for channels only
      * @param bool|NULL $can_edit_messages Pass True if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|NULL $can_pin_messages Pass True if the administrator can pin messages; for supergroups only
      * @param bool|NULL $can_manage_topics Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
@@ -1488,7 +1516,7 @@
      *
      * @return stdClass
      */
-    public function setChatPhoto ( int|string $chat_id, CURLFile $photo ) : stdClass {
+    public function setChatPhoto ( int|string $chat_id, CURLFile|InputFile $photo ) : stdClass {
       return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'photo' => $photo ] );
     }
 
@@ -2387,6 +2415,26 @@
     }
 
     /**
+     * Use this method to edit a checklist on behalf of a connected business account. On success, the
+     * edited Message is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageChecklist
+     *
+     * @param string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int $chat_id Unique identifier for the target chat
+     * @param int $message_id Unique identifier for the target message
+     * @param InputChecklist $checklist A JSON-serialized object for the new checklist
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for the new inline keyboard for the message
+     *
+     * @return stdClass
+     */
+    public function editMessageChecklist ( string $business_connection_id, int $chat_id, int $message_id, array $checklist, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'business_connection_id' => $business_connection_id, 'chat_id' => $chat_id, 'message_id' => $message_id, 'checklist' => json_encode( $checklist ) ]; 
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
      * Use this method to edit only the reply markup of messages. On success, if the edited message is not
      * an inline message, the edited Message is returned, otherwise True is returned. Note that business
      * messages that were not sent by the bot and do not contain an inline keyboard can only be edited
@@ -2623,9 +2671,9 @@
     }
 
     /**
-     * Delete messages on behalf of a business account. Requires the can_delete_outgoing_messages business
-     * bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot
-     * right to delete any message. Returns True on success.
+     * Delete messages on behalf of a business account. Requires the can_delete_sent_messages business bot
+     * right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right
+     * to delete any message. Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#deleteBusinessMessages
      *
@@ -2962,7 +3010,7 @@
      *
      * @return stdClass
      */
-    public function sendSticker ( int|string $chat_id, CURLFile|string $sticker, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $emoji = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendSticker ( int|string $chat_id, CURLFile|InputFile|string $sticker, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $emoji = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'sticker' => $sticker ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -3017,7 +3065,7 @@
      *
      * @return stdClass
      */
-    public function uploadStickerFile ( int $user_id, CURLFile $sticker, string $sticker_format ) : stdClass {
+    public function uploadStickerFile ( int $user_id, CURLFile|InputFile $sticker, string $sticker_format ) : stdClass {
       return $this->Request( __FUNCTION__, [ 'user_id' => $user_id, 'sticker' => $sticker, 'sticker_format' => $sticker_format ] );
     }
 
@@ -3199,7 +3247,7 @@
      *
      * @return stdClass
      */
-    public function setStickerSetThumbnail ( string $name, int $user_id, string $format, CURLFile|string|null $thumbnail = NULL ) : stdClass {
+    public function setStickerSetThumbnail ( string $name, int $user_id, string $format, CURLFile|InputFile|string|null $thumbnail = NULL ) : stdClass {
       $args = [ 'name' => $name, 'user_id' => $user_id, 'format' => $format ]; 
       if ( $thumbnail !== NULL ) $args['thumbnail'] = $thumbnail;
       return $this->Request( __FUNCTION__, $args );
@@ -3506,6 +3554,19 @@
       $args = [ 'pre_checkout_query_id' => $pre_checkout_query_id, 'ok' => $ok ]; 
       if ( $error_message !== NULL ) $args['error_message'] = $error_message;
       return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * A method to get the current Telegram Stars balance of the bot. Requires no parameters. On success,
+     * returns a StarAmount object.
+     * 
+     * @see https://core.telegram.org/bots/api#getMyStarBalance
+     *
+     *
+     * @return stdClass
+     */
+    public function getMyStarBalance ( ) : stdClass {
+      return $this->Request( __FUNCTION__, [] );
     }
 
     /**
