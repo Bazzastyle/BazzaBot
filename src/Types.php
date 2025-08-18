@@ -167,16 +167,18 @@
      * @param string|NULL $first_name First name of the other party in a private chat
      * @param string|NULL $last_name Last name of the other party in a private chat
      * @param bool|NULL $is_forum True, if the supergroup chat is a forum (has topics enabled)
+     * @param bool|NULL $is_direct_messages True, if the chat is the direct messages chat of a channel
      *
      * @return array $args
      */
-    public function Chat ( int $id, string $type, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL ) : array {
+    public function Chat ( int $id, string $type, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL ) : array {
       $args = [ 'id' => $id, 'type' => $type ]; 
       if ( $title !== NULL ) $args['title'] = $title;
       if ( $username !== NULL ) $args['username'] = $username;
       if ( $first_name !== NULL ) $args['first_name'] = $first_name;
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $is_forum !== NULL ) $args['is_forum'] = $is_forum;
+      if ( $is_direct_messages !== NULL ) $args['is_direct_messages'] = $is_direct_messages;
       return $args;
     }
 
@@ -195,6 +197,7 @@
      * @param string|NULL $first_name First name of the other party in a private chat
      * @param string|NULL $last_name Last name of the other party in a private chat
      * @param bool|NULL $is_forum True, if the supergroup chat is a forum (has topics enabled)
+     * @param bool|NULL $is_direct_messages True, if the chat is the direct messages chat of a channel
      * @param int $accent_color_id Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header,
      *                              and link preview. See accent colors for more details.
      * @param int $max_reaction_count The maximum number of reactions that can be set on a message in the chat
@@ -205,6 +208,7 @@
      * @param BusinessLocation|NULL $business_location For private chats with business accounts, the location of the business
      * @param BusinessOpeningHours|NULL $business_opening_hours For private chats with business accounts, the opening hours of the business
      * @param Chat|NULL $personal_chat For private chats, the personal channel of the user
+     * @param Chat|NULL $parent_chat Information about the corresponding channel chat; for direct messages chats only
      * @param ReactionType[]|NULL $available_reactions List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
      * @param string|NULL $background_custom_emoji_id Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
      * @param int|NULL $profile_accent_color_id Identifier of the accent color for the chat's profile background. See profile accent colors for more
@@ -251,13 +255,14 @@
      *
      * @return array $args
      */
-    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL ) : array {
+    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL ) : array {
       $args = [ 'id' => $id, 'type' => $type, 'accent_color_id' => $accent_color_id, 'max_reaction_count' => $max_reaction_count, 'accepted_gift_types' => $accepted_gift_types ]; 
       if ( $title !== NULL ) $args['title'] = $title;
       if ( $username !== NULL ) $args['username'] = $username;
       if ( $first_name !== NULL ) $args['first_name'] = $first_name;
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $is_forum !== NULL ) $args['is_forum'] = $is_forum;
+      if ( $is_direct_messages !== NULL ) $args['is_direct_messages'] = $is_direct_messages;
       if ( $photo !== NULL ) $args['photo'] = $photo;
       if ( $active_usernames !== NULL ) $args['active_usernames'] = $active_usernames;
       if ( $birthdate !== NULL ) $args['birthdate'] = $birthdate;
@@ -265,6 +270,7 @@
       if ( $business_location !== NULL ) $args['business_location'] = $business_location;
       if ( $business_opening_hours !== NULL ) $args['business_opening_hours'] = $business_opening_hours;
       if ( $personal_chat !== NULL ) $args['personal_chat'] = $personal_chat;
+      if ( $parent_chat !== NULL ) $args['parent_chat'] = $parent_chat;
       if ( $available_reactions !== NULL ) $args['available_reactions'] = $available_reactions;
       if ( $background_custom_emoji_id !== NULL ) $args['background_custom_emoji_id'] = $background_custom_emoji_id;
       if ( $profile_accent_color_id !== NULL ) $args['profile_accent_color_id'] = $profile_accent_color_id;
@@ -306,6 +312,7 @@
      *                              immediately. In such cases, this field will be 0 and the relevant message will be unusable until it
      *                              is actually sent
      * @param int|NULL $message_thread_id Unique identifier of a message thread to which the message belongs; for supergroups only
+     * @param DirectMessagesTopic|NULL $direct_messages_topic Information about the direct messages chat topic that contains the message
      * @param User|NULL $from Sender of the message; may be empty for messages sent to channels. For backward compatibility, if
      *                              the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
      * @param Chat|NULL $sender_chat Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages
@@ -328,11 +335,14 @@
      * @param ExternalReplyInfo|NULL $external_reply Information about the message that is being replied to, which may come from another chat or forum topic
      * @param TextQuote|NULL $quote For replies that quote part of the original message, the quoted part of the message
      * @param Story|NULL $reply_to_story For replies to a story, the original story
+     * @param int|NULL $reply_to_checklist_task_id Identifier of the specific checklist task that is being replied to
      * @param User|NULL $via_bot Bot through which the message was sent
      * @param int|NULL $edit_date Date the message was last edited in Unix time
      * @param bool|NULL $has_protected_content True, if the message can't be forwarded
      * @param bool|NULL $is_from_offline True, if the message was sent by an implicit action, for example, as an away or a greeting business
      *                              message, or as a scheduled message
+     * @param bool|NULL $is_paid_post True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to
+     *                              receive the payment and can't be edited.
      * @param string|NULL $media_group_id The unique identifier of a media message group this message belongs to
      * @param string|NULL $author_signature Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      * @param int|NULL $paid_star_count The number of Telegram Stars that were paid by the sender of the message to send it
@@ -340,6 +350,8 @@
      * @param MessageEntity[]|NULL $entities For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
      * @param LinkPreviewOptions|NULL $link_preview_options Options used for link preview generation for the message, if it is a text message and link preview
      *                              options were changed
+     * @param SuggestedPostInfo|NULL $suggested_post_info Information about suggested post parameters if the message is a suggested post in a channel direct
+     *                              messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|NULL $effect_id Unique identifier of the message effect added to the message
      * @param Animation|NULL $animation Message is an animation, information about the animation. For backward compatibility, when this
      *                              field is set, the document field will also be set
@@ -421,6 +433,11 @@
      * @param GiveawayWinners|NULL $giveaway_winners A giveaway with public winners was completed
      * @param GiveawayCompleted|NULL $giveaway_completed Service message: a giveaway without public winners was completed
      * @param PaidMessagePriceChanged|NULL $paid_message_price_changed Service message: the price for paid messages has changed in the chat
+     * @param SuggestedPostApproved|NULL $suggested_post_approved Service message: a suggested post was approved
+     * @param SuggestedPostApprovalFailed|NULL $suggested_post_approval_failed Service message: approval of a suggested post has failed
+     * @param SuggestedPostDeclined|NULL $suggested_post_declined Service message: a suggested post was declined
+     * @param SuggestedPostPaid|NULL $suggested_post_paid Service message: payment for a suggested post was received
+     * @param SuggestedPostRefunded|NULL $suggested_post_refunded Service message: payment for a suggested post was refunded
      * @param VideoChatScheduled|NULL $video_chat_scheduled Service message: video chat scheduled
      * @param VideoChatStarted|NULL $video_chat_started Service message: video chat started
      * @param VideoChatEnded|NULL $video_chat_ended Service message: video chat ended
@@ -430,9 +447,10 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
       if ( $from !== NULL ) $args['from'] = $from;
       if ( $sender_chat !== NULL ) $args['sender_chat'] = $sender_chat;
       if ( $sender_boost_count !== NULL ) $args['sender_boost_count'] = $sender_boost_count;
@@ -445,16 +463,19 @@
       if ( $external_reply !== NULL ) $args['external_reply'] = $external_reply;
       if ( $quote !== NULL ) $args['quote'] = $quote;
       if ( $reply_to_story !== NULL ) $args['reply_to_story'] = $reply_to_story;
+      if ( $reply_to_checklist_task_id !== NULL ) $args['reply_to_checklist_task_id'] = $reply_to_checklist_task_id;
       if ( $via_bot !== NULL ) $args['via_bot'] = $via_bot;
       if ( $edit_date !== NULL ) $args['edit_date'] = $edit_date;
       if ( $has_protected_content !== NULL ) $args['has_protected_content'] = $has_protected_content;
       if ( $is_from_offline !== NULL ) $args['is_from_offline'] = $is_from_offline;
+      if ( $is_paid_post !== NULL ) $args['is_paid_post'] = $is_paid_post;
       if ( $media_group_id !== NULL ) $args['media_group_id'] = $media_group_id;
       if ( $author_signature !== NULL ) $args['author_signature'] = $author_signature;
       if ( $paid_star_count !== NULL ) $args['paid_star_count'] = $paid_star_count;
       if ( $text !== NULL ) $args['text'] = $text;
       if ( $entities !== NULL ) $args['entities'] = $entities;
       if ( $link_preview_options !== NULL ) $args['link_preview_options'] = $link_preview_options;
+      if ( $suggested_post_info !== NULL ) $args['suggested_post_info'] = $suggested_post_info;
       if ( $effect_id !== NULL ) $args['effect_id'] = $effect_id;
       if ( $animation !== NULL ) $args['animation'] = $animation;
       if ( $audio !== NULL ) $args['audio'] = $audio;
@@ -516,6 +537,11 @@
       if ( $giveaway_winners !== NULL ) $args['giveaway_winners'] = $giveaway_winners;
       if ( $giveaway_completed !== NULL ) $args['giveaway_completed'] = $giveaway_completed;
       if ( $paid_message_price_changed !== NULL ) $args['paid_message_price_changed'] = $paid_message_price_changed;
+      if ( $suggested_post_approved !== NULL ) $args['suggested_post_approved'] = $suggested_post_approved;
+      if ( $suggested_post_approval_failed !== NULL ) $args['suggested_post_approval_failed'] = $suggested_post_approval_failed;
+      if ( $suggested_post_declined !== NULL ) $args['suggested_post_declined'] = $suggested_post_declined;
+      if ( $suggested_post_paid !== NULL ) $args['suggested_post_paid'] = $suggested_post_paid;
+      if ( $suggested_post_refunded !== NULL ) $args['suggested_post_refunded'] = $suggested_post_refunded;
       if ( $video_chat_scheduled !== NULL ) $args['video_chat_scheduled'] = $video_chat_scheduled;
       if ( $video_chat_started !== NULL ) $args['video_chat_started'] = $video_chat_started;
       if ( $video_chat_ended !== NULL ) $args['video_chat_ended'] = $video_chat_ended;
@@ -695,7 +721,7 @@
      *                              is specified
      * @param int|string|NULL $chat_id If the message to be replied to is from a different chat, unique identifier for the chat or username
      *                              of the channel (in the format @channelusername). Not supported for messages sent on behalf of a
-     *                              business account.
+     *                              business account and messages from channel direct messages chats.
      * @param bool|NULL $allow_sending_without_reply Pass True if the message should be sent even if the specified message to be replied to is not found.
      *                              Always False for replies in another chat or forum topic. Always True for messages sent on behalf of
      *                              a business account.
@@ -706,10 +732,11 @@
      * @param string|NULL $quote_parse_mode Mode for parsing entities in the quote. See formatting options for more details.
      * @param MessageEntity[]|NULL $quote_entities A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
      * @param int|NULL $quote_position Position of the quote in the original message in UTF-16 code units
+     * @param int|NULL $checklist_task_id Identifier of the specific checklist task to be replied to
      *
      * @return array $args
      */
-    public function ReplyParameters ( int $message_id, int|string|null $chat_id = NULL, ?bool $allow_sending_without_reply = NULL, ?string $quote = NULL, ?string $quote_parse_mode = NULL, ?array $quote_entities = NULL, ?int $quote_position = NULL ) : array {
+    public function ReplyParameters ( int $message_id, int|string|null $chat_id = NULL, ?bool $allow_sending_without_reply = NULL, ?string $quote = NULL, ?string $quote_parse_mode = NULL, ?array $quote_entities = NULL, ?int $quote_position = NULL, ?int $checklist_task_id = NULL ) : array {
       $args = [ 'message_id' => $message_id ]; 
       if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
       if ( $allow_sending_without_reply !== NULL ) $args['allow_sending_without_reply'] = $allow_sending_without_reply;
@@ -717,6 +744,7 @@
       if ( $quote_parse_mode !== NULL ) $args['quote_parse_mode'] = $quote_parse_mode;
       if ( $quote_entities !== NULL ) $args['quote_entities'] = $quote_entities;
       if ( $quote_position !== NULL ) $args['quote_position'] = $quote_position;
+      if ( $checklist_task_id !== NULL ) $args['checklist_task_id'] = $checklist_task_id;
       return $args;
     }
 
@@ -1846,6 +1874,103 @@
     }
 
     /**
+     * Describes a service message about the approval of a suggested post.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostApproved
+     *
+     * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
+     *                              the reply_to_message field even if it itself is a reply.
+     * @param SuggestedPostPrice|NULL $price Amount paid for the post
+     * @param int $send_date Date when the post will be published
+     *
+     * @return array $args
+     */
+    public function SuggestedPostApproved ( int $send_date, ?array $suggested_post_message = NULL, ?array $price = NULL ) : array {
+      $args = [ 'send_date' => $send_date ]; 
+      if ( $suggested_post_message !== NULL ) $args['suggested_post_message'] = $suggested_post_message;
+      if ( $price !== NULL ) $args['price'] = $price;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about the failed approval of a suggested post. Currently, only caused by
+     * insufficient user funds at the time of approval.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostApprovalFailed
+     *
+     * @param Message|NULL $suggested_post_message Message containing the suggested post whose approval has failed. Note that the Message object in
+     *                              this field will not contain the reply_to_message field even if it itself is a reply.
+     * @param SuggestedPostPrice $price Expected price of the post
+     *
+     * @return array $args
+     */
+    public function SuggestedPostApprovalFailed ( array $price, ?array $suggested_post_message = NULL ) : array {
+      $args = [ 'price' => $price ]; 
+      if ( $suggested_post_message !== NULL ) $args['suggested_post_message'] = $suggested_post_message;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about the rejection of a suggested post.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostDeclined
+     *
+     * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
+     *                              the reply_to_message field even if it itself is a reply.
+     * @param string|NULL $comment Comment with which the post was declined
+     *
+     * @return array $args
+     */
+    public function SuggestedPostDeclined ( ?array $suggested_post_message = NULL, ?string $comment = NULL ) : array {
+      $args = []; 
+      if ( $suggested_post_message !== NULL ) $args['suggested_post_message'] = $suggested_post_message;
+      if ( $comment !== NULL ) $args['comment'] = $comment;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about a successful payment for a suggested post.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostPaid
+     *
+     * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
+     *                              the reply_to_message field even if it itself is a reply.
+     * @param string $currency Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON”
+     *                              for toncoins
+     * @param int|NULL $amount The amount of the currency that was received by the channel in nanotoncoins; for payments in
+     *                              toncoins only
+     * @param StarAmount|NULL $star_amount The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only
+     *
+     * @return array $args
+     */
+    public function SuggestedPostPaid ( string $currency, ?array $suggested_post_message = NULL, ?int $amount = NULL, ?array $star_amount = NULL ) : array {
+      $args = [ 'currency' => $currency ]; 
+      if ( $suggested_post_message !== NULL ) $args['suggested_post_message'] = $suggested_post_message;
+      if ( $amount !== NULL ) $args['amount'] = $amount;
+      if ( $star_amount !== NULL ) $args['star_amount'] = $star_amount;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about a payment refund for a suggested post.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostRefunded
+     *
+     * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
+     *                              the reply_to_message field even if it itself is a reply.
+     * @param string $reason Reason for the refund. Currently, one of “post_deleted” if the post was deleted within 24 hours
+     *                              of being posted or removed from scheduled messages without being posted, or “payment_refunded”
+     *                              if the payer refunded their payment.
+     *
+     * @return array $args
+     */
+    public function SuggestedPostRefunded ( string $reason, ?array $suggested_post_message = NULL ) : array {
+      $args = [ 'reason' => $reason ]; 
+      if ( $suggested_post_message !== NULL ) $args['suggested_post_message'] = $suggested_post_message;
+      return $args;
+    }
+
+    /**
      * This object represents a service message about the creation of a scheduled giveaway.
      * 
      * @see https://core.telegram.org/bots/api#GiveawayCreated
@@ -1968,6 +2093,77 @@
       if ( $prefer_small_media !== NULL ) $args['prefer_small_media'] = $prefer_small_media;
       if ( $prefer_large_media !== NULL ) $args['prefer_large_media'] = $prefer_large_media;
       if ( $show_above_text !== NULL ) $args['show_above_text'] = $show_above_text;
+      return $args;
+    }
+
+    /**
+     * Desribes price of a suggested post.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostPrice
+     *
+     * @param string $currency Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or
+     *                              “TON” for toncoins
+     * @param int $amount The amount of the currency that will be paid for the post in the smallest units of the currency,
+     *                              i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and
+     *                              100000, and price in nanotoncoins must be between 10000000 and 10000000000000.
+     *
+     * @return array $args
+     */
+    public function SuggestedPostPrice ( string $currency, int $amount ) : array {
+      return [ 'currency' => $currency, 'amount' => $amount ];
+    }
+
+    /**
+     * Contains information about a suggested post.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostInfo
+     *
+     * @param string $state State of the suggested post. Currently, it can be one of “pending”, “approved”, “declined”.
+     * @param SuggestedPostPrice|NULL $price Proposed price of the post. If the field is omitted, then the post is unpaid.
+     * @param int|NULL $send_date Proposed send date of the post. If the field is omitted, then the post can be published at any time
+     *                              within 30 days at the sole discretion of the user or administrator who approves it.
+     *
+     * @return array $args
+     */
+    public function SuggestedPostInfo ( string $state, ?array $price = NULL, ?int $send_date = NULL ) : array {
+      $args = [ 'state' => $state ]; 
+      if ( $price !== NULL ) $args['price'] = $price;
+      if ( $send_date !== NULL ) $args['send_date'] = $send_date;
+      return $args;
+    }
+
+    /**
+     * Contains parameters of a post that is being suggested by the bot.
+     * 
+     * @see https://core.telegram.org/bots/api#SuggestedPostParameters
+     *
+     * @param SuggestedPostPrice|NULL $price Proposed price for the post. If the field is omitted, then the post is unpaid.
+     * @param int|NULL $send_date Proposed send date of the post. If specified, then the date must be between 300 second and 2678400
+     *                              seconds (30 days) in the future. If the field is omitted, then the post can be published at any time
+     *                              within 30 days at the sole discretion of the user who approves it.
+     *
+     * @return array $args
+     */
+    public function SuggestedPostParameters ( ?array $price = NULL, ?int $send_date = NULL ) : array {
+      $args = []; 
+      if ( $price !== NULL ) $args['price'] = $price;
+      if ( $send_date !== NULL ) $args['send_date'] = $send_date;
+      return $args;
+    }
+
+    /**
+     * Describes a topic of a direct messages chat.
+     * 
+     * @see https://core.telegram.org/bots/api#DirectMessagesTopic
+     *
+     * @param int $topic_id Unique identifier of the topic
+     * @param User|NULL $user Information about the user that created the topic. Currently, it is always present
+     *
+     * @return array $args
+     */
+    public function DirectMessagesTopic ( int $topic_id, ?array $user = NULL ) : array {
+      $args = [ 'topic_id' => $topic_id ]; 
+      if ( $user !== NULL ) $args['user'] = $user;
       return $args;
     }
 
@@ -2238,16 +2434,16 @@
      *                              Login Widget.
      * @param string|NULL $switch_inline_query If set, pressing the button will prompt the user to select one of their chats, open that chat and
      *                              insert the bot's username and the specified inline query in the input field. May be empty, in which
-     *                              case just the bot's username will be inserted. Not supported for messages sent on behalf of a
-     *                              Telegram Business account.
+     *                              case just the bot's username will be inserted. Not supported for messages sent in channel direct
+     *                              messages chats and on behalf of a Telegram Business account.
      * @param string|NULL $switch_inline_query_current_chat If set, pressing the button will insert the bot's username and the specified inline query in the
      *                              current chat's input field. May be empty, in which case only the bot's username will be
      *                              inserted.This offers a quick way for the user to open your bot in inline mode in the same chat -
      *                              good for selecting something from multiple options. Not supported in channels and for messages sent
-     *                              on behalf of a Telegram Business account.
+     *                              in channel direct messages chats and on behalf of a Telegram Business account.
      * @param SwitchInlineQueryChosenChat|NULL $switch_inline_query_chosen_chat If set, pressing the button will prompt the user to select one of their chats of the specified type,
      *                              open that chat and insert the bot's username and the specified inline query in the input field. Not
-     *                              supported for messages sent on behalf of a Telegram Business account.
+     *                              supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.
      * @param CopyTextButton|NULL $copy_text Description of the button that copies the specified text to the clipboard.
      * @param CallbackGame|NULL $callback_game Description of the game that will be launched when the user presses the button.NOTE: This type of
      *                              button must always be the first button in the first row.
@@ -2471,15 +2667,18 @@
      * @param bool|NULL $can_edit_messages True, if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|NULL $can_manage_topics True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
+     * @param bool|NULL $can_manage_direct_messages True, if the administrator can manage direct messages of the channel and decline suggested posts;
+     *                              for channels only
      *
      * @return array $args
      */
-    public function ChatAdministratorRights ( bool $is_anonymous = false, bool $can_manage_chat = false, bool $can_delete_messages = false, bool $can_manage_video_chats = false, bool $can_restrict_members = false, bool $can_promote_members = false, bool $can_change_info = false, bool $can_invite_users = false, bool $can_post_stories = false, bool $can_edit_stories = false, bool $can_delete_stories = false, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL ) : array {
+    public function ChatAdministratorRights ( bool $is_anonymous = false, bool $can_manage_chat = false, bool $can_delete_messages = false, bool $can_manage_video_chats = false, bool $can_restrict_members = false, bool $can_promote_members = false, bool $can_change_info = false, bool $can_invite_users = false, bool $can_post_stories = false, bool $can_edit_stories = false, bool $can_delete_stories = false, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL ) : array {
       $args = [ 'is_anonymous' => $is_anonymous, 'can_manage_chat' => $can_manage_chat, 'can_delete_messages' => $can_delete_messages, 'can_manage_video_chats' => $can_manage_video_chats, 'can_restrict_members' => $can_restrict_members, 'can_promote_members' => $can_promote_members, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_post_stories' => $can_post_stories, 'can_edit_stories' => $can_edit_stories, 'can_delete_stories' => $can_delete_stories ]; 
       if ( $can_post_messages !== NULL ) $args['can_post_messages'] = $can_post_messages;
       if ( $can_edit_messages !== NULL ) $args['can_edit_messages'] = $can_edit_messages;
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;
       if ( $can_manage_topics !== NULL ) $args['can_manage_topics'] = $can_manage_topics;
+      if ( $can_manage_direct_messages !== NULL ) $args['can_manage_direct_messages'] = $can_manage_direct_messages;
       return $args;
     }
 
@@ -2568,16 +2767,19 @@
      * @param bool|NULL $can_edit_messages True, if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages; for groups and supergroups only
      * @param bool|NULL $can_manage_topics True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
+     * @param bool|NULL $can_manage_direct_messages True, if the administrator can manage direct messages of the channel and decline suggested posts;
+     *                              for channels only
      * @param string|NULL $custom_title Custom title for this user
      *
      * @return array $args
      */
-    public function ChatMemberAdministrator ( string $status = 'administrator', array $user, bool $can_be_edited, bool $is_anonymous, bool $can_manage_chat, bool $can_delete_messages, bool $can_manage_video_chats, bool $can_restrict_members, bool $can_promote_members, bool $can_change_info, bool $can_invite_users, bool $can_post_stories, bool $can_edit_stories, bool $can_delete_stories, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?string $custom_title = NULL ) : array {
+    public function ChatMemberAdministrator ( string $status = 'administrator', array $user, bool $can_be_edited, bool $is_anonymous, bool $can_manage_chat, bool $can_delete_messages, bool $can_manage_video_chats, bool $can_restrict_members, bool $can_promote_members, bool $can_change_info, bool $can_invite_users, bool $can_post_stories, bool $can_edit_stories, bool $can_delete_stories, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL, ?string $custom_title = NULL ) : array {
       $args = [ 'status' => $status, 'user' => $user, 'can_be_edited' => $can_be_edited, 'is_anonymous' => $is_anonymous, 'can_manage_chat' => $can_manage_chat, 'can_delete_messages' => $can_delete_messages, 'can_manage_video_chats' => $can_manage_video_chats, 'can_restrict_members' => $can_restrict_members, 'can_promote_members' => $can_promote_members, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_post_stories' => $can_post_stories, 'can_edit_stories' => $can_edit_stories, 'can_delete_stories' => $can_delete_stories ]; 
       if ( $can_post_messages !== NULL ) $args['can_post_messages'] = $can_post_messages;
       if ( $can_edit_messages !== NULL ) $args['can_edit_messages'] = $can_edit_messages;
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;
       if ( $can_manage_topics !== NULL ) $args['can_manage_topics'] = $can_manage_topics;
+      if ( $can_manage_direct_messages !== NULL ) $args['can_manage_direct_messages'] = $can_manage_direct_messages;
       if ( $custom_title !== NULL ) $args['custom_title'] = $custom_title;
       return $args;
     }
@@ -3108,14 +3310,16 @@
      * @param int|NULL $upgrade_star_count The number of Telegram Stars that must be paid to upgrade the gift to a unique one
      * @param int|NULL $total_count The total number of the gifts of this type that can be sent; for limited gifts only
      * @param int|NULL $remaining_count The number of remaining gifts of this type that can be sent; for limited gifts only
+     * @param Chat|NULL $publisher_chat Information about the chat that published the gift
      *
      * @return array $args
      */
-    public function Gift ( string $id, array $sticker, int $star_count, ?int $upgrade_star_count = NULL, ?int $total_count = NULL, ?int $remaining_count = NULL ) : array {
+    public function Gift ( string $id, array $sticker, int $star_count, ?int $upgrade_star_count = NULL, ?int $total_count = NULL, ?int $remaining_count = NULL, ?array $publisher_chat = NULL ) : array {
       $args = [ 'id' => $id, 'sticker' => $sticker, 'star_count' => $star_count ]; 
       if ( $upgrade_star_count !== NULL ) $args['upgrade_star_count'] = $upgrade_star_count;
       if ( $total_count !== NULL ) $args['total_count'] = $total_count;
       if ( $remaining_count !== NULL ) $args['remaining_count'] = $remaining_count;
+      if ( $publisher_chat !== NULL ) $args['publisher_chat'] = $publisher_chat;
       return $args;
     }
 
@@ -3204,11 +3408,14 @@
      * @param UniqueGiftModel $model Model of the gift
      * @param UniqueGiftSymbol $symbol Symbol of the gift
      * @param UniqueGiftBackdrop $backdrop Backdrop of the gift
+     * @param Chat|NULL $publisher_chat Information about the chat that published the gift
      *
      * @return array $args
      */
-    public function UniqueGift ( string $base_name, string $name, int $number, array $model, array $symbol, array $backdrop ) : array {
-      return [ 'base_name' => $base_name, 'name' => $name, 'number' => $number, 'model' => $model, 'symbol' => $symbol, 'backdrop' => $backdrop ];
+    public function UniqueGift ( string $base_name, string $name, int $number, array $model, array $symbol, array $backdrop, ?array $publisher_chat = NULL ) : array {
+      $args = [ 'base_name' => $base_name, 'name' => $name, 'number' => $number, 'model' => $model, 'symbol' => $symbol, 'backdrop' => $backdrop ]; 
+      if ( $publisher_chat !== NULL ) $args['publisher_chat'] = $publisher_chat;
+      return $args;
     }
 
     /**
@@ -3256,12 +3463,12 @@
      *                              business accounts
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
      *                              the gift
-     * @param string|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
+     * @param int|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
      *                              can be transferred now
      *
      * @return array $args
      */
-    public function UniqueGiftInfo ( array $gift, string $origin, ?int $last_resale_star_count = NULL, ?string $owned_gift_id = NULL, ?int $transfer_star_count = NULL, ?string $next_transfer_date = NULL ) : array {
+    public function UniqueGiftInfo ( array $gift, string $origin, ?int $last_resale_star_count = NULL, ?string $owned_gift_id = NULL, ?int $transfer_star_count = NULL, ?int $next_transfer_date = NULL ) : array {
       $args = [ 'gift' => $gift, 'origin' => $origin ]; 
       if ( $last_resale_star_count !== NULL ) $args['last_resale_star_count'] = $last_resale_star_count;
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
@@ -3339,12 +3546,12 @@
      *                              accounts only
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
      *                              the gift
-     * @param string|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
+     * @param int|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
      *                              can be transferred now
      *
      * @return array $args
      */
-    public function OwnedGiftUnique ( string $type = 'unique', array $gift, int $send_date, ?string $owned_gift_id = NULL, ?array $sender_user = NULL, ?bool $is_saved = NULL, ?bool $can_be_transferred = NULL, ?int $transfer_star_count = NULL, ?string $next_transfer_date = NULL ) : array {
+    public function OwnedGiftUnique ( string $type = 'unique', array $gift, int $send_date, ?string $owned_gift_id = NULL, ?array $sender_user = NULL, ?bool $is_saved = NULL, ?bool $can_be_transferred = NULL, ?int $transfer_star_count = NULL, ?int $next_transfer_date = NULL ) : array {
       $args = [ 'type' => $type, 'gift' => $gift, 'send_date' => $send_date ]; 
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
       if ( $sender_user !== NULL ) $args['sender_user'] = $sender_user;
@@ -3491,7 +3698,8 @@
      * @see https://core.telegram.org/bots/api#BotCommandScopeChat
      *
      * @param string $type Scope type, must be chat
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
+     *                              @supergroupusername). Channel direct messages chats and channel chats aren't supported.
      *
      * @return array $args
      */
@@ -3505,7 +3713,8 @@
      * @see https://core.telegram.org/bots/api#BotCommandScopeChatAdministrators
      *
      * @param string $type Scope type, must be chat_administrators
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
+     *                              @supergroupusername). Channel direct messages chats and channel chats aren't supported.
      *
      * @return array $args
      */
@@ -3519,7 +3728,8 @@
      * @see https://core.telegram.org/bots/api#BotCommandScopeChatMember
      *
      * @param string $type Scope type, must be chat_member
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
+     *                              @supergroupusername). Channel direct messages chats and channel chats aren't supported.
      * @param int $user_id Unique identifier of the target user
      *
      * @return array $args

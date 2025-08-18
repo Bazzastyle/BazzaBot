@@ -37,7 +37,7 @@ class Database {
     return match( $this->connection['driver'] ) {
       'mysql'  => "mysql:host={$this->connection['host']};port={$this->connection['port']};dbname={$this->connection['name']};charset={$this->connection['charset']}",
       'pgsql'  => "pgsql:host={$this->connection['host']};port={$this->connection['port']};dbname={$this->connection['name']}",
-      'sqlite' => "sqlite:{$this->connection}",
+      'sqlite' => "sqlite:{$this->connection['host']}",
       default  => throw new \InvalidArgumentException( "Unsupported driver: {$this->connection['driver']}" )
     };
   }

@@ -161,6 +161,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param string $text Text of the message to be sent, 1-4096 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the message text. See formatting options for more details.
      * @param MessageEntity[]|NULL $entities A JSON-serialized list of special entities that appear in message text, which can be specified
@@ -171,16 +173,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendMessage ( int|string $chat_id, string $text, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $parse_mode = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendMessage ( int|string $chat_id, string $text, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $parse_mode = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'text' => $text ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
       if ( $entities !== NULL ) $args['entities'] = json_encode( $entities );
       if ( $link_preview_options !== NULL ) $args['link_preview_options'] = json_encode( $link_preview_options );
@@ -188,6 +194,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -201,21 +208,27 @@
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be forwarded; required if the
+     *                              message is forwarded to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the
      *                              format @channelusername)
      * @param int|NULL $video_start_timestamp New start timestamp for the forwarded video in the message
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the forwarded message from forwarding and saving
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only
      * @param int $message_id Message identifier in the chat specified in from_chat_id
      *
      * @return stdClass
      */
-    public function forwardMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $video_start_timestamp = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL ) : stdClass {
+    public function forwardMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $video_start_timestamp = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?array $suggested_post_parameters = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'from_chat_id' => $from_chat_id, 'message_id' => $message_id ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $video_start_timestamp !== NULL ) $args['video_start_timestamp'] = $video_start_timestamp;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       return $this->Request( __FUNCTION__, $args );
     }
 
@@ -229,6 +242,8 @@
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the messages will be forwarded; required if the
+     *                              messages are forwarded to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the
      *                              format @channelusername)
      * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The
@@ -238,9 +253,10 @@
      *
      * @return stdClass
      */
-    public function forwardMessages ( int|string $chat_id, int|string $from_chat_id, array $message_ids, ?int $message_thread_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL ) : stdClass {
+    public function forwardMessages ( int|string $chat_id, int|string $from_chat_id, array $message_ids, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'from_chat_id' => $from_chat_id, 'message_ids' => json_encode( $message_ids ) ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       return $this->Request( __FUNCTION__, $args );
@@ -257,6 +273,8 @@
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the
      *                              format @channelusername)
      * @param int $message_id Message identifier in the chat specified in from_chat_id
@@ -271,15 +289,19 @@
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function copyMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $video_start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function copyMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $video_start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'from_chat_id' => $from_chat_id, 'message_id' => $message_id ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $video_start_timestamp !== NULL ) $args['video_start_timestamp'] = $video_start_timestamp;
       if ( $caption !== NULL ) $args['caption'] = $caption;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
@@ -288,6 +310,7 @@
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -305,6 +328,8 @@
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the messages will be sent; required if the messages
+     *                              are sent to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the
      *                              format @channelusername)
      * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The
@@ -315,9 +340,10 @@
      *
      * @return stdClass
      */
-    public function copyMessages ( int|string $chat_id, int|string $from_chat_id, array $message_ids, ?int $message_thread_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $remove_caption = NULL ) : stdClass {
+    public function copyMessages ( int|string $chat_id, int|string $from_chat_id, array $message_ids, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $remove_caption = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'from_chat_id' => $from_chat_id, 'message_ids' => json_encode( $message_ids ) ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $remove_caption !== NULL ) $args['remove_caption'] = $remove_caption;
@@ -332,6 +358,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers
      *                              (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload
      *                              a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width
@@ -348,16 +376,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendPhoto ( int|string $chat_id, CURLFile|InputFile|string $photo, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendPhoto ( int|string $chat_id, CURLFile|InputFile|string $photo, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'photo' => $photo ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $caption !== NULL ) $args['caption'] = $caption;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
       if ( $caption_entities !== NULL ) $args['caption_entities'] = json_encode( $caption_entities );
@@ -367,6 +399,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -384,6 +417,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram
      *                              servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the
      *                              Internet, or upload a new one using multipart/form-data. More information on Sending Files »
@@ -405,16 +440,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendAudio ( int|string $chat_id, CURLFile|InputFile|string $audio, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?string $performer = NULL, ?string $title = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendAudio ( int|string $chat_id, CURLFile|InputFile|string $audio, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?string $performer = NULL, ?string $title = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'audio' => $audio ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $caption !== NULL ) $args['caption'] = $caption;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
       if ( $caption_entities !== NULL ) $args['caption_entities'] = json_encode( $caption_entities );
@@ -426,6 +465,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -440,6 +480,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                              (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload
      *                              a new one using multipart/form-data. More information on Sending Files »
@@ -460,16 +502,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendDocument ( int|string $chat_id, CURLFile|InputFile|string $document, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $disable_content_type_detection = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendDocument ( int|string $chat_id, CURLFile|InputFile|string $document, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $disable_content_type_detection = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'document' => $document ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $thumbnail !== NULL ) $args['thumbnail'] = $thumbnail;
       if ( $caption !== NULL ) $args['caption'] = $caption;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
@@ -479,6 +525,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -494,6 +541,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers
      *                              (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload
      *                              a new video using multipart/form-data. More information on Sending Files »
@@ -523,16 +572,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendVideo ( int|string $chat_id, CURLFile|InputFile|string $video, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, CURLFile|InputFile|string|null $cover = NULL, ?int $start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $supports_streaming = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVideo ( int|string $chat_id, CURLFile|InputFile|string $video, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, CURLFile|InputFile|string|null $cover = NULL, ?int $start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $supports_streaming = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'video' => $video ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $duration !== NULL ) $args['duration'] = $duration;
       if ( $width !== NULL ) $args['width'] = $width;
       if ( $height !== NULL ) $args['height'] = $height;
@@ -549,6 +602,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -564,6 +618,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers
      *                              (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or
      *                              upload a new animation using multipart/form-data. More information on Sending Files »
@@ -588,16 +644,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendAnimation ( int|string $chat_id, CURLFile|InputFile|string $animation, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendAnimation ( int|string $chat_id, CURLFile|InputFile|string $animation, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $duration = NULL, ?int $width = NULL, ?int $height = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'animation' => $animation ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $duration !== NULL ) $args['duration'] = $duration;
       if ( $width !== NULL ) $args['width'] = $width;
       if ( $height !== NULL ) $args['height'] = $height;
@@ -611,6 +671,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -628,6 +689,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                              (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload
      *                              a new one using multipart/form-data. More information on Sending Files »
@@ -641,16 +704,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendVoice ( int|string $chat_id, CURLFile|InputFile|string $voice, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVoice ( int|string $chat_id, CURLFile|InputFile|string $voice, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?int $duration = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'voice' => $voice ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $caption !== NULL ) $args['caption'] = $caption;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
       if ( $caption_entities !== NULL ) $args['caption_entities'] = json_encode( $caption_entities );
@@ -659,6 +726,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -673,6 +741,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram
      *                              servers (recommended) or upload a new video using multipart/form-data. More information on Sending
      *                              Files ». Sending video notes by a URL is currently unsupported
@@ -689,16 +759,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendVideoNote ( int|string $chat_id, CURLFile|InputFile|string $video_note, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $duration = NULL, ?int $length = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVideoNote ( int|string $chat_id, CURLFile|InputFile|string $video_note, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $duration = NULL, ?int $length = NULL, CURLFile|InputFile|string|null $thumbnail = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'video_note' => $video_note ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $duration !== NULL ) $args['duration'] = $duration;
       if ( $length !== NULL ) $args['length'] = $length;
       if ( $thumbnail !== NULL ) $args['thumbnail'] = $thumbnail;
@@ -706,6 +780,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -720,6 +795,9 @@
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                              @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be
      *                              credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media; 1-10000
      * @param InputPaidMedia[] $media A JSON-serialized array describing the media to be sent; up to 10 items
      * @param string|NULL $payload Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your
@@ -733,15 +811,20 @@
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendPaidMedia ( int|string $chat_id, int $star_count, array $media, ?string $business_connection_id = NULL, ?string $payload = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendPaidMedia ( int|string $chat_id, int $star_count, array $media, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $payload = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'star_count' => $star_count, 'media' => json_encode( $media ) ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $payload !== NULL ) $args['payload'] = $payload;
       if ( $caption !== NULL ) $args['caption'] = $caption;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
@@ -750,6 +833,7 @@
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -758,13 +842,15 @@
     /**
      * Use this method to send a group of photos, videos, documents or audios as an album. Documents and
      * audio files can be only grouped in an album with messages of the same type. On success, an array of
-     * Messages that were sent is returned.
+     * Message objects that were sent is returned.
      * 
      * @see https://core.telegram.org/bots/api#sendMediaGroup
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the messages will be sent; required if the messages
+     *                              are sent to a direct messages chat
      * @param InputMediaAudio|InputMediaDocument|InputMediaPhoto|InputMediaVideo[] $media A JSON-serialized array describing messages to be sent, must include 2-10 items
      * @param bool|NULL $disable_notification Sends messages silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the sent messages from forwarding and saving
@@ -775,10 +861,11 @@
      *
      * @return stdClass
      */
-    public function sendMediaGroup ( int|string $chat_id, array $media, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL ) : stdClass {
+    public function sendMediaGroup ( int|string $chat_id, array $media, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'media' => json_encode( $media ) ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
@@ -795,6 +882,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param float $latitude Latitude of the location
      * @param float $longitude Longitude of the location
      * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
@@ -809,16 +898,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendLocation ( int|string $chat_id, array $latitude, array $longitude, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?array $horizontal_accuracy = NULL, ?int $live_period = NULL, ?int $heading = NULL, ?int $proximity_alert_radius = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendLocation ( int|string $chat_id, array $latitude, array $longitude, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?array $horizontal_accuracy = NULL, ?int $live_period = NULL, ?int $heading = NULL, ?int $proximity_alert_radius = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'latitude' => json_encode( $latitude ), 'longitude' => json_encode( $longitude ) ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $horizontal_accuracy !== NULL ) $args['horizontal_accuracy'] = json_encode( $horizontal_accuracy );
       if ( $live_period !== NULL ) $args['live_period'] = $live_period;
       if ( $heading !== NULL ) $args['heading'] = $heading;
@@ -827,6 +920,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -840,6 +934,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param float $latitude Latitude of the venue
      * @param float $longitude Longitude of the venue
      * @param string $title Name of the venue
@@ -854,16 +950,20 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendVenue ( int|string $chat_id, array $latitude, array $longitude, string $title, string $address, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $foursquare_id = NULL, ?string $foursquare_type = NULL, ?string $google_place_id = NULL, ?string $google_place_type = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendVenue ( int|string $chat_id, array $latitude, array $longitude, string $title, string $address, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $foursquare_id = NULL, ?string $foursquare_type = NULL, ?string $google_place_id = NULL, ?string $google_place_type = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'latitude' => json_encode( $latitude ), 'longitude' => json_encode( $longitude ), 'title' => $title, 'address' => $address ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $foursquare_id !== NULL ) $args['foursquare_id'] = $foursquare_id;
       if ( $foursquare_type !== NULL ) $args['foursquare_type'] = $foursquare_type;
       if ( $google_place_id !== NULL ) $args['google_place_id'] = $google_place_id;
@@ -872,6 +972,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -885,6 +986,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param string $phone_number Contact's phone number
      * @param string $first_name Contact's first name
      * @param string|NULL $last_name Contact's last name
@@ -894,22 +997,27 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendContact ( int|string $chat_id, string $phone_number, string $first_name, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $last_name = NULL, ?string $vcard = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendContact ( int|string $chat_id, string $phone_number, string $first_name, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $last_name = NULL, ?string $vcard = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'phone_number' => $phone_number, 'first_name' => $first_name ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $vcard !== NULL ) $args['vcard'] = $vcard;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -921,7 +1029,8 @@
      * @see https://core.telegram.org/bots/api#sendPoll
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                              @channelusername). Polls can't be sent to channel direct messages chats.
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param string $question Poll question, 1-300 characters
      * @param string|NULL $question_parse_mode Mode for parsing entities in the question. See formatting options for more details. Currently, only
@@ -1015,6 +1124,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param string|NULL $emoji Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”,
      *                              “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”,
      *                              “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”.
@@ -1024,21 +1135,26 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendDice ( int|string $chat_id, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $emoji = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendDice ( int|string $chat_id, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $emoji = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $emoji !== NULL ) $args['emoji'] = $emoji;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -1054,7 +1170,8 @@
      * @see https://core.telegram.org/bots/api#sendChatAction
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the action will be sent
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
+     *                              @supergroupusername). Channel chats and channel direct messages chats aren't supported.
      * @param int|NULL $message_thread_id Unique identifier for the target message thread; for supergroups only
      * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for
      *                              text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or
@@ -1255,10 +1372,12 @@
      * @param bool|NULL $can_edit_messages Pass True if the administrator can edit messages of other users and can pin messages; for channels only
      * @param bool|NULL $can_pin_messages Pass True if the administrator can pin messages; for supergroups only
      * @param bool|NULL $can_manage_topics Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
+     * @param bool|NULL $can_manage_direct_messages Pass True if the administrator can manage direct messages within the channel and decline suggested
+     *                              posts; for channels only
      *
      * @return stdClass
      */
-    public function promoteChatMember ( int|string $chat_id, int $user_id, ?bool $is_anonymous = NULL, ?bool $can_manage_chat = NULL, ?bool $can_delete_messages = NULL, ?bool $can_manage_video_chats = NULL, ?bool $can_restrict_members = NULL, ?bool $can_promote_members = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_post_stories = NULL, ?bool $can_edit_stories = NULL, ?bool $can_delete_stories = NULL, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL ) : stdClass {
+    public function promoteChatMember ( int|string $chat_id, int $user_id, ?bool $is_anonymous = NULL, ?bool $can_manage_chat = NULL, ?bool $can_delete_messages = NULL, ?bool $can_manage_video_chats = NULL, ?bool $can_restrict_members = NULL, ?bool $can_promote_members = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_post_stories = NULL, ?bool $can_edit_stories = NULL, ?bool $can_delete_stories = NULL, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'user_id' => $user_id ]; 
       if ( $is_anonymous !== NULL ) $args['is_anonymous'] = $is_anonymous;
       if ( $can_manage_chat !== NULL ) $args['can_manage_chat'] = $can_manage_chat;
@@ -1275,6 +1394,7 @@
       if ( $can_edit_messages !== NULL ) $args['can_edit_messages'] = $can_edit_messages;
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;
       if ( $can_manage_topics !== NULL ) $args['can_manage_topics'] = $can_manage_topics;
+      if ( $can_manage_direct_messages !== NULL ) $args['can_manage_direct_messages'] = $can_manage_direct_messages;
       return $this->Request( __FUNCTION__, $args );
     }
 
@@ -1570,10 +1690,10 @@
     }
 
     /**
-     * Use this method to add a message to the list of pinned messages in a chat. If the chat is not a
-     * private chat, the bot must be an administrator in the chat for this to work and must have the
-     * 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in
-     * a channel. Returns True on success.
+     * Use this method to add a message to the list of pinned messages in a chat. In private chats and
+     * channel direct messages chats, all non-service messages can be pinned. Conversely, the bot must be
+     * an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to pin messages
+     * in groups and channels respectively. Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#pinChatMessage
      *
@@ -1593,10 +1713,10 @@
     }
 
     /**
-     * Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a
-     * private chat, the bot must be an administrator in the chat for this to work and must have the
-     * 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in
-     * a channel. Returns True on success.
+     * Use this method to remove a message from the list of pinned messages in a chat. In private chats and
+     * channel direct messages chats, all messages can be unpinned. Conversely, the bot must be an
+     * administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin messages
+     * in groups and channels respectively. Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#unpinChatMessage
      *
@@ -1615,10 +1735,10 @@
     }
 
     /**
-     * Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat,
-     * the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages'
-     * administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns
-     * True on success.
+     * Use this method to clear the list of pinned messages in a chat. In private chats and channel direct
+     * messages chats, no additional rights are required to unpin all pinned messages. Conversely, the bot
+     * must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin
+     * all pinned messages in groups and channels respectively. Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#unpinAllChatMessages
      *
@@ -1636,7 +1756,7 @@
      * @see https://core.telegram.org/bots/api#leaveChat
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup or channel (in the format
-     *                              @channelusername)
+     *                              @channelusername). Channel direct messages chats aren't supported; leave the corresponding channel instead.
      *
      * @return stdClass
      */
@@ -2246,278 +2366,6 @@
     }
 
     /**
-     * Use this method to edit text and game messages. On success, if the edited message is not an inline
-     * message, the edited Message is returned, otherwise True is returned. Note that business messages
-     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
-     * hours from the time they were sent.
-     * 
-     * @see https://core.telegram.org/bots/api#editMessageText
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
-     *                              the target channel (in the format @channelusername)
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param string $text New text of the message, 1-4096 characters after entities parsing
-     * @param string|NULL $parse_mode Mode for parsing entities in the message text. See formatting options for more details.
-     * @param MessageEntity[]|NULL $entities A JSON-serialized list of special entities that appear in message text, which can be specified
-     *                              instead of parse_mode
-     * @param LinkPreviewOptions|NULL $link_preview_options Link preview generation options for the message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function editMessageText ( string $text, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?string $parse_mode = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = [ 'text' => $text ]; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
-      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
-      if ( $entities !== NULL ) $args['entities'] = json_encode( $entities );
-      if ( $link_preview_options !== NULL ) $args['link_preview_options'] = json_encode( $link_preview_options );
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to edit captions of messages. On success, if the edited message is not an inline
-     * message, the edited Message is returned, otherwise True is returned. Note that business messages
-     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
-     * hours from the time they were sent.
-     * 
-     * @see https://core.telegram.org/bots/api#editMessageCaption
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
-     *                              the target channel (in the format @channelusername)
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param string|NULL $caption New caption of the message, 0-1024 characters after entities parsing
-     * @param string|NULL $parse_mode Mode for parsing entities in the message caption. See formatting options for more details.
-     * @param MessageEntity[]|NULL $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
-     *                              instead of parse_mode
-     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media. Supported only for animation, photo
-     *                              and video messages.
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function editMessageCaption ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = []; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
-      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      if ( $caption !== NULL ) $args['caption'] = $caption;
-      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
-      if ( $caption_entities !== NULL ) $args['caption_entities'] = json_encode( $caption_entities );
-      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to edit animation, audio, document, photo, or video messages, or to add media to
-     * text messages. If a message is part of a message album, then it can be edited only to an audio for
-     * audio albums, only to a document for document albums and to a photo or a video otherwise. When an
-     * inline message is edited, a new file can't be uploaded; use a previously uploaded file via its
-     * file_id or specify a URL. On success, if the edited message is not an inline message, the edited
-     * Message is returned, otherwise True is returned. Note that business messages that were not sent by
-     * the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they
-     * were sent.
-     * 
-     * @see https://core.telegram.org/bots/api#editMessageMedia
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
-     *                              the target channel (in the format @channelusername)
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InputMedia $media A JSON-serialized object for a new media content of the message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function editMessageMedia ( array $media, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = [ 'media' => json_encode( $media ) ]; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
-      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to edit live location messages. A location can be edited until its live_period
-     * expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the
-     * edited message is not an inline message, the edited Message is returned, otherwise True is returned.
-     * 
-     * @see https://core.telegram.org/bots/api#editMessageLiveLocation
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
-     *                              the target channel (in the format @channelusername)
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param float $latitude Latitude of new location
-     * @param float $longitude Longitude of new location
-     * @param int|NULL $live_period New period in seconds during which the location can be updated, starting from the message send date.
-     *                              If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must
-     *                              not exceed the current live_period by more than a day, and the live location expiration date must
-     *                              remain within the next 90 days. If not specified, then live_period remains unchanged
-     * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
-     * @param int|NULL $heading Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
-     * @param int|NULL $proximity_alert_radius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be
-     *                              between 1 and 100000 if specified.
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function editMessageLiveLocation ( array $latitude, array $longitude, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?int $live_period = NULL, ?array $horizontal_accuracy = NULL, ?int $heading = NULL, ?int $proximity_alert_radius = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = [ 'latitude' => json_encode( $latitude ), 'longitude' => json_encode( $longitude ) ]; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
-      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      if ( $live_period !== NULL ) $args['live_period'] = $live_period;
-      if ( $horizontal_accuracy !== NULL ) $args['horizontal_accuracy'] = json_encode( $horizontal_accuracy );
-      if ( $heading !== NULL ) $args['heading'] = $heading;
-      if ( $proximity_alert_radius !== NULL ) $args['proximity_alert_radius'] = $proximity_alert_radius;
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to stop updating a live location message before live_period expires. On success, if
-     * the message is not an inline message, the edited Message is returned, otherwise True is returned.
-     * 
-     * @see https://core.telegram.org/bots/api#stopMessageLiveLocation
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
-     *                              the target channel (in the format @channelusername)
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message with live location to stop
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function stopMessageLiveLocation ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = []; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
-      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to edit a checklist on behalf of a connected business account. On success, the
-     * edited Message is returned.
-     * 
-     * @see https://core.telegram.org/bots/api#editMessageChecklist
-     *
-     * @param string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int $chat_id Unique identifier for the target chat
-     * @param int $message_id Unique identifier for the target message
-     * @param InputChecklist $checklist A JSON-serialized object for the new checklist
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for the new inline keyboard for the message
-     *
-     * @return stdClass
-     */
-    public function editMessageChecklist ( string $business_connection_id, int $chat_id, int $message_id, array $checklist, ?array $reply_markup = NULL ) : stdClass {
-      $args = [ 'business_connection_id' => $business_connection_id, 'chat_id' => $chat_id, 'message_id' => $message_id, 'checklist' => json_encode( $checklist ) ]; 
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to edit only the reply markup of messages. On success, if the edited message is not
-     * an inline message, the edited Message is returned, otherwise True is returned. Note that business
-     * messages that were not sent by the bot and do not contain an inline keyboard can only be edited
-     * within 48 hours from the time they were sent.
-     * 
-     * @see https://core.telegram.org/bots/api#editMessageReplyMarkup
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
-     *                              the target channel (in the format @channelusername)
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function editMessageReplyMarkup ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = []; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
-      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
-     * 
-     * @see https://core.telegram.org/bots/api#stopPoll
-     *
-     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int $message_id Identifier of the original message with the poll
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new message inline keyboard.
-     *
-     * @return stdClass
-     */
-    public function stopPoll ( int|string $chat_id, int $message_id, ?string $business_connection_id = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = [ 'chat_id' => $chat_id, 'message_id' => $message_id ]; 
-      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
-      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to delete a message, including service messages, with the following limitations:- A
-     * message can only be deleted if it was sent less than 48 hours ago.- Service messages about a
-     * supergroup, channel, or forum topic creation can't be deleted.- A dice message in a private chat can
-     * only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private
-     * chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted
-     * can_post_messages permissions can delete outgoing messages in channels.- If the bot is an
-     * administrator of a group, it can delete any message there.- If the bot has can_delete_messages
-     * permission in a supergroup or a channel, it can delete any message there.Returns True on success.
-     * 
-     * @see https://core.telegram.org/bots/api#deleteMessage
-     *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int $message_id Identifier of the message to delete
-     *
-     * @return stdClass
-     */
-    public function deleteMessage ( int|string $chat_id, int $message_id ) : stdClass {
-      return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'message_id' => $message_id ] );
-    }
-
-    /**
-     * Use this method to delete multiple messages simultaneously. If some of the specified messages can't
-     * be found, they are skipped. Returns True on success.
-     * 
-     * @see https://core.telegram.org/bots/api#deleteMessages
-     *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations
-     *                              on which messages can be deleted
-     *
-     * @return stdClass
-     */
-    public function deleteMessages ( int|string $chat_id, array $message_ids ) : stdClass {
-      return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'message_ids' => json_encode( $message_ids ) ] );
-    }
-
-    /**
      * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no
      * parameters. Returns a Gifts object.
      * 
@@ -2613,7 +2461,8 @@
      * 
      * @see https://core.telegram.org/bots/api#verifyChat
      *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                              @channelusername). Channel direct messages chats can't be verified.
      * @param string|NULL $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
      *                              allowed to provide a custom verification description.
      *
@@ -2986,6 +2835,318 @@
     }
 
     /**
+     * Use this method to edit text and game messages. On success, if the edited message is not an inline
+     * message, the edited Message is returned, otherwise True is returned. Note that business messages
+     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
+     * hours from the time they were sent.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageText
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
+     *                              the target channel (in the format @channelusername)
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param string $text New text of the message, 1-4096 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the message text. See formatting options for more details.
+     * @param MessageEntity[]|NULL $entities A JSON-serialized list of special entities that appear in message text, which can be specified
+     *                              instead of parse_mode
+     * @param LinkPreviewOptions|NULL $link_preview_options Link preview generation options for the message
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function editMessageText ( string $text, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?string $parse_mode = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'text' => $text ]; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
+      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $entities !== NULL ) $args['entities'] = json_encode( $entities );
+      if ( $link_preview_options !== NULL ) $args['link_preview_options'] = json_encode( $link_preview_options );
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to edit captions of messages. On success, if the edited message is not an inline
+     * message, the edited Message is returned, otherwise True is returned. Note that business messages
+     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
+     * hours from the time they were sent.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageCaption
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
+     *                              the target channel (in the format @channelusername)
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param string|NULL $caption New caption of the message, 0-1024 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the message caption. See formatting options for more details.
+     * @param MessageEntity[]|NULL $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
+     *                              instead of parse_mode
+     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media. Supported only for animation, photo
+     *                              and video messages.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function editMessageCaption ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = []; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
+      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $caption_entities !== NULL ) $args['caption_entities'] = json_encode( $caption_entities );
+      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to edit animation, audio, document, photo, or video messages, or to add media to
+     * text messages. If a message is part of a message album, then it can be edited only to an audio for
+     * audio albums, only to a document for document albums and to a photo or a video otherwise. When an
+     * inline message is edited, a new file can't be uploaded; use a previously uploaded file via its
+     * file_id or specify a URL. On success, if the edited message is not an inline message, the edited
+     * Message is returned, otherwise True is returned. Note that business messages that were not sent by
+     * the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they
+     * were sent.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageMedia
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
+     *                              the target channel (in the format @channelusername)
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param InputMedia $media A JSON-serialized object for a new media content of the message
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function editMessageMedia ( array $media, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'media' => json_encode( $media ) ]; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
+      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to edit live location messages. A location can be edited until its live_period
+     * expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the
+     * edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageLiveLocation
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
+     *                              the target channel (in the format @channelusername)
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param float $latitude Latitude of new location
+     * @param float $longitude Longitude of new location
+     * @param int|NULL $live_period New period in seconds during which the location can be updated, starting from the message send date.
+     *                              If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must
+     *                              not exceed the current live_period by more than a day, and the live location expiration date must
+     *                              remain within the next 90 days. If not specified, then live_period remains unchanged
+     * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
+     * @param int|NULL $heading Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+     * @param int|NULL $proximity_alert_radius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be
+     *                              between 1 and 100000 if specified.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function editMessageLiveLocation ( array $latitude, array $longitude, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?int $live_period = NULL, ?array $horizontal_accuracy = NULL, ?int $heading = NULL, ?int $proximity_alert_radius = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'latitude' => json_encode( $latitude ), 'longitude' => json_encode( $longitude ) ]; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
+      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $live_period !== NULL ) $args['live_period'] = $live_period;
+      if ( $horizontal_accuracy !== NULL ) $args['horizontal_accuracy'] = json_encode( $horizontal_accuracy );
+      if ( $heading !== NULL ) $args['heading'] = $heading;
+      if ( $proximity_alert_radius !== NULL ) $args['proximity_alert_radius'] = $proximity_alert_radius;
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to stop updating a live location message before live_period expires. On success, if
+     * the message is not an inline message, the edited Message is returned, otherwise True is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#stopMessageLiveLocation
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
+     *                              the target channel (in the format @channelusername)
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message with live location to stop
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function stopMessageLiveLocation ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = []; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
+      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to edit a checklist on behalf of a connected business account. On success, the
+     * edited Message is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageChecklist
+     *
+     * @param string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @param int $chat_id Unique identifier for the target chat
+     * @param int $message_id Unique identifier for the target message
+     * @param InputChecklist $checklist A JSON-serialized object for the new checklist
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for the new inline keyboard for the message
+     *
+     * @return stdClass
+     */
+    public function editMessageChecklist ( string $business_connection_id, int $chat_id, int $message_id, array $checklist, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'business_connection_id' => $business_connection_id, 'chat_id' => $chat_id, 'message_id' => $message_id, 'checklist' => json_encode( $checklist ) ]; 
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to edit only the reply markup of messages. On success, if the edited message is not
+     * an inline message, the edited Message is returned, otherwise True is returned. Note that business
+     * messages that were not sent by the bot and do not contain an inline keyboard can only be edited
+     * within 48 hours from the time they were sent.
+     * 
+     * @see https://core.telegram.org/bots/api#editMessageReplyMarkup
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
+     *                              the target channel (in the format @channelusername)
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function editMessageReplyMarkup ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = []; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
+      if ( $message_id !== NULL ) $args['message_id'] = $message_id;
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#stopPoll
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int $message_id Identifier of the original message with the poll
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new message inline keyboard.
+     *
+     * @return stdClass
+     */
+    public function stopPoll ( int|string $chat_id, int $message_id, ?string $business_connection_id = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'message_id' => $message_id ]; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to approve a suggested post in a direct messages chat. The bot must have the
+     * 'can_post_messages' administrator right in the corresponding channel chat. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#approveSuggestedPost
+     *
+     * @param int $chat_id Unique identifier for the target direct messages chat
+     * @param int $message_id Identifier of a suggested post message to approve
+     * @param int|NULL $send_date Point in time (Unix timestamp) when the post is expected to be published; omit if the date has
+     *                              already been specified when the suggested post was created. If specified, then the date must be not
+     *                              more than 2678400 seconds (30 days) in the future
+     *
+     * @return stdClass
+     */
+    public function approveSuggestedPost ( int $chat_id, int $message_id, ?int $send_date = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'message_id' => $message_id ]; 
+      if ( $send_date !== NULL ) $args['send_date'] = $send_date;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to decline a suggested post in a direct messages chat. The bot must have the
+     * 'can_manage_direct_messages' administrator right in the corresponding channel chat. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#declineSuggestedPost
+     *
+     * @param int $chat_id Unique identifier for the target direct messages chat
+     * @param int $message_id Identifier of a suggested post message to decline
+     * @param string|NULL $comment Comment for the creator of the suggested post; 0-128 characters
+     *
+     * @return stdClass
+     */
+    public function declineSuggestedPost ( int $chat_id, int $message_id, ?string $comment = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'message_id' => $message_id ]; 
+      if ( $comment !== NULL ) $args['comment'] = $comment;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to delete a message, including service messages, with the following limitations:- A
+     * message can only be deleted if it was sent less than 48 hours ago.- Service messages about a
+     * supergroup, channel, or forum topic creation can't be deleted.- A dice message in a private chat can
+     * only be deleted if it was sent more than 24 hours ago.- Bots can delete outgoing messages in private
+     * chats, groups, and supergroups.- Bots can delete incoming messages in private chats.- Bots granted
+     * can_post_messages permissions can delete outgoing messages in channels.- If the bot is an
+     * administrator of a group, it can delete any message there.- If the bot has can_delete_messages
+     * administrator right in a supergroup or a channel, it can delete any message there.- If the bot has
+     * can_manage_direct_messages administrator right in a channel, it can delete any message in the
+     * corresponding direct messages chat.Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#deleteMessage
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int $message_id Identifier of the message to delete
+     *
+     * @return stdClass
+     */
+    public function deleteMessage ( int|string $chat_id, int $message_id ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'message_id' => $message_id ] );
+    }
+
+    /**
+     * Use this method to delete multiple messages simultaneously. If some of the specified messages can't
+     * be found, they are skipped. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#deleteMessages
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations
+     *                              on which messages can be deleted
+     *
+     * @return stdClass
+     */
+    public function deleteMessages ( int|string $chat_id, array $message_ids ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'message_ids' => json_encode( $message_ids ) ] );
+    }
+
+    /**
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent
      * Message is returned.
      * 
@@ -2994,6 +3155,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param InputFile|string $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                              (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet,
      *                              or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending
@@ -3004,21 +3167,26 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
      *
      * @return stdClass
      */
-    public function sendSticker ( int|string $chat_id, CURLFile|InputFile|string $sticker, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $emoji = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendSticker ( int|string $chat_id, CURLFile|InputFile|string $sticker, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $emoji = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'sticker' => $sticker ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $emoji !== NULL ) $args['emoji'] = $emoji;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -3357,6 +3525,8 @@
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
      * @param string $title Product name, 1-32 characters
      * @param string $description Product description, 1-255 characters
      * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your
@@ -3402,15 +3572,19 @@
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be
      *                              shown. If not empty, the first button must be a Pay button.
      *
      * @return stdClass
      */
-    public function sendInvoice ( int|string $chat_id, string $title, string $description, string $payload, string $currency, array $prices, ?int $message_thread_id = NULL, ?string $provider_token = NULL, ?int $max_tip_amount = NULL, ?array $suggested_tip_amounts = NULL, ?string $start_parameter = NULL, ?string $provider_data = NULL, ?string $photo_url = NULL, ?int $photo_size = NULL, ?int $photo_width = NULL, ?int $photo_height = NULL, ?bool $need_name = NULL, ?bool $need_phone_number = NULL, ?bool $need_email = NULL, ?bool $need_shipping_address = NULL, ?bool $send_phone_number_to_provider = NULL, ?bool $send_email_to_provider = NULL, ?bool $is_flexible = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendInvoice ( int|string $chat_id, string $title, string $description, string $payload, string $currency, array $prices, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?string $provider_token = NULL, ?int $max_tip_amount = NULL, ?array $suggested_tip_amounts = NULL, ?string $start_parameter = NULL, ?string $provider_data = NULL, ?string $photo_url = NULL, ?int $photo_size = NULL, ?int $photo_width = NULL, ?int $photo_height = NULL, ?bool $need_name = NULL, ?bool $need_phone_number = NULL, ?bool $need_email = NULL, ?bool $need_shipping_address = NULL, ?bool $send_phone_number_to_provider = NULL, ?bool $send_email_to_provider = NULL, ?bool $is_flexible = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'title' => $title, 'description' => $description, 'payload' => $payload, 'currency' => $currency, 'prices' => json_encode( $prices ) ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $provider_token !== NULL ) $args['provider_token'] = $provider_token;
       if ( $max_tip_amount !== NULL ) $args['max_tip_amount'] = $max_tip_amount;
       if ( $suggested_tip_amounts !== NULL ) $args['suggested_tip_amounts'] = json_encode( $suggested_tip_amounts );
@@ -3431,6 +3605,7 @@
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
       if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
@@ -3646,7 +3821,8 @@
      * @see https://core.telegram.org/bots/api#sendGame
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
-     * @param int $chat_id Unique identifier for the target chat
+     * @param int $chat_id Unique identifier for the target chat. Games can't be sent to channel direct messages chats and
+     *                              channel chats.
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param string $game_short_name Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
