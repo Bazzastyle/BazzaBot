@@ -531,7 +531,7 @@
 			$this->{$prefix . '_completion_date'}   = $update->completion_date ?? NULL;
 		}
 
-		public function Checklist ( object $update, string $prefix = '' ) {
+		public function Checklist ( object $update, string $prefix ) {
 			$this->{$prefix . 'title'}                         = $update->title ?? NULL;
 			$this->{$prefix . 'title_entities'}                = $update->title_entities ?? NULL;
 			if ( isset( $update->title_entities ) ) $this->MessageEntity( $update->title_entities, $prefix . 'title_entities' );
@@ -560,18 +560,18 @@
 			$this->{$prefix . '_others_can_mark_tasks_as_done'} = $update->others_can_mark_tasks_as_done ?? NULL;
 		}
 
-		public function ChecklistTasksDone ( object $update, string $prefix = '' ) {
-			$this->{$prefix . 'checklist_message'}           = $update->checklist_message ?? NULL;
-			if ( isset( $update->checklist_message ) ) $this->Message( $update->checklist_message, $prefix . 'checklist_message' );
-			$this->{$prefix . 'marked_as_done_task_ids'}     = $update->marked_as_done_task_ids ?? NULL;
-			$this->{$prefix . 'marked_as_not_done_task_ids'} = $update->marked_as_not_done_task_ids ?? NULL;
+		public function ChecklistTasksDone ( object $update, string $prefix ) {
+			$this->{$prefix . '_checklist_message'}           = $update->checklist_message ?? NULL;
+			if ( isset( $update->checklist_message ) ) $this->Message( $update->checklist_message, $prefix . '_checklist_message' );
+			$this->{$prefix . '_marked_as_done_task_ids'}     = $update->marked_as_done_task_ids ?? NULL;
+			$this->{$prefix . '_marked_as_not_done_task_ids'} = $update->marked_as_not_done_task_ids ?? NULL;
 		}
 
-		public function ChecklistTasksAdded ( object $update, string $prefix = '' ) {
-			$this->{$prefix . 'checklist_message'} = $update->checklist_message ?? NULL;
-			if ( isset( $update->checklist_message ) ) $this->Message( $update->checklist_message, $prefix . 'checklist_message' );
-			$this->{$prefix . 'tasks'}             = $update->tasks ?? NULL;
-			if ( isset( $update->tasks ) ) $this->ChecklistTask( $update->tasks, $prefix . 'tasks' );
+		public function ChecklistTasksAdded ( object $update, string $prefix ) {
+			$this->{$prefix . '_checklist_message'} = $update->checklist_message ?? NULL;
+			if ( isset( $update->checklist_message ) ) $this->Message( $update->checklist_message, $prefix . '_checklist_message' );
+			$this->{$prefix . '_tasks'}             = $update->tasks ?? NULL;
+			if ( isset( $update->tasks ) ) $this->ChecklistTask( $update->tasks, $prefix . '_tasks' );
 		}
 
 		public function Location ( object $update, string $prefix ) {
@@ -711,12 +711,12 @@
 			$this->{$prefix . '_paid_message_star_count'} = $update->paid_message_star_count ?? NULL;
 		}
 
-		public function DirectMessagePriceChanged ( object $update, string $prefix = '' ) {
+		public function DirectMessagePriceChanged ( object $update, string $prefix ) {
 			$this->{$prefix . '_are_direct_messages_enabled'} = $update->are_direct_messages_enabled ?? NULL;
 			$this->{$prefix . '_direct_message_star_count'}   = $update->direct_message_star_count ?? NULL;
 		}
 
-		public function SuggestedPostApproved ( object $update, string $prefix = '' ) {
+		public function SuggestedPostApproved ( object $update, string $prefix ) {
 			$this->{$prefix . '_suggested_post_message'} = $update->suggested_post_message ?? NULL;
 			if ( isset( $update->suggested_post_message ) ) $this->Message( $update->suggested_post_message, $prefix . '_suggested_post_message' );
 			$this->{$prefix . '_price'}                  = $update->price ?? NULL;
@@ -724,20 +724,20 @@
 			$this->{$prefix . '_send_date'}              = $update->send_date ?? NULL;
     }
 
-    public function SuggestedPostApprovalFailed ( object $update, string $prefix = '' ) {
+    public function SuggestedPostApprovalFailed ( object $update, string $prefix ) {
       $this->{$prefix . '_suggested_post_message'} = $update->suggested_post_message ?? NULL;
 			if ( isset( $update->suggested_post_message ) ) $this->Message( $update->suggested_post_message, $prefix . '_suggested_post_message' );
 			$this->{$prefix . '_price'}                  = $update->price ?? NULL;
 			if ( isset( $update->price ) ) $this->SuggestedPostPrice( $update->price, $prefix . '_price' );
     }
 
-    public function SuggestedPostDeclined ( object $update, string $prefix = '' ) {
+    public function SuggestedPostDeclined ( object $update, string $prefix ) {
 			$this->{$prefix . '_suggested_post_message'} = $update->suggested_post_message ?? NULL;
 			if ( isset( $update->suggested_post_message ) ) $this->Message( $update->suggested_post_message, $prefix . '_suggested_post_message' );
 			$this->{$prefix . '_comment'}                = $update->comment ?? NULL;
     }
 
-    public function SuggestedPostPaid ( object $update, string $prefix = '' ) {
+    public function SuggestedPostPaid ( object $update, string $prefix ) {
 			$this->{$prefix . '_suggested_post_message'} = $update->suggested_post_message ?? NULL;
 			if ( isset( $update->suggested_post_message ) ) $this->Message( $update->suggested_post_message, $prefix . '_suggested_post_message' );
 			$this->{$prefix . '_currency'}               = $update->currency ?? NULL;
@@ -746,7 +746,7 @@
 			if ( isset( $update->star_amount ) ) $this->StarAmount( $update->star_amount, $prefix . '_star_amount' );
     }
 
-    public function SuggestedPostRefunded ( object $update, string $prefix = '' ) {
+    public function SuggestedPostRefunded ( object $update, string $prefix ) {
 			$this->{$prefix . '_suggested_post_message'} = $update->suggested_post_message ?? NULL;
 			if ( isset( $update->suggested_post_message ) ) $this->Message( $update->suggested_post_message, $prefix . '_suggested_post_message' );
 			$this->{$prefix . '_reason'}                 = $update->reason ?? NULL;
@@ -992,7 +992,7 @@
 				];
 		}
 
-		public function ReactionCount ( object|array $update, string $prefix = '' ) {
+		public function ReactionCount ( object|array $update, string $prefix ) {
 			if ( is_array( $update ) ) $update = (object) $update;
 			$this->{$prefix . '_type'}        = $update->type ?? NULL;
 			if ( isset( $update->type ) ) $this->ReactionType( $update->type, $prefix . '_type' );
