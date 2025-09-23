@@ -1,109 +1,264 @@
 <?php
+if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' || isset( $_GET[ 'ajax' ] ) ) {
+  header( 'Content-Type: application/json' );
 
-// if you move the example in the root of your project, you must change the path of the require_once below
-require_once __DIR__ . "/../vendor/autoload.php";
+  $envFile = __DIR__ . '/env.php';
+  if ( file_exists( $envFile ) ) require $envFile;
+  else $env = [];
 
-use BazzaBot\Client;
+  $token = $_POST[ 'token' ] ?? ( $env[ 'botToken' ] ?? '' );
+  if ( empty( $token ) ) {
+    echo json_encode( [ 'ok' => false, 'description' => '⚠️ Nessun token fornito' ] );
+    exit;
+  }
 
+  $apiUrl = ( $env[ 'endpoint' ] ?? 'https://api.telegram.org/bot' ) . $token . '/setWebhook';
 
-if (!function_exists("curl_version")) {
-    exit("You must install or enable php-curl");
+  $params = [ 'url' => $env[ 'webhook' ] ?? '' ];
+  if ( ! empty( $env[ 'botApiSecretToken' ] ) ) $params[ 'secret_token' ] = $env[ 'botApiSecretToken' ];
+  if ( ! empty( $env[ 'getUpdates' ][ 'allowedUpdates' ] ) ) $params[ 'allowed_updates' ] = json_encode( $env[ 'getUpdates' ][ 'allowedUpdates' ] );
+  if ( ! empty( $env[ 'getUpdates' ][ 'limit' ] ) ) $params[ 'max_connections' ] = ( int ) $env[ 'getUpdates' ][ 'limit' ];
+
+  if ( $_SERVER[ 'REQUEST_METHOD' ] === 'POST' ) {
+    $params[ 'url' ] = $_POST[ 'url' ] ?? $params[ 'url' ];
+    if ( ! empty( $_POST[ 'ip_address' ] ) ) $params[ 'ip_address' ] = $_POST[ 'ip_address' ];
+    if ( ! empty( $_POST[ 'max_connections' ] ) ) $params[ 'max_connections' ] = ( int ) $_POST[ 'max_connections' ];
+    if ( ! empty( $_POST[ 'allowed_updates' ] ) ) $params[ 'allowed_updates' ] = json_encode( $_POST[ 'allowed_updates' ] );
+    if ( ! empty( $_POST[ 'secret_token' ] ) ) $params[ 'secret_token' ] = $_POST[ 'secret_token' ];
+    if ( isset( $_POST[ 'drop_pending_updates' ] ) ) $params[ 'drop_pending_updates' ] = true;
+    if ( ! empty( $_FILES[ 'certificate' ][ 'tmp_name' ] ) ) $params[ 'certificate' ] = new CURLFile( $_FILES[ 'certificate' ][ 'tmp_name' ] );
+
+    $ch = curl_init();
+    curl_setopt( $ch, CURLOPT_URL, $apiUrl );
+    curl_setopt( $ch, CURLOPT_POST, true );
+    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+    curl_setopt( $ch, CURLOPT_POSTFIELDS, $params );
+    $response = curl_exec( $ch );
+    curl_close( $ch );
+
+    echo $response;
+    exit;
+  }
+
+  echo json_encode( [
+    'token'           => $token,
+    'url'             => $params[ 'url' ],
+    'secret_token'    => $params[ 'secret_token' ] ?? '',
+    'allowed_updates' => isset( $params[ 'allowed_updates' ] ) ? json_decode( $params[ 'allowed_updates' ], true ) : [],
+    'max_connections' => $params[ 'max_connections' ] ?? 40
+  ] );
+  exit;
 }
 
-if (isset($_POST["yes"]) and $_POST["yes"] !== "") {
-    exit("Error, invalid parameter");
-}
+require_once '../vendor/bazzastyle/bazzabot/src/EasyVars.php';
+?>
 
-if (isset($_POST["no"]) and $_POST["no"] !== "") {
-    exit("Error, invalid parameter");
-}
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8">
+    <title>Configura Telegram Webhook</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #1c92d2, #f2fcfe);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        border-radius: 1.5rem;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      }
+      .form-label {
+        font-weight: 600;
+      }
+      .select2-container--default .select2-selection--multiple {
+        border-radius: .5rem;
+        padding: .4rem;
+        border: 1px solid #ced4da;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card p-4">
+            <h2 class="text-center mb-4">Configura Webhook Telegram</h2>
+            <form id="webhookForm">
+              <!-- Token -->
+              <div class="mb-3">
+                <label for="token" class="form-label">Token <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="token" name="token" required>
+              </div>
 
-if (isset($_POST["api"])) {
-    $token = explode(":", $_POST["api"]);
-    if ((!is_numeric($token[0])) or (!(sizeof($token) === 2)) or (!(preg_match_all("/[a-zA-Z0-9_-]/", $token[1],
-                $matches, PREG_SET_ORDER, 0) === strlen($token[1])))) {
-        exit("Invalid token");
-    }
-}
+              <!-- URL -->
+              <div class="mb-3">
+                <label for="url" class="form-label">URL (HTTPS) <span class="text-danger">*</span></label>
+                <input type="url" class="form-control" id="url" name="url" required>
+              </div>
 
-if (isset($_POST["link"])) {
-    if (!(stripos($_POST["link"], "https://") === 0)) {
-        exit("The link must have https://");
-    }
-}
+              <!-- Certificate -->
+              <div class="mb-3">
+                <label for="certificate" class="form-label">Certificate (opzionale)</label>
+                <input type="file" class="form-control" id="certificate" name="certificate">
+              </div>
 
-if (isset($_POST["connections"]) and !((1 <= $_POST["connections"]) and ($_POST["connections"] <= 100))) {
-    exit("The connections parameter must be a number between 1 and 100");
-}
+              <!-- IP -->
+              <div class="mb-3">
+                <label for="ip_address" class="form-label">IP Address (opzionale)</label>
+                <input type="text" class="form-control" id="ip_address" name="ip_address" placeholder="es. 192.168.1.10">
+              </div>
 
+              <!-- Max connections -->
+              <div class="mb-3">
+                <label for="max_connections" class="form-label">Max Connections (1-100)</label>
+                <input type="number" class="form-control" id="max_connections" name="max_connections" min="1" max="100" value="40">
+              </div>
 
-echo "<form action=\"setupWebhook.php\" method=\"POST\">";
+              <!-- Allowed updates -->
+              <div class="mb-3">
+                <label for="allowed_updates" class="form-label">Allowed Updates <span class="text-danger">*</span></label>
+                <select multiple class="form-select" id="allowed_updates" name="allowed_updates[]" required>
+                  <?php foreach ( BazzaBot\EasyVars::getUpdateTypes() as $update ) : ?>
+                    <option value="<?= $update ?>"><?= $update ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <div class="mt-2">
+                  <button type="button" class="btn btn-sm btn-outline-primary" id="selectAll">Seleziona tutto</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" id="deselectAll">Deseleziona tutto</button>
+                </div>
+              </div>
 
-if (isset($_POST["yes"])) {
+              <!-- Drop pending updates -->
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="drop_pending_updates" name="drop_pending_updates">
+                <label class="form-check-label" for="drop_pending_updates">Drop pending updates</label>
+              </div>
 
-    if (isset($_POST["link"])) {
-        $link = strip_tags($_POST["link"]);
-    } else {
-        $link = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-        $explode = explode("setupWebhook.php", $link);
-        $link = $explode[0] . "webhook.php";
-    }
+              <!-- Secret Token -->
+              <div class="mb-3">
+                <label for="secret_token" class="form-label">Secret Token</label>
+                <input type="text" class="form-control" id="secret_token" name="secret_token" maxlength="256" placeholder="A-Z, a-z, 0-9, _ , -">
+              </div>
 
-    echo "<p><input type=\"hidden\" name=\"link\" value=\"" . htmlspecialchars($link) . "\" /></p>";
-    echo "<p>Input API Token: <input type=\"text\" name=\"api\" value=\"\" style=\"width:400px;\" /></p>";
-    echo "<p>Example: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11</p>";
-    echo "<p><button type=\"submit\" name=\"submit\">Submit</button></p>";
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success btn-lg w-100">Imposta</button>
+                <button type="button" class="btn btn-danger btn-lg w-100" id="removeWebhook">Rimuovi</button>
+              </div>
+            </form>
 
-} elseif (isset($_POST["connections"])) {
+            <div id="result" class="mt-4"></div>
+            <div id="info"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    $api = $_POST["api"];
-    $link = strip_tags($_POST["link"]);
-    $connections = $_POST["connections"];
-    $link = $link . "?api=" . $api;
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#allowed_updates').select2({
+          placeholder: "Seleziona uno o più tipi di update",
+          allowClear: true,
+          width: "100%"
+        });
 
-    $client = new Client($api);
+        $('#selectAll').on('click', function() {
+          let allOptions = [];
+          $('#allowed_updates option').each(function() {
+            allOptions.push($(this).val());
+          });
+          $('#allowed_updates').val(allOptions).trigger('change');
+        });
 
-    $responseWebhook = $client->setWebhook($link, null, null, $connections);
-    $response = $client->getMe();
+        $('#deselectAll').on('click', function() {
+          $('#allowed_updates').val(null).trigger('change');
+        });
 
-    if (($responseWebhook->description == "Webhook was set" or $responseWebhook->description == "Webhook is already set") and $response->ok == true) {
-        $username = $response->result->username;
-        echo "Setup successful: <a href=\"https://t.me/" . $username . "\"> @" . $username . "</a>";
-    } else {
-        echo "Setup failed: API TOKEN wrong or impossible to connect to Telegram";
-        echo "<p>" . htmlspecialchars($response->result->description) . "</p>";
-        echo "<p>Click here to try the setup again: <button type=\"submit\" name=\"reset\">Reset</button></p>";
-    }
+        fetch("setupWebhook.php?ajax=1")
+          .then(res => res.json())
+          .then(data => {
+            if (data.token) $("#token").val(data.token);
+            if (data.url) $("#url").val(data.url);
+            if (data.secret_token) $("#secret_token").val(data.secret_token);
+            if (data.max_connections) $("#max_connections").val(data.max_connections);
+            if (data.allowed_updates) {
+              $('#allowed_updates').val(data.allowed_updates).trigger('change');
+            }
+          });
 
-} elseif (isset($_POST["api"])) {
+        function renderAlert(type, description) {
+          let icon = '';
+          if (type === 'danger' || type === 'warning') { icon = 'exclamation-triangle'; }
+          else if (type === 'success') { icon = 'check-circle'; }
+          else if (type === 'primary') { icon = 'info-circle'; }
+          return `
+            <div class="alert alert-${type} d-flex align-items-center" role="alert">
+              <i class="bi bi-${icon}-fill me-2"></i>
+              <div>${description}</div>
+            </div>`;
+        }
 
-    $api = $_POST["api"];
-    $link = strip_tags($_POST["link"]);
+        $('#webhookForm').on('submit', async function(e) {
+          e.preventDefault();
 
-    echo "<p><input type=\"hidden\" name=\"api\" value=\"" . htmlspecialchars($api) . "\" /></p>";
-    echo "<p><input type=\"hidden\" name=\"link\" value=\"" . htmlspecialchars($link) . "\" /></p>";
-    echo "<p>Input max connections: <input type=\"number\" name=\"connections\" min=\"0\" max=\"100\" value=\"100\"></p>";
-    echo "<p>Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults of Bot APIs is 40. Use lower values to limit the load on your bot‘s server, and higher values to increase your bot’s throughput.</p>";
-    echo "<p><button type=\"submit\" name=\"submit\">Submit</button>";
-    echo "<button type=\"submit\" name=\"skip\">Skip</button></p>";
+          let formData = new FormData(this);
+          let response = await fetch("setupWebhook.php", {
+            method: "POST",
+            body: formData
+          });
 
-} elseif (isset($_POST["no"])) {
+          let data = await response.json();
 
-    echo "<p>Input Link: <input type=\"text\" name=\"link\" value=\"\" style=\"width:400px;\"/></p>";
-    echo "<p>HTTPS link is required!</p>";
-    echo "<p>Example: https://mysite.com/bot/index.php</p>";
-    echo "<p><button type=\"submit\" name=\"yes\">Submit</button></p>";
+          if (data.ok === false) {
+            $("#result").html(renderAlert("danger", data.description));
+          } else if (data.ok === true && data.description) {
+            if (data.description.includes("already")) {
+              $("#result").html(renderAlert("warning", data.description));
+            } else if (data.description.includes("was")) {
+              $("#result").html(renderAlert("success", data.description));
+              $("#info").html(renderAlert("primary", "Per ragioni di sicurezza, cancella questo file di configurazione."));
+              alert("⚠️ Per ragioni di sicurezza, cancella questo file di configurazione.");
+            } else {
+              $("#result").html(renderAlert("success", data.description));
+            }
+          }
+        });
 
-} else {
+        $('#removeWebhook').on('click', async function() {
+          if (!confirm("Sei sicuro di voler rimuovere il Webhook?")) return;
 
-    $actual_link = "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-    $explode = explode("setupWebhook.php", $actual_link);
+          let token = $("#token").val();
+          if (!token) {
+            $("#result").html(renderAlert("danger", "Token mancante"));
+            return;
+          }
 
-    echo "<p>Is the link correct?</p>";
-    echo "<p>" . htmlspecialchars($explode[0]) . "webhook.php</p>";
-    echo "<p><button type=\"submit\" name=\"yes\">Yes</button>";
-    echo "<button type=\"submit\" name=\"no\">No</button></p>";
+          let response = await fetch(`https://api.telegram.org/bot${token}/deleteWebhook`);
+          let data = await response.json();
 
-}
-
-echo "</form>";
+          if (data.ok === false) {
+            $("#result").html(renderAlert("danger", data.description));
+          } else if (data.ok === true && data.description) {
+            if (data.description.includes("already")) {
+              $("#result").html(renderAlert("warning", data.description));
+            } else if (data.description.includes("was")) {
+              $("#result").html(renderAlert("success", data.description));
+              $("#info").html(renderAlert("primary", "Per ragioni di sicurezza, cancella questo file di configurazione."));
+              alert("⚠️ Per ragioni di sicurezza, cancella questo file di configurazione.");
+            } else {
+              $("#result").html(renderAlert("success", data.description));
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

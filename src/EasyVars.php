@@ -2,7 +2,7 @@
 	namespace BazzaBot;
 
 	class EasyVars {
-		private array $update_types = [
+		private static array $update_types = [
 			'message',
 			'edited_message',
 			'channel_post',
@@ -29,8 +29,10 @@
 		];
 		private string $update_type;
 
+		public static function getUpdateTypes () : array { return self::$update_types; }
+
 		public function __construct ( object $update ) {
-			foreach ( $this->update_types as $update_type ) {
+			foreach ( self::$update_types as $update_type ) {
 				if ( isset( $update->{$update_type} ) ) {
 					$this->update_type = $update_type;
 					break;

@@ -125,7 +125,7 @@
      * @param array $header (optional) An array of HTTP headers to include in the request.
      * @return string The response from the server.
      */
-    public function cURL( string $url, string $request = "GET", ?array $args = [], ?array $header = [] ) {
+    public static function cURL( string $url, string $request = "GET", ?array $args = [], ?array $header = [] ) {
       $curl = curl_init();
 
       $array = [

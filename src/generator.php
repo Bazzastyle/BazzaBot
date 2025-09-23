@@ -1,27 +1,8 @@
 <?php
+  namespace BazzaBot;
+
   function api() : object|string {
-    $curl = curl_init();
-
-    curl_setopt_array($curl, [
-      CURLOPT_URL => 'https://raw.githubusercontent.com/davtur19/TuriBotGen/refs/heads/master/botapi.json',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_ENCODING => "",
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 30,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'GET',
-      CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13',
-    ]);
-    $response = curl_exec($curl);
-    $err = curl_error($curl);
-    curl_close($curl);
-
-    if ($err) {
-      return "cURL Error #:" . $err;
-    }
-
-    return json_decode($response);
+    return json_decode( Client::cURL( 'https://raw.githubusercontent.com/davtur19/TuriBotGen/refs/heads/master/botapi.json' ) );
   }
 
   function divideText($text, $type, $length = 100) {
