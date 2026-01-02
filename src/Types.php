@@ -134,10 +134,11 @@
      * @param bool|NULL $can_connect_to_business True, if the bot can be connected to a Telegram Business account to receive its messages. Returned
      *                              only in getMe.
      * @param bool|NULL $has_main_web_app True, if the bot has a main Web App. Returned only in getMe.
+     * @param bool|NULL $has_topics_enabled True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      *
      * @return array $args
      */
-    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL ) : array {
+    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL ) : array {
       $args = [ 'id' => $id, 'is_bot' => $is_bot, 'first_name' => $first_name ]; 
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -149,6 +150,7 @@
       if ( $supports_inline_queries !== NULL ) $args['supports_inline_queries'] = $supports_inline_queries;
       if ( $can_connect_to_business !== NULL ) $args['can_connect_to_business'] = $can_connect_to_business;
       if ( $has_main_web_app !== NULL ) $args['has_main_web_app'] = $has_main_web_app;
+      if ( $has_topics_enabled !== NULL ) $args['has_topics_enabled'] = $has_topics_enabled;
       return $args;
     }
 
@@ -252,10 +254,14 @@
      *                              programming languages may have difficulty/silent defects in interpreting it. But it is smaller than
      *                              52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      * @param ChatLocation|NULL $location For supergroups, the location to which the supergroup is connected
+     * @param UserRating|NULL $rating For private chats, the rating of the user if any
+     * @param UniqueGiftColors|NULL $unique_gift_colors The color scheme based on a unique gift that must be used for the chat's name, message replies and
+     *                              link previews
+     * @param int|NULL $paid_message_star_count The number of Telegram Stars a general user have to pay to send a message to the chat
      *
      * @return array $args
      */
-    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL ) : array {
+    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL, ?array $rating = NULL, ?array $unique_gift_colors = NULL, ?int $paid_message_star_count = NULL ) : array {
       $args = [ 'id' => $id, 'type' => $type, 'accent_color_id' => $accent_color_id, 'max_reaction_count' => $max_reaction_count, 'accepted_gift_types' => $accepted_gift_types ]; 
       if ( $title !== NULL ) $args['title'] = $title;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -299,6 +305,9 @@
       if ( $custom_emoji_sticker_set_name !== NULL ) $args['custom_emoji_sticker_set_name'] = $custom_emoji_sticker_set_name;
       if ( $linked_chat_id !== NULL ) $args['linked_chat_id'] = $linked_chat_id;
       if ( $location !== NULL ) $args['location'] = $location;
+      if ( $rating !== NULL ) $args['rating'] = $rating;
+      if ( $unique_gift_colors !== NULL ) $args['unique_gift_colors'] = $unique_gift_colors;
+      if ( $paid_message_star_count !== NULL ) $args['paid_message_star_count'] = $paid_message_star_count;
       return $args;
     }
 
@@ -311,7 +320,8 @@
      *                              sent to a big chat), the server might automatically schedule a message instead of sending it
      *                              immediately. In such cases, this field will be 0 and the relevant message will be unusable until it
      *                              is actually sent
-     * @param int|NULL $message_thread_id Unique identifier of a message thread to which the message belongs; for supergroups only
+     * @param int|NULL $message_thread_id Unique identifier of a message thread or forum topic to which the message belongs; for supergroups
+     *                              and private chats only
      * @param DirectMessagesTopic|NULL $direct_messages_topic Information about the direct messages chat topic that contains the message
      * @param User|NULL $from Sender of the message; may be empty for messages sent to channels. For backward compatibility, if
      *                              the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
@@ -328,7 +338,7 @@
      *                              potential bot chat which might share the same identifier.
      * @param Chat $chat Chat the message belongs to
      * @param MessageOrigin|NULL $forward_origin Information about the original message for forwarded messages
-     * @param bool|NULL $is_topic_message True, if the message is sent to a forum topic
+     * @param bool|NULL $is_topic_message True, if the message is sent to a topic in a forum supergroup or a private chat with the bot
      * @param bool|NULL $is_automatic_forward True, if the message is a channel post that was automatically forwarded to the connected discussion group
      * @param Message|NULL $reply_to_message For replies in the same chat and message thread, the original message. Note that the Message object
      *                              in this field will not contain further reply_to_message fields even if it itself is a reply.
@@ -410,6 +420,7 @@
      * @param ChatShared|NULL $chat_shared Service message: a chat was shared with the bot
      * @param GiftInfo|NULL $gift Service message: a regular gift was sent or received
      * @param UniqueGiftInfo|NULL $unique_gift Service message: a unique gift was sent or received
+     * @param GiftInfo|NULL $gift_upgrade_sent Service message: upgrade of a gift was purchased after the gift was sent
      * @param string|NULL $connected_website The domain name of the website on which the user has logged in. More about Telegram Login »
      * @param WriteAccessAllowed|NULL $write_access_allowed Service message: the user allowed the bot to write messages after adding it to the attachment or
      *                              side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by
@@ -447,7 +458,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
@@ -517,6 +528,7 @@
       if ( $chat_shared !== NULL ) $args['chat_shared'] = $chat_shared;
       if ( $gift !== NULL ) $args['gift'] = $gift;
       if ( $unique_gift !== NULL ) $args['unique_gift'] = $unique_gift;
+      if ( $gift_upgrade_sent !== NULL ) $args['gift_upgrade_sent'] = $gift_upgrade_sent;
       if ( $connected_website !== NULL ) $args['connected_website'] = $connected_website;
       if ( $write_access_allowed !== NULL ) $args['write_access_allowed'] = $write_access_allowed;
       if ( $passport_data !== NULL ) $args['passport_data'] = $passport_data;
@@ -1238,15 +1250,17 @@
      * @param int $id Unique identifier of the task
      * @param string $text Text of the task
      * @param MessageEntity[]|NULL $text_entities Special entities that appear in the task text
-     * @param User|NULL $completed_by_user User that completed the task; omitted if the task wasn't completed
+     * @param User|NULL $completed_by_user User that completed the task; omitted if the task wasn't completed by a user
+     * @param Chat|NULL $completed_by_chat Chat that completed the task; omitted if the task wasn't completed by a chat
      * @param int|NULL $completion_date Point in time (Unix timestamp) when the task was completed; 0 if the task wasn't completed
      *
      * @return array $args
      */
-    public function ChecklistTask ( int $id, string $text, ?array $text_entities = NULL, ?array $completed_by_user = NULL, ?int $completion_date = NULL ) : array {
+    public function ChecklistTask ( int $id, string $text, ?array $text_entities = NULL, ?array $completed_by_user = NULL, ?array $completed_by_chat = NULL, ?int $completion_date = NULL ) : array {
       $args = [ 'id' => $id, 'text' => $text ]; 
       if ( $text_entities !== NULL ) $args['text_entities'] = $text_entities;
       if ( $completed_by_user !== NULL ) $args['completed_by_user'] = $completed_by_user;
+      if ( $completed_by_chat !== NULL ) $args['completed_by_chat'] = $completed_by_chat;
       if ( $completion_date !== NULL ) $args['completion_date'] = $completion_date;
       return $args;
     }
@@ -1623,12 +1637,15 @@
      * @param string $name Name of the topic
      * @param int $icon_color Color of the topic icon in RGB format
      * @param string|NULL $icon_custom_emoji_id Unique identifier of the custom emoji shown as the topic icon
+     * @param bool|NULL $is_name_implicit True, if the name of the topic wasn't specified explicitly by its creator and likely needs to be
+     *                              changed by the bot
      *
      * @return array $args
      */
-    public function ForumTopicCreated ( string $name, int $icon_color, ?string $icon_custom_emoji_id = NULL ) : array {
+    public function ForumTopicCreated ( string $name, int $icon_color, ?string $icon_custom_emoji_id = NULL, ?bool $is_name_implicit = NULL ) : array {
       $args = [ 'name' => $name, 'icon_color' => $icon_color ]; 
       if ( $icon_custom_emoji_id !== NULL ) $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
+      if ( $is_name_implicit !== NULL ) $args['is_name_implicit'] = $is_name_implicit;
       return $args;
     }
 
@@ -2097,7 +2114,7 @@
     }
 
     /**
-     * Desribes price of a suggested post.
+     * Describes the price of a suggested post.
      * 
      * @see https://core.telegram.org/bots/api#SuggestedPostPrice
      *
@@ -2156,7 +2173,9 @@
      * 
      * @see https://core.telegram.org/bots/api#DirectMessagesTopic
      *
-     * @param int $topic_id Unique identifier of the topic
+     * @param int $topic_id Unique identifier of the topic. This number may have more than 32 significant bits and some
+     *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
+     *                              significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
      * @param User|NULL $user Information about the user that created the topic. Currently, it is always present
      *
      * @return array $args
@@ -3011,6 +3030,25 @@
     }
 
     /**
+     * This object describes the rating of a user based on their Telegram Star spendings.
+     * 
+     * @see https://core.telegram.org/bots/api#UserRating
+     *
+     * @param int $level Current level of the user, indicating their reliability when purchasing digital goods and services.
+     *                              A higher level suggests a more trustworthy customer; a negative level is likely reason for concern.
+     * @param int $rating Numerical value of the user's rating; the higher the rating, the better
+     * @param int $current_level_rating The rating value required to get the current level
+     * @param int|NULL $next_level_rating The rating value required to get to the next level; omitted if the maximum level was reached
+     *
+     * @return array $args
+     */
+    public function UserRating ( int $level, int $rating, int $current_level_rating, ?int $next_level_rating = NULL ) : array {
+      $args = [ 'level' => $level, 'rating' => $rating, 'current_level_rating' => $current_level_rating ]; 
+      if ( $next_level_rating !== NULL ) $args['next_level_rating'] = $next_level_rating;
+      return $args;
+    }
+
+    /**
      * Describes the position of a clickable area within a story.
      * 
      * @see https://core.telegram.org/bots/api#StoryAreaPosition
@@ -3290,13 +3328,31 @@
      * @param string $name Name of the topic
      * @param int $icon_color Color of the topic icon in RGB format
      * @param string|NULL $icon_custom_emoji_id Unique identifier of the custom emoji shown as the topic icon
+     * @param bool|NULL $is_name_implicit True, if the name of the topic wasn't specified explicitly by its creator and likely needs to be
+     *                              changed by the bot
      *
      * @return array $args
      */
-    public function ForumTopic ( int $message_thread_id, string $name, int $icon_color, ?string $icon_custom_emoji_id = NULL ) : array {
+    public function ForumTopic ( int $message_thread_id, string $name, int $icon_color, ?string $icon_custom_emoji_id = NULL, ?bool $is_name_implicit = NULL ) : array {
       $args = [ 'message_thread_id' => $message_thread_id, 'name' => $name, 'icon_color' => $icon_color ]; 
       if ( $icon_custom_emoji_id !== NULL ) $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
+      if ( $is_name_implicit !== NULL ) $args['is_name_implicit'] = $is_name_implicit;
       return $args;
+    }
+
+    /**
+     * This object describes the background of a gift.
+     * 
+     * @see https://core.telegram.org/bots/api#GiftBackground
+     *
+     * @param int $center_color Center color of the background in RGB format
+     * @param int $edge_color Edge color of the background in RGB format
+     * @param int $text_color Text color of the background in RGB format
+     *
+     * @return array $args
+     */
+    public function GiftBackground ( int $center_color, int $edge_color, int $text_color ) : array {
+      return [ 'center_color' => $center_color, 'edge_color' => $edge_color, 'text_color' => $text_color ];
     }
 
     /**
@@ -3308,17 +3364,29 @@
      * @param Sticker $sticker The sticker that represents the gift
      * @param int $star_count The number of Telegram Stars that must be paid to send the sticker
      * @param int|NULL $upgrade_star_count The number of Telegram Stars that must be paid to upgrade the gift to a unique one
-     * @param int|NULL $total_count The total number of the gifts of this type that can be sent; for limited gifts only
-     * @param int|NULL $remaining_count The number of remaining gifts of this type that can be sent; for limited gifts only
+     * @param bool|NULL $is_premium True, if the gift can only be purchased by Telegram Premium subscribers
+     * @param bool|NULL $has_colors True, if the gift can be used (after being upgraded) to customize a user's appearance
+     * @param int|NULL $total_count The total number of gifts of this type that can be sent by all users; for limited gifts only
+     * @param int|NULL $remaining_count The number of remaining gifts of this type that can be sent by all users; for limited gifts only
+     * @param int|NULL $personal_total_count The total number of gifts of this type that can be sent by the bot; for limited gifts only
+     * @param int|NULL $personal_remaining_count The number of remaining gifts of this type that can be sent by the bot; for limited gifts only
+     * @param GiftBackground|NULL $background Background of the gift
+     * @param int|NULL $unique_gift_variant_count The total number of different unique gifts that can be obtained by upgrading the gift
      * @param Chat|NULL $publisher_chat Information about the chat that published the gift
      *
      * @return array $args
      */
-    public function Gift ( string $id, array $sticker, int $star_count, ?int $upgrade_star_count = NULL, ?int $total_count = NULL, ?int $remaining_count = NULL, ?array $publisher_chat = NULL ) : array {
+    public function Gift ( string $id, array $sticker, int $star_count, ?int $upgrade_star_count = NULL, ?bool $is_premium = NULL, ?bool $has_colors = NULL, ?int $total_count = NULL, ?int $remaining_count = NULL, ?int $personal_total_count = NULL, ?int $personal_remaining_count = NULL, ?array $background = NULL, ?int $unique_gift_variant_count = NULL, ?array $publisher_chat = NULL ) : array {
       $args = [ 'id' => $id, 'sticker' => $sticker, 'star_count' => $star_count ]; 
       if ( $upgrade_star_count !== NULL ) $args['upgrade_star_count'] = $upgrade_star_count;
+      if ( $is_premium !== NULL ) $args['is_premium'] = $is_premium;
+      if ( $has_colors !== NULL ) $args['has_colors'] = $has_colors;
       if ( $total_count !== NULL ) $args['total_count'] = $total_count;
       if ( $remaining_count !== NULL ) $args['remaining_count'] = $remaining_count;
+      if ( $personal_total_count !== NULL ) $args['personal_total_count'] = $personal_total_count;
+      if ( $personal_remaining_count !== NULL ) $args['personal_remaining_count'] = $personal_remaining_count;
+      if ( $background !== NULL ) $args['background'] = $background;
+      if ( $unique_gift_variant_count !== NULL ) $args['unique_gift_variant_count'] = $unique_gift_variant_count;
       if ( $publisher_chat !== NULL ) $args['publisher_chat'] = $publisher_chat;
       return $args;
     }
@@ -3398,22 +3466,49 @@
     }
 
     /**
+     * This object contains information about the color scheme for a user's name, message replies and link
+     * previews based on a unique gift.
+     * 
+     * @see https://core.telegram.org/bots/api#UniqueGiftColors
+     *
+     * @param string $model_custom_emoji_id Custom emoji identifier of the unique gift's model
+     * @param string $symbol_custom_emoji_id Custom emoji identifier of the unique gift's symbol
+     * @param int $light_theme_main_color Main color used in light themes; RGB format
+     * @param int[] $light_theme_other_colors List of 1-3 additional colors used in light themes; RGB format
+     * @param int $dark_theme_main_color Main color used in dark themes; RGB format
+     * @param int[] $dark_theme_other_colors List of 1-3 additional colors used in dark themes; RGB format
+     *
+     * @return array $args
+     */
+    public function UniqueGiftColors ( string $model_custom_emoji_id, string $symbol_custom_emoji_id, int $light_theme_main_color, array $light_theme_other_colors, int $dark_theme_main_color, array $dark_theme_other_colors ) : array {
+      return [ 'model_custom_emoji_id' => $model_custom_emoji_id, 'symbol_custom_emoji_id' => $symbol_custom_emoji_id, 'light_theme_main_color' => $light_theme_main_color, 'light_theme_other_colors' => $light_theme_other_colors, 'dark_theme_main_color' => $dark_theme_main_color, 'dark_theme_other_colors' => $dark_theme_other_colors ];
+    }
+
+    /**
      * This object describes a unique gift that was upgraded from a regular gift.
      * 
      * @see https://core.telegram.org/bots/api#UniqueGift
      *
+     * @param string $gift_id Identifier of the regular gift from which the gift was upgraded
      * @param string $base_name Human-readable name of the regular gift from which this unique gift was upgraded
      * @param string $name Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
      * @param int $number Unique number of the upgraded gift among gifts upgraded from the same regular gift
      * @param UniqueGiftModel $model Model of the gift
      * @param UniqueGiftSymbol $symbol Symbol of the gift
      * @param UniqueGiftBackdrop $backdrop Backdrop of the gift
+     * @param bool|NULL $is_premium True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers
+     * @param bool|NULL $is_from_blockchain True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram
+     * @param UniqueGiftColors|NULL $colors The color scheme that can be used by the gift's owner for the chat's name, replies to messages and
+     *                              link previews; for business account gifts and gifts that are currently on sale only
      * @param Chat|NULL $publisher_chat Information about the chat that published the gift
      *
      * @return array $args
      */
-    public function UniqueGift ( string $base_name, string $name, int $number, array $model, array $symbol, array $backdrop, ?array $publisher_chat = NULL ) : array {
-      $args = [ 'base_name' => $base_name, 'name' => $name, 'number' => $number, 'model' => $model, 'symbol' => $symbol, 'backdrop' => $backdrop ]; 
+    public function UniqueGift ( string $gift_id, string $base_name, string $name, int $number, array $model, array $symbol, array $backdrop, ?bool $is_premium = NULL, ?bool $is_from_blockchain = NULL, ?array $colors = NULL, ?array $publisher_chat = NULL ) : array {
+      $args = [ 'gift_id' => $gift_id, 'base_name' => $base_name, 'name' => $name, 'number' => $number, 'model' => $model, 'symbol' => $symbol, 'backdrop' => $backdrop ]; 
+      if ( $is_premium !== NULL ) $args['is_premium'] = $is_premium;
+      if ( $is_from_blockchain !== NULL ) $args['is_from_blockchain'] = $is_from_blockchain;
+      if ( $colors !== NULL ) $args['colors'] = $colors;
       if ( $publisher_chat !== NULL ) $args['publisher_chat'] = $publisher_chat;
       return $args;
     }
@@ -3428,24 +3523,28 @@
      *                              business accounts
      * @param int|NULL $convert_star_count Number of Telegram Stars that can be claimed by the receiver by converting the gift; omitted if
      *                              conversion to Telegram Stars is impossible
-     * @param int|NULL $prepaid_upgrade_star_count Number of Telegram Stars that were prepaid by the sender for the ability to upgrade the gift
+     * @param int|NULL $prepaid_upgrade_star_count Number of Telegram Stars that were prepaid for the ability to upgrade the gift
+     * @param bool|NULL $is_upgrade_separate True, if the gift's upgrade was purchased after the gift was sent
      * @param bool|NULL $can_be_upgraded True, if the gift can be upgraded to a unique gift
      * @param string|NULL $text Text of the message that was added to the gift
      * @param MessageEntity[]|NULL $entities Special entities that appear in the text
      * @param bool|NULL $is_private True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be
      *                              able to see them
+     * @param int|NULL $unique_gift_number Unique number reserved for this gift when upgraded. See the number field in UniqueGift
      *
      * @return array $args
      */
-    public function GiftInfo ( array $gift, ?string $owned_gift_id = NULL, ?int $convert_star_count = NULL, ?int $prepaid_upgrade_star_count = NULL, ?bool $can_be_upgraded = NULL, ?string $text = NULL, ?array $entities = NULL, ?bool $is_private = NULL ) : array {
+    public function GiftInfo ( array $gift, ?string $owned_gift_id = NULL, ?int $convert_star_count = NULL, ?int $prepaid_upgrade_star_count = NULL, ?bool $is_upgrade_separate = NULL, ?bool $can_be_upgraded = NULL, ?string $text = NULL, ?array $entities = NULL, ?bool $is_private = NULL, ?int $unique_gift_number = NULL ) : array {
       $args = [ 'gift' => $gift ]; 
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
       if ( $convert_star_count !== NULL ) $args['convert_star_count'] = $convert_star_count;
       if ( $prepaid_upgrade_star_count !== NULL ) $args['prepaid_upgrade_star_count'] = $prepaid_upgrade_star_count;
+      if ( $is_upgrade_separate !== NULL ) $args['is_upgrade_separate'] = $is_upgrade_separate;
       if ( $can_be_upgraded !== NULL ) $args['can_be_upgraded'] = $can_be_upgraded;
       if ( $text !== NULL ) $args['text'] = $text;
       if ( $entities !== NULL ) $args['entities'] = $entities;
       if ( $is_private !== NULL ) $args['is_private'] = $is_private;
+      if ( $unique_gift_number !== NULL ) $args['unique_gift_number'] = $unique_gift_number;
       return $args;
     }
 
@@ -3456,9 +3555,12 @@
      *
      * @param UniqueGift $gift Information about the gift
      * @param string $origin Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts,
-     *                              “transfer” for gifts transferred from other users or channels, or “resale” for gifts bought
-     *                              from other users
-     * @param int|NULL $last_resale_star_count For gifts bought from other users, the price paid for the gift
+     *                              “transfer” for gifts transferred from other users or channels, “resale” for gifts bought
+     *                              from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or
+     *                              “offer” for gifts bought or sold through gift purchase offers
+     * @param string|NULL $last_resale_currency For gifts bought from other users, the currency in which the payment for the gift was done.
+     *                              Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
+     * @param int|NULL $last_resale_amount For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins
      * @param string|NULL $owned_gift_id Unique identifier of the received gift for the bot; only present for gifts received on behalf of
      *                              business accounts
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
@@ -3468,9 +3570,10 @@
      *
      * @return array $args
      */
-    public function UniqueGiftInfo ( array $gift, string $origin, ?int $last_resale_star_count = NULL, ?string $owned_gift_id = NULL, ?int $transfer_star_count = NULL, ?int $next_transfer_date = NULL ) : array {
+    public function UniqueGiftInfo ( array $gift, string $origin, ?string $last_resale_currency = NULL, ?int $last_resale_amount = NULL, ?string $owned_gift_id = NULL, ?int $transfer_star_count = NULL, ?int $next_transfer_date = NULL ) : array {
       $args = [ 'gift' => $gift, 'origin' => $origin ]; 
-      if ( $last_resale_star_count !== NULL ) $args['last_resale_star_count'] = $last_resale_star_count;
+      if ( $last_resale_currency !== NULL ) $args['last_resale_currency'] = $last_resale_currency;
+      if ( $last_resale_amount !== NULL ) $args['last_resale_amount'] = $last_resale_amount;
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
       if ( $transfer_star_count !== NULL ) $args['transfer_star_count'] = $transfer_star_count;
       if ( $next_transfer_date !== NULL ) $args['next_transfer_date'] = $next_transfer_date;
@@ -3509,12 +3612,15 @@
      *                              accounts only
      * @param bool|NULL $was_refunded True, if the gift was refunded and isn't available anymore
      * @param int|NULL $convert_star_count Number of Telegram Stars that can be claimed by the receiver instead of the gift; omitted if the
-     *                              gift cannot be converted to Telegram Stars
-     * @param int|NULL $prepaid_upgrade_star_count Number of Telegram Stars that were paid by the sender for the ability to upgrade the gift
+     *                              gift cannot be converted to Telegram Stars; for gifts received on behalf of business accounts only
+     * @param int|NULL $prepaid_upgrade_star_count Number of Telegram Stars that were paid for the ability to upgrade the gift
+     * @param bool|NULL $is_upgrade_separate True, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of
+     *                              business accounts only
+     * @param int|NULL $unique_gift_number Unique number reserved for this gift when upgraded. See the number field in UniqueGift
      *
      * @return array $args
      */
-    public function OwnedGiftRegular ( string $type = 'regular', array $gift, int $send_date, ?string $owned_gift_id = NULL, ?array $sender_user = NULL, ?string $text = NULL, ?array $entities = NULL, ?bool $is_private = NULL, ?bool $is_saved = NULL, ?bool $can_be_upgraded = NULL, ?bool $was_refunded = NULL, ?int $convert_star_count = NULL, ?int $prepaid_upgrade_star_count = NULL ) : array {
+    public function OwnedGiftRegular ( string $type = 'regular', array $gift, int $send_date, ?string $owned_gift_id = NULL, ?array $sender_user = NULL, ?string $text = NULL, ?array $entities = NULL, ?bool $is_private = NULL, ?bool $is_saved = NULL, ?bool $can_be_upgraded = NULL, ?bool $was_refunded = NULL, ?int $convert_star_count = NULL, ?int $prepaid_upgrade_star_count = NULL, ?bool $is_upgrade_separate = NULL, ?int $unique_gift_number = NULL ) : array {
       $args = [ 'type' => $type, 'gift' => $gift, 'send_date' => $send_date ]; 
       if ( $owned_gift_id !== NULL ) $args['owned_gift_id'] = $owned_gift_id;
       if ( $sender_user !== NULL ) $args['sender_user'] = $sender_user;
@@ -3526,6 +3632,8 @@
       if ( $was_refunded !== NULL ) $args['was_refunded'] = $was_refunded;
       if ( $convert_star_count !== NULL ) $args['convert_star_count'] = $convert_star_count;
       if ( $prepaid_upgrade_star_count !== NULL ) $args['prepaid_upgrade_star_count'] = $prepaid_upgrade_star_count;
+      if ( $is_upgrade_separate !== NULL ) $args['is_upgrade_separate'] = $is_upgrade_separate;
+      if ( $unique_gift_number !== NULL ) $args['unique_gift_number'] = $unique_gift_number;
       return $args;
     }
 
@@ -3588,11 +3696,12 @@
      * @param bool $limited_gifts True, if limited regular gifts are accepted
      * @param bool $unique_gifts True, if unique gifts or gifts that can be upgraded to unique for free are accepted
      * @param bool $premium_subscription True, if a Telegram Premium subscription is accepted
+     * @param bool $gifts_from_channels True, if transfers of unique gifts from channels are accepted
      *
      * @return array $args
      */
-    public function AcceptedGiftTypes ( bool $unlimited_gifts, bool $limited_gifts, bool $unique_gifts, bool $premium_subscription ) : array {
-      return [ 'unlimited_gifts' => $unlimited_gifts, 'limited_gifts' => $limited_gifts, 'unique_gifts' => $unique_gifts, 'premium_subscription' => $premium_subscription ];
+    public function AcceptedGiftTypes ( bool $unlimited_gifts, bool $limited_gifts, bool $unique_gifts, bool $premium_subscription, bool $gifts_from_channels ) : array {
+      return [ 'unlimited_gifts' => $unlimited_gifts, 'limited_gifts' => $limited_gifts, 'unique_gifts' => $unique_gifts, 'premium_subscription' => $premium_subscription, 'gifts_from_channels' => $gifts_from_channels ];
     }
 
     /**

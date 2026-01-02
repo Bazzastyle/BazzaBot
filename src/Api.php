@@ -160,7 +160,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param string $text Text of the message to be sent, 1-4096 characters after entities parsing
@@ -207,7 +208,8 @@
      * @see https://core.telegram.org/bots/api#forwardMessage
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be forwarded; required if the
      *                              message is forwarded to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the
@@ -215,19 +217,22 @@
      * @param int|NULL $video_start_timestamp New start timestamp for the forwarded video in the message
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the forwarded message from forwarding and saving
+     * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; only available when forwarding
+     *                              to private chats
      * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
      *                              messages chats only
      * @param int $message_id Message identifier in the chat specified in from_chat_id
      *
      * @return stdClass
      */
-    public function forwardMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $video_start_timestamp = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?array $suggested_post_parameters = NULL ) : stdClass {
+    public function forwardMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $video_start_timestamp = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'from_chat_id' => $from_chat_id, 'message_id' => $message_id ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
       if ( $video_start_timestamp !== NULL ) $args['video_start_timestamp'] = $video_start_timestamp;
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
+      if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
       if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       return $this->Request( __FUNCTION__, $args );
     }
@@ -241,7 +246,8 @@
      * @see https://core.telegram.org/bots/api#forwardMessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the messages will be forwarded; required if the
      *                              messages are forwarded to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the
@@ -272,7 +278,8 @@
      * @see https://core.telegram.org/bots/api#copyMessage
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the
@@ -289,6 +296,8 @@
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
      *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; only available when copying to
+     *                              private chats
      * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
      *                              messages chats only. If the message is sent as a reply to another suggested post, then that
      *                              suggested post is automatically declined.
@@ -298,7 +307,7 @@
      *
      * @return stdClass
      */
-    public function copyMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $video_start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function copyMessage ( int|string $chat_id, int|string $from_chat_id, int $message_id, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?int $video_start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'from_chat_id' => $from_chat_id, 'message_id' => $message_id ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
@@ -310,6 +319,7 @@
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
+      if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
       if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
       if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
@@ -327,7 +337,8 @@
      * @see https://core.telegram.org/bots/api#copyMessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the messages will be sent; required if the messages
      *                              are sent to a direct messages chat
      * @param int|string $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the
@@ -357,7 +368,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers
@@ -416,7 +428,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram
@@ -479,7 +492,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers
@@ -540,7 +554,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers
@@ -617,7 +632,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers
@@ -688,7 +704,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers
@@ -740,7 +757,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram
@@ -795,10 +813,11 @@
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                              @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be
      *                              credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
-     * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media; 1-10000
+     * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media; 1-25000
      * @param InputPaidMedia[] $media A JSON-serialized array describing the media to be sent; up to 10 items
      * @param string|NULL $payload Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your
      *                              internal processes.
@@ -848,7 +867,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the messages will be sent; required if the messages
      *                              are sent to a direct messages chat
      * @param InputMediaAudio|InputMediaDocument|InputMediaPhoto|InputMediaVideo[] $media A JSON-serialized array describing messages to be sent, must include 2-10 items
@@ -881,7 +901,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param float $latitude Latitude of the location
@@ -933,7 +954,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param float $latitude Latitude of the venue
@@ -985,7 +1007,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param string $phone_number Contact's phone number
@@ -1031,7 +1054,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                              @channelusername). Polls can't be sent to channel direct messages chats.
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param string $question Poll question, 1-300 characters
      * @param string|NULL $question_parse_mode Mode for parsing entities in the question. See formatting options for more details. Currently, only
      *                              custom emoji entities are allowed
@@ -1123,7 +1147,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param string|NULL $emoji Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”,
@@ -1161,6 +1186,31 @@
     }
 
     /**
+     * Use this method to stream a partial message to a user while the message is being generated;
+     * supported only for bots with forum topic mode enabled. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#sendMessageDraft
+     *
+     * @param int $chat_id Unique identifier for the target private chat
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread
+     * @param int $draft_id Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier
+     *                              are animated
+     * @param string $text Text of the message to be sent, 1-4096 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the message text. See formatting options for more details.
+     * @param MessageEntity[]|NULL $entities A JSON-serialized list of special entities that appear in message text, which can be specified
+     *                              instead of parse_mode
+     *
+     * @return stdClass
+     */
+    public function sendMessageDraft ( int $chat_id, int $draft_id, string $text, ?int $message_thread_id = NULL, ?string $parse_mode = NULL, ?array $entities = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'draft_id' => $draft_id, 'text' => $text ]; 
+      if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $entities !== NULL ) $args['entities'] = json_encode( $entities );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
      * Use this method when you need to tell the user that something is happening on the bot's side. The
      * status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear
      * its typing status). Returns True on success.
@@ -1172,7 +1222,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the action will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
      *                              @supergroupusername). Channel chats and channel direct messages chats aren't supported.
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread; for supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread or topic of a forum; for supergroups and private
+     *                              chats of bots with forum topic mode enabled only
      * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for
      *                              text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or
      *                              upload_voice for voice notes, upload_document for general files, choose_sticker for stickers,
@@ -1357,7 +1408,8 @@
      *                              paying Telegram Stars. Implied by any other administrator privilege.
      * @param bool|NULL $can_delete_messages Pass True if the administrator can delete messages of other users
      * @param bool|NULL $can_manage_video_chats Pass True if the administrator can manage video chats
-     * @param bool|NULL $can_restrict_members Pass True if the administrator can restrict, ban or unban chat members, or access supergroup statistics
+     * @param bool|NULL $can_restrict_members Pass True if the administrator can restrict, ban or unban chat members, or access supergroup
+     *                              statistics. For backward compatibility, defaults to True for promotions of channel administrators
      * @param bool|NULL $can_promote_members Pass True if the administrator can add new administrators with a subset of their own privileges or
      *                              demote administrators that they have promoted, directly or indirectly (promoted by administrators
      *                              that were appointed by him)
@@ -1893,9 +1945,10 @@
     }
 
     /**
-     * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an
-     * administrator in the chat for this to work and must have the can_manage_topics administrator rights,
-     * unless it is the creator of the topic. Returns True on success.
+     * Use this method to edit name and icon of a topic in a forum supergroup chat or a private chat with a
+     * user. In the case of a supergroup chat the bot must be an administrator in the chat for this to work
+     * and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+     * Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#editForumTopic
      *
@@ -1948,9 +2001,9 @@
     }
 
     /**
-     * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The
-     * bot must be an administrator in the chat for this to work and must have the can_delete_messages
-     * administrator rights. Returns True on success.
+     * Use this method to delete a forum topic along with all its messages in a forum supergroup chat or a
+     * private chat with a user. In the case of a supergroup chat the bot must be an administrator in the
+     * chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#deleteForumTopic
      *
@@ -1964,9 +2017,10 @@
     }
 
     /**
-     * Use this method to clear the list of pinned messages in a forum topic. The bot must be an
-     * administrator in the chat for this to work and must have the can_pin_messages administrator right in
-     * the supergroup. Returns True on success.
+     * Use this method to clear the list of pinned messages in a forum topic in a forum supergroup chat or
+     * a private chat with a user. In the case of a supergroup chat the bot must be an administrator in the
+     * chat for this to work and must have the can_pin_messages administrator right in the supergroup.
+     * Returns True on success.
      * 
      * @see https://core.telegram.org/bots/api#unpinAllForumTopicMessages
      *
@@ -2387,7 +2441,7 @@
      * @param int|NULL $user_id Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
      * @param int|string|NULL $chat_id Required if user_id is not specified. Unique identifier for the chat or username of the channel (in
      *                              the format @channelusername) that will receive the gift.
-     * @param string $gift_id Identifier of the gift
+     * @param string $gift_id Identifier of the gift; limited gifts can't be sent to channel chats
      * @param bool|NULL $pay_for_upgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for
      *                              the receiver
      * @param string|NULL $text Text that will be shown along with the gift; 0-128 characters
@@ -2682,8 +2736,11 @@
      * @param bool|NULL $exclude_unsaved Pass True to exclude gifts that aren't saved to the account's profile page
      * @param bool|NULL $exclude_saved Pass True to exclude gifts that are saved to the account's profile page
      * @param bool|NULL $exclude_unlimited Pass True to exclude gifts that can be purchased an unlimited number of times
-     * @param bool|NULL $exclude_limited Pass True to exclude gifts that can be purchased a limited number of times
+     * @param bool|NULL $exclude_limited_upgradable Pass True to exclude gifts that can be purchased a limited number of times and can be upgraded to unique
+     * @param bool|NULL $exclude_limited_non_upgradable Pass True to exclude gifts that can be purchased a limited number of times and can't be upgraded to unique
      * @param bool|NULL $exclude_unique Pass True to exclude unique gifts
+     * @param bool|NULL $exclude_from_blockchain Pass True to exclude gifts that were assigned from the TON blockchain and can't be resold or
+     *                              transferred in Telegram
      * @param bool|NULL $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
      * @param string|NULL $offset Offset of the first entry to return as received from the previous request; use empty string to get
      *                              the first chunk of results
@@ -2691,12 +2748,84 @@
      *
      * @return stdClass
      */
-    public function getBusinessAccountGifts ( string $business_connection_id, ?bool $exclude_unsaved = NULL, ?bool $exclude_saved = NULL, ?bool $exclude_unlimited = NULL, ?bool $exclude_limited = NULL, ?bool $exclude_unique = NULL, ?bool $sort_by_price = NULL, ?string $offset = NULL, ?int $limit = NULL ) : stdClass {
+    public function getBusinessAccountGifts ( string $business_connection_id, ?bool $exclude_unsaved = NULL, ?bool $exclude_saved = NULL, ?bool $exclude_unlimited = NULL, ?bool $exclude_limited_upgradable = NULL, ?bool $exclude_limited_non_upgradable = NULL, ?bool $exclude_unique = NULL, ?bool $exclude_from_blockchain = NULL, ?bool $sort_by_price = NULL, ?string $offset = NULL, ?int $limit = NULL ) : stdClass {
       $args = [ 'business_connection_id' => $business_connection_id ]; 
       if ( $exclude_unsaved !== NULL ) $args['exclude_unsaved'] = $exclude_unsaved;
       if ( $exclude_saved !== NULL ) $args['exclude_saved'] = $exclude_saved;
       if ( $exclude_unlimited !== NULL ) $args['exclude_unlimited'] = $exclude_unlimited;
-      if ( $exclude_limited !== NULL ) $args['exclude_limited'] = $exclude_limited;
+      if ( $exclude_limited_upgradable !== NULL ) $args['exclude_limited_upgradable'] = $exclude_limited_upgradable;
+      if ( $exclude_limited_non_upgradable !== NULL ) $args['exclude_limited_non_upgradable'] = $exclude_limited_non_upgradable;
+      if ( $exclude_unique !== NULL ) $args['exclude_unique'] = $exclude_unique;
+      if ( $exclude_from_blockchain !== NULL ) $args['exclude_from_blockchain'] = $exclude_from_blockchain;
+      if ( $sort_by_price !== NULL ) $args['sort_by_price'] = $sort_by_price;
+      if ( $offset !== NULL ) $args['offset'] = $offset;
+      if ( $limit !== NULL ) $args['limit'] = $limit;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Returns the gifts owned and hosted by a user. Returns OwnedGifts on success.
+     * 
+     * @see https://core.telegram.org/bots/api#getUserGifts
+     *
+     * @param int $user_id Unique identifier of the user
+     * @param bool|NULL $exclude_unlimited Pass True to exclude gifts that can be purchased an unlimited number of times
+     * @param bool|NULL $exclude_limited_upgradable Pass True to exclude gifts that can be purchased a limited number of times and can be upgraded to unique
+     * @param bool|NULL $exclude_limited_non_upgradable Pass True to exclude gifts that can be purchased a limited number of times and can't be upgraded to unique
+     * @param bool|NULL $exclude_from_blockchain Pass True to exclude gifts that were assigned from the TON blockchain and can't be resold or
+     *                              transferred in Telegram
+     * @param bool|NULL $exclude_unique Pass True to exclude unique gifts
+     * @param bool|NULL $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
+     * @param string|NULL $offset Offset of the first entry to return as received from the previous request; use an empty string to
+     *                              get the first chunk of results
+     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100
+     *
+     * @return stdClass
+     */
+    public function getUserGifts ( int $user_id, ?bool $exclude_unlimited = NULL, ?bool $exclude_limited_upgradable = NULL, ?bool $exclude_limited_non_upgradable = NULL, ?bool $exclude_from_blockchain = NULL, ?bool $exclude_unique = NULL, ?bool $sort_by_price = NULL, ?string $offset = NULL, ?int $limit = NULL ) : stdClass {
+      $args = [ 'user_id' => $user_id ]; 
+      if ( $exclude_unlimited !== NULL ) $args['exclude_unlimited'] = $exclude_unlimited;
+      if ( $exclude_limited_upgradable !== NULL ) $args['exclude_limited_upgradable'] = $exclude_limited_upgradable;
+      if ( $exclude_limited_non_upgradable !== NULL ) $args['exclude_limited_non_upgradable'] = $exclude_limited_non_upgradable;
+      if ( $exclude_from_blockchain !== NULL ) $args['exclude_from_blockchain'] = $exclude_from_blockchain;
+      if ( $exclude_unique !== NULL ) $args['exclude_unique'] = $exclude_unique;
+      if ( $sort_by_price !== NULL ) $args['sort_by_price'] = $sort_by_price;
+      if ( $offset !== NULL ) $args['offset'] = $offset;
+      if ( $limit !== NULL ) $args['limit'] = $limit;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Returns the gifts owned by a chat. Returns OwnedGifts on success.
+     * 
+     * @see https://core.telegram.org/bots/api#getChatGifts
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param bool|NULL $exclude_unsaved Pass True to exclude gifts that aren't saved to the chat's profile page. Always True, unless the bot
+     *                              has the can_post_messages administrator right in the channel.
+     * @param bool|NULL $exclude_saved Pass True to exclude gifts that are saved to the chat's profile page. Always False, unless the bot
+     *                              has the can_post_messages administrator right in the channel.
+     * @param bool|NULL $exclude_unlimited Pass True to exclude gifts that can be purchased an unlimited number of times
+     * @param bool|NULL $exclude_limited_upgradable Pass True to exclude gifts that can be purchased a limited number of times and can be upgraded to unique
+     * @param bool|NULL $exclude_limited_non_upgradable Pass True to exclude gifts that can be purchased a limited number of times and can't be upgraded to unique
+     * @param bool|NULL $exclude_from_blockchain Pass True to exclude gifts that were assigned from the TON blockchain and can't be resold or
+     *                              transferred in Telegram
+     * @param bool|NULL $exclude_unique Pass True to exclude unique gifts
+     * @param bool|NULL $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
+     * @param string|NULL $offset Offset of the first entry to return as received from the previous request; use an empty string to
+     *                              get the first chunk of results
+     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100
+     *
+     * @return stdClass
+     */
+    public function getChatGifts ( int|string $chat_id, ?bool $exclude_unsaved = NULL, ?bool $exclude_saved = NULL, ?bool $exclude_unlimited = NULL, ?bool $exclude_limited_upgradable = NULL, ?bool $exclude_limited_non_upgradable = NULL, ?bool $exclude_from_blockchain = NULL, ?bool $exclude_unique = NULL, ?bool $sort_by_price = NULL, ?string $offset = NULL, ?int $limit = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id ]; 
+      if ( $exclude_unsaved !== NULL ) $args['exclude_unsaved'] = $exclude_unsaved;
+      if ( $exclude_saved !== NULL ) $args['exclude_saved'] = $exclude_saved;
+      if ( $exclude_unlimited !== NULL ) $args['exclude_unlimited'] = $exclude_unlimited;
+      if ( $exclude_limited_upgradable !== NULL ) $args['exclude_limited_upgradable'] = $exclude_limited_upgradable;
+      if ( $exclude_limited_non_upgradable !== NULL ) $args['exclude_limited_non_upgradable'] = $exclude_limited_non_upgradable;
+      if ( $exclude_from_blockchain !== NULL ) $args['exclude_from_blockchain'] = $exclude_from_blockchain;
       if ( $exclude_unique !== NULL ) $args['exclude_unique'] = $exclude_unique;
       if ( $sort_by_price !== NULL ) $args['sort_by_price'] = $sort_by_price;
       if ( $offset !== NULL ) $args['offset'] = $offset;
@@ -2788,6 +2917,31 @@
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
       if ( $caption_entities !== NULL ) $args['caption_entities'] = json_encode( $caption_entities );
       if ( $areas !== NULL ) $args['areas'] = json_encode( $areas );
+      if ( $post_to_chat_page !== NULL ) $args['post_to_chat_page'] = $post_to_chat_page;
+      if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Reposts a story on behalf of a business account from another business account. Both business
+     * accounts must be managed by the same bot, and the story on the source account must have been posted
+     * (or reposted) by the bot. Requires the can_manage_stories business bot right for both business
+     * accounts. Returns Story on success.
+     * 
+     * @see https://core.telegram.org/bots/api#repostStory
+     *
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @param int $from_chat_id Unique identifier of the chat which posted the story that should be reposted
+     * @param int $from_story_id Unique identifier of the story that should be reposted
+     * @param int $active_period Period after which the story is moved to the archive, in seconds; must be one of 6 * 3600, 12 *
+     *                              3600, 86400, or 2 * 86400
+     * @param bool|NULL $post_to_chat_page Pass True to keep the story accessible after it expires
+     * @param bool|NULL $protect_content Pass True if the content of the story must be protected from forwarding and screenshotting
+     *
+     * @return stdClass
+     */
+    public function repostStory ( string $business_connection_id, int $from_chat_id, int $from_story_id, int $active_period, ?bool $post_to_chat_page = NULL, ?bool $protect_content = NULL ) : stdClass {
+      $args = [ 'business_connection_id' => $business_connection_id, 'from_chat_id' => $from_chat_id, 'from_story_id' => $from_story_id, 'active_period' => $active_period ]; 
       if ( $post_to_chat_page !== NULL ) $args['post_to_chat_page'] = $post_to_chat_page;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       return $this->Request( __FUNCTION__, $args );
@@ -3154,7 +3308,8 @@
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param InputFile|string $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers
@@ -3524,7 +3679,8 @@
      * @see https://core.telegram.org/bots/api#sendInvoice
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
      *                              is sent to a direct messages chat
      * @param string $title Product name, 1-32 characters
@@ -3823,7 +3979,8 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int $chat_id Unique identifier for the target chat. Games can't be sent to channel direct messages chats and
      *                              channel chats.
-     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
      * @param string $game_short_name Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
