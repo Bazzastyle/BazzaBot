@@ -1,5 +1,9 @@
 <?php
   namespace BazzaBot;
+  require_once( __DIR__ . '/Types.php' );
+  require_once( __DIR__ . '/ApiInterface.php' );
+  require_once( __DIR__ . '/Api.php' );
+  require_once( __DIR__ . '/Client.php' );
 
   function api() : object|string {
     return json_decode( Client::cURL( 'https://raw.githubusercontent.com/davtur19/TuriBotGen/refs/heads/master/botapi.json' ) );
@@ -55,7 +59,7 @@
     /**
      * " . divideText( str_replace( "\n", "\n     * ", $type->description ), "function" ) . "
      * 
-     * @see https://core.telegram.org/bots/api#{$type->name}
+     * @see https://core.telegram.org/bots/api#" . strtolower($type->name) . "
      *";
 
     foreach ( $type->fields as $field ) {
@@ -156,7 +160,7 @@
     /**
      * " . divideText( str_replace( "\n", "\n     * ", $method->description ), "function" ) . "
      * 
-     * @see https://core.telegram.org/bots/api#{$method->name}
+     * @see https://core.telegram.org/bots/api#" . strtolower($method->name) . "
      *";
 
     foreach ( $method->fields as $field ) {

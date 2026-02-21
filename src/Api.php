@@ -9,7 +9,7 @@
     /**
      * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
      * 
-     * @see https://core.telegram.org/bots/api#getUpdates
+     * @see https://core.telegram.org/bots/api#getupdates
      *
      * @param int|NULL $offset Identifier of the first update to be returned. Must be greater by one than the highest among the
      *                              identifiers of previously received updates. By default, updates starting with the earliest
@@ -47,7 +47,7 @@
      * you, you can specify secret data in the parameter secret_token. If specified, the request will
      * contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.
      * 
-     * @see https://core.telegram.org/bots/api#setWebhook
+     * @see https://core.telegram.org/bots/api#setwebhook
      *
      * @param string $url HTTPS URL to send updates to. Use an empty string to remove webhook integration
      * @param InputFile|NULL $certificate Upload your public key certificate so that the root certificate in use can be checked. See our
@@ -85,7 +85,7 @@
      * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns
      * True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteWebhook
+     * @see https://core.telegram.org/bots/api#deletewebhook
      *
      * @param bool|NULL $drop_pending_updates Pass True to drop all pending updates
      *
@@ -101,7 +101,7 @@
      * Use this method to get current webhook status. Requires no parameters. On success, returns a
      * WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
      * 
-     * @see https://core.telegram.org/bots/api#getWebhookInfo
+     * @see https://core.telegram.org/bots/api#getwebhookinfo
      *
      *
      * @return stdClass
@@ -114,7 +114,7 @@
      * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic
      * information about the bot in form of a User object.
      * 
-     * @see https://core.telegram.org/bots/api#getMe
+     * @see https://core.telegram.org/bots/api#getme
      *
      *
      * @return stdClass
@@ -129,7 +129,7 @@
      * updates. After a successful call, you can immediately log in on a local server, but will not be able
      * to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
      * 
-     * @see https://core.telegram.org/bots/api#logOut
+     * @see https://core.telegram.org/bots/api#logout
      *
      *
      * @return stdClass
@@ -156,7 +156,7 @@
     /**
      * Use this method to send text messages. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendMessage
+     * @see https://core.telegram.org/bots/api#sendmessage
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -205,7 +205,7 @@
      * Use this method to forward messages of any kind. Service messages and messages with protected
      * content can't be forwarded. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#forwardMessage
+     * @see https://core.telegram.org/bots/api#forwardmessage
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
@@ -243,7 +243,7 @@
      * forwarded. Album grouping is kept for forwarded messages. On success, an array of MessageId of the
      * sent messages is returned.
      * 
-     * @see https://core.telegram.org/bots/api#forwardMessages
+     * @see https://core.telegram.org/bots/api#forwardmessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
@@ -275,7 +275,7 @@
      * method forwardMessage, but the copied message doesn't have a link to the original message. Returns
      * the MessageId of the sent message on success.
      * 
-     * @see https://core.telegram.org/bots/api#copyMessage
+     * @see https://core.telegram.org/bots/api#copymessage
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
@@ -334,7 +334,7 @@
      * but the copied messages don't have a link to the original message. Album grouping is kept for copied
      * messages. On success, an array of MessageId of the sent messages is returned.
      * 
-     * @see https://core.telegram.org/bots/api#copyMessages
+     * @see https://core.telegram.org/bots/api#copymessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
@@ -364,7 +364,7 @@
     /**
      * Use this method to send photos. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendPhoto
+     * @see https://core.telegram.org/bots/api#sendphoto
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -424,7 +424,7 @@
      * future.
      * For sending voice messages, use the sendVoice method instead.
      * 
-     * @see https://core.telegram.org/bots/api#sendAudio
+     * @see https://core.telegram.org/bots/api#sendaudio
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -488,7 +488,7 @@
      * Use this method to send general files. On success, the sent Message is returned. Bots can currently
      * send files of any type of up to 50 MB in size, this limit may be changed in the future.
      * 
-     * @see https://core.telegram.org/bots/api#sendDocument
+     * @see https://core.telegram.org/bots/api#senddocument
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -550,7 +550,7 @@
      * sent as Document). On success, the sent Message is returned. Bots can currently send video files of
      * up to 50 MB in size, this limit may be changed in the future.
      * 
-     * @see https://core.telegram.org/bots/api#sendVideo
+     * @see https://core.telegram.org/bots/api#sendvideo
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -628,7 +628,7 @@
      * the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this
      * limit may be changed in the future.
      * 
-     * @see https://core.telegram.org/bots/api#sendAnimation
+     * @see https://core.telegram.org/bots/api#sendanimation
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -700,7 +700,7 @@
      * Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may
      * be changed in the future.
      * 
-     * @see https://core.telegram.org/bots/api#sendVoice
+     * @see https://core.telegram.org/bots/api#sendvoice
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -753,7 +753,7 @@
      * As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this
      * method to send video messages. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendVideoNote
+     * @see https://core.telegram.org/bots/api#sendvideonote
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -807,7 +807,7 @@
     /**
      * Use this method to send paid media. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendPaidMedia
+     * @see https://core.telegram.org/bots/api#sendpaidmedia
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
@@ -863,7 +863,7 @@
      * audio files can be only grouped in an album with messages of the same type. On success, an array of
      * Message objects that were sent is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendMediaGroup
+     * @see https://core.telegram.org/bots/api#sendmediagroup
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -897,7 +897,7 @@
     /**
      * Use this method to send point on the map. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendLocation
+     * @see https://core.telegram.org/bots/api#sendlocation
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -950,7 +950,7 @@
     /**
      * Use this method to send information about a venue. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendVenue
+     * @see https://core.telegram.org/bots/api#sendvenue
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1003,7 +1003,7 @@
     /**
      * Use this method to send phone contacts. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendContact
+     * @see https://core.telegram.org/bots/api#sendcontact
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1049,7 +1049,7 @@
     /**
      * Use this method to send a native poll. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendPoll
+     * @see https://core.telegram.org/bots/api#sendpoll
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
@@ -1116,7 +1116,7 @@
      * Use this method to send a checklist on behalf of a connected business account. On success, the sent
      * Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendChecklist
+     * @see https://core.telegram.org/bots/api#sendchecklist
      *
      * @param string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int $chat_id Unique identifier for the target chat
@@ -1143,7 +1143,7 @@
      * Use this method to send an animated emoji that will display a random value. On success, the sent
      * Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendDice
+     * @see https://core.telegram.org/bots/api#senddice
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1189,7 +1189,7 @@
      * Use this method to stream a partial message to a user while the message is being generated;
      * supported only for bots with forum topic mode enabled. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#sendMessageDraft
+     * @see https://core.telegram.org/bots/api#sendmessagedraft
      *
      * @param int $chat_id Unique identifier for the target private chat
      * @param int|NULL $message_thread_id Unique identifier for the target message thread
@@ -1217,7 +1217,7 @@
      * We only recommend using this method when a
      * response from the bot will take a noticeable amount of time to arrive.
      * 
-     * @see https://core.telegram.org/bots/api#sendChatAction
+     * @see https://core.telegram.org/bots/api#sendchataction
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the action will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
@@ -1243,7 +1243,7 @@
      * reacted to. Automatically forwarded messages from a channel to its discussion group have the same
      * available reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setMessageReaction
+     * @see https://core.telegram.org/bots/api#setmessagereaction
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $message_id Identifier of the target message. If the message belongs to a media group, the reaction is set to
@@ -1266,7 +1266,7 @@
     /**
      * Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
      * 
-     * @see https://core.telegram.org/bots/api#getUserProfilePhotos
+     * @see https://core.telegram.org/bots/api#getuserprofilephotos
      *
      * @param int $user_id Unique identifier of the target user
      * @param int|NULL $offset Sequential number of the first photo to be returned. By default, all photos are returned.
@@ -1282,10 +1282,28 @@
     }
 
     /**
+     * Use this method to get a list of profile audios for a user. Returns a UserProfileAudios object.
+     * 
+     * @see https://core.telegram.org/bots/api#getuserprofileaudios
+     *
+     * @param int $user_id Unique identifier of the target user
+     * @param int|NULL $offset Sequential number of the first audio to be returned. By default, all audios are returned.
+     * @param int|NULL $limit Limits the number of audios to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+     *
+     * @return stdClass
+     */
+    public function getUserProfileAudios ( int $user_id, ?int $offset = NULL, ?int $limit = NULL ) : stdClass {
+      $args = [ 'user_id' => $user_id ]; 
+      if ( $offset !== NULL ) $args['offset'] = $offset;
+      if ( $limit !== NULL ) $args['limit'] = $limit;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
      * Changes the emoji status for a given user that previously allowed the bot to manage their emoji
      * status via the Mini App method requestEmojiStatusAccess. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setUserEmojiStatus
+     * @see https://core.telegram.org/bots/api#setuseremojistatus
      *
      * @param int $user_id Unique identifier of the target user
      * @param string|NULL $emoji_status_custom_emoji_id Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
@@ -1307,7 +1325,7 @@
      * <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1
      * hour. When the link expires, a new one can be requested by calling getFile again.
      * 
-     * @see https://core.telegram.org/bots/api#getFile
+     * @see https://core.telegram.org/bots/api#getfile
      *
      * @param string $file_id File identifier to get information about
      *
@@ -1323,7 +1341,7 @@
      * unless unbanned first. The bot must be an administrator in the chat for this to work and must have
      * the appropriate administrator rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#banChatMember
+     * @see https://core.telegram.org/bots/api#banchatmember
      *
      * @param int|string $chat_id Unique identifier for the target group or username of the target supergroup or channel (in the
      *                              format @channelusername)
@@ -1352,7 +1370,7 @@
      * chat they will also be removed from the chat. If you don't want this, use the parameter
      * only_if_banned. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unbanChatMember
+     * @see https://core.telegram.org/bots/api#unbanchatmember
      *
      * @param int|string $chat_id Unique identifier for the target group or username of the target supergroup or channel (in the
      *                              format @channelusername)
@@ -1372,7 +1390,7 @@
      * supergroup for this to work and must have the appropriate administrator rights. Pass True for all
      * permissions to lift restrictions from a user. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#restrictChatMember
+     * @see https://core.telegram.org/bots/api#restrictchatmember
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $user_id Unique identifier of the target user
@@ -1398,7 +1416,7 @@
      * administrator in the chat for this to work and must have the appropriate administrator rights. Pass
      * False for all boolean parameters to demote a user. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#promoteChatMember
+     * @see https://core.telegram.org/bots/api#promotechatmember
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $user_id Unique identifier of the target user
@@ -1454,7 +1472,7 @@
      * Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatAdministratorCustomTitle
+     * @see https://core.telegram.org/bots/api#setchatadministratorcustomtitle
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $user_id Unique identifier of the target user
@@ -1472,7 +1490,7 @@
      * must be an administrator in the supergroup or channel for this to work and must have the appropriate
      * administrator rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#banChatSenderChat
+     * @see https://core.telegram.org/bots/api#banchatsenderchat
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $sender_chat_id Unique identifier of the target sender chat
@@ -1488,7 +1506,7 @@
      * be an administrator for this to work and must have the appropriate administrator rights. Returns
      * True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unbanChatSenderChat
+     * @see https://core.telegram.org/bots/api#unbanchatsenderchat
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $sender_chat_id Unique identifier of the target sender chat
@@ -1504,7 +1522,7 @@
      * the group or a supergroup for this to work and must have the can_restrict_members administrator
      * rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatPermissions
+     * @see https://core.telegram.org/bots/api#setchatpermissions
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param ChatPermissions $permissions A JSON-serialized object for new default chat permissions
@@ -1526,7 +1544,7 @@
      * link is revoked. The bot must be an administrator in the chat for this to work and must have the
      * appropriate administrator rights. Returns the new invite link as String on success.
      * 
-     * @see https://core.telegram.org/bots/api#exportChatInviteLink
+     * @see https://core.telegram.org/bots/api#exportchatinvitelink
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *
@@ -1541,7 +1559,7 @@
      * the chat for this to work and must have the appropriate administrator rights. The link can be
      * revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
      * 
-     * @see https://core.telegram.org/bots/api#createChatInviteLink
+     * @see https://core.telegram.org/bots/api#createchatinvitelink
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string|NULL $name Invite link name; 0-32 characters
@@ -1567,7 +1585,7 @@
      * administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns the edited invite link as a ChatInviteLink object.
      * 
-     * @see https://core.telegram.org/bots/api#editChatInviteLink
+     * @see https://core.telegram.org/bots/api#editchatinvitelink
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string $invite_link The invite link to edit
@@ -1595,7 +1613,7 @@
      * editChatSubscriptionInviteLink or revoked using the method revokeChatInviteLink. Returns the new
      * invite link as a ChatInviteLink object.
      * 
-     * @see https://core.telegram.org/bots/api#createChatSubscriptionInviteLink
+     * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
      *
      * @param int|string $chat_id Unique identifier for the target channel chat or username of the target channel (in the format @channelusername)
      * @param string|NULL $name Invite link name; 0-32 characters
@@ -1616,7 +1634,7 @@
      * Use this method to edit a subscription invite link created by the bot. The bot must have the
      * can_invite_users administrator rights. Returns the edited invite link as a ChatInviteLink object.
      * 
-     * @see https://core.telegram.org/bots/api#editChatSubscriptionInviteLink
+     * @see https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string $invite_link The invite link to edit
@@ -1635,7 +1653,7 @@
      * link is automatically generated. The bot must be an administrator in the chat for this to work and
      * must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
      * 
-     * @see https://core.telegram.org/bots/api#revokeChatInviteLink
+     * @see https://core.telegram.org/bots/api#revokechatinvitelink
      *
      * @param int|string $chat_id Unique identifier of the target chat or username of the target channel (in the format @channelusername)
      * @param string $invite_link The invite link to revoke
@@ -1650,7 +1668,7 @@
      * Use this method to approve a chat join request. The bot must be an administrator in the chat for
      * this to work and must have the can_invite_users administrator right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#approveChatJoinRequest
+     * @see https://core.telegram.org/bots/api#approvechatjoinrequest
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $user_id Unique identifier of the target user
@@ -1665,7 +1683,7 @@
      * Use this method to decline a chat join request. The bot must be an administrator in the chat for
      * this to work and must have the can_invite_users administrator right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#declineChatJoinRequest
+     * @see https://core.telegram.org/bots/api#declinechatjoinrequest
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $user_id Unique identifier of the target user
@@ -1681,7 +1699,7 @@
      * The bot must be an administrator in the chat for this to work and must have the appropriate
      * administrator rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatPhoto
+     * @see https://core.telegram.org/bots/api#setchatphoto
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param InputFile $photo New chat photo, uploaded using multipart/form-data
@@ -1697,7 +1715,7 @@
      * an administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteChatPhoto
+     * @see https://core.telegram.org/bots/api#deletechatphoto
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *
@@ -1712,7 +1730,7 @@
      * must be an administrator in the chat for this to work and must have the appropriate administrator
      * rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatTitle
+     * @see https://core.telegram.org/bots/api#setchattitle
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string $title New chat title, 1-128 characters
@@ -1728,7 +1746,7 @@
      * administrator in the chat for this to work and must have the appropriate administrator rights.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatDescription
+     * @see https://core.telegram.org/bots/api#setchatdescription
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param string|NULL $description New chat description, 0-255 characters
@@ -1747,7 +1765,7 @@
      * an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to pin messages
      * in groups and channels respectively. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#pinChatMessage
+     * @see https://core.telegram.org/bots/api#pinchatmessage
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be pinned
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1770,7 +1788,7 @@
      * administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin messages
      * in groups and channels respectively. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unpinChatMessage
+     * @see https://core.telegram.org/bots/api#unpinchatmessage
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be unpinned
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -1792,7 +1810,7 @@
      * must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin
      * all pinned messages in groups and channels respectively. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unpinAllChatMessages
+     * @see https://core.telegram.org/bots/api#unpinallchatmessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *
@@ -1805,7 +1823,7 @@
     /**
      * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#leaveChat
+     * @see https://core.telegram.org/bots/api#leavechat
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup or channel (in the format
      *                              @channelusername). Channel direct messages chats aren't supported; leave the corresponding channel instead.
@@ -1819,7 +1837,7 @@
     /**
      * Use this method to get up-to-date information about the chat. Returns a ChatFullInfo object on success.
      * 
-     * @see https://core.telegram.org/bots/api#getChat
+     * @see https://core.telegram.org/bots/api#getchat
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup or channel (in the format
      *                              @channelusername)
@@ -1834,7 +1852,7 @@
      * Use this method to get a list of administrators in a chat, which aren't bots. Returns an Array of
      * ChatMember objects.
      * 
-     * @see https://core.telegram.org/bots/api#getChatAdministrators
+     * @see https://core.telegram.org/bots/api#getchatadministrators
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup or channel (in the format
      *                              @channelusername)
@@ -1848,7 +1866,7 @@
     /**
      * Use this method to get the number of members in a chat. Returns Int on success.
      * 
-     * @see https://core.telegram.org/bots/api#getChatMemberCount
+     * @see https://core.telegram.org/bots/api#getchatmembercount
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup or channel (in the format
      *                              @channelusername)
@@ -1863,7 +1881,7 @@
      * Use this method to get information about a member of a chat. The method is only guaranteed to work
      * for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
      * 
-     * @see https://core.telegram.org/bots/api#getChatMember
+     * @see https://core.telegram.org/bots/api#getchatmember
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup or channel (in the format
      *                              @channelusername)
@@ -1881,7 +1899,7 @@
      * can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatStickerSet
+     * @see https://core.telegram.org/bots/api#setchatstickerset
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param string $sticker_set_name Name of the sticker set to be set as the group sticker set
@@ -1898,7 +1916,7 @@
      * can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteChatStickerSet
+     * @see https://core.telegram.org/bots/api#deletechatstickerset
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      *
@@ -1912,7 +1930,7 @@
      * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user.
      * Requires no parameters. Returns an Array of Sticker objects.
      * 
-     * @see https://core.telegram.org/bots/api#getForumTopicIconStickers
+     * @see https://core.telegram.org/bots/api#getforumtopiciconstickers
      *
      *
      * @return stdClass
@@ -1922,11 +1940,12 @@
     }
 
     /**
-     * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in
-     * the chat for this to work and must have the can_manage_topics administrator rights. Returns
-     * information about the created topic as a ForumTopic object.
+     * Use this method to create a topic in a forum supergroup chat or a private chat with a user. In the
+     * case of a supergroup chat the bot must be an administrator in the chat for this to work and must
+     * have the can_manage_topics administrator right. Returns information about the created topic as a
+     * ForumTopic object.
      * 
-     * @see https://core.telegram.org/bots/api#createForumTopic
+     * @see https://core.telegram.org/bots/api#createforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param string $name Topic name, 1-128 characters
@@ -1950,7 +1969,7 @@
      * and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#editForumTopic
+     * @see https://core.telegram.org/bots/api#editforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $message_thread_id Unique identifier for the target message thread of the forum topic
@@ -1973,7 +1992,7 @@
      * in the chat for this to work and must have the can_manage_topics administrator rights, unless it is
      * the creator of the topic. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#closeForumTopic
+     * @see https://core.telegram.org/bots/api#closeforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $message_thread_id Unique identifier for the target message thread of the forum topic
@@ -1989,7 +2008,7 @@
      * administrator in the chat for this to work and must have the can_manage_topics administrator rights,
      * unless it is the creator of the topic. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#reopenForumTopic
+     * @see https://core.telegram.org/bots/api#reopenforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $message_thread_id Unique identifier for the target message thread of the forum topic
@@ -2005,7 +2024,7 @@
      * private chat with a user. In the case of a supergroup chat the bot must be an administrator in the
      * chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteForumTopic
+     * @see https://core.telegram.org/bots/api#deleteforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $message_thread_id Unique identifier for the target message thread of the forum topic
@@ -2022,7 +2041,7 @@
      * chat for this to work and must have the can_pin_messages administrator right in the supergroup.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unpinAllForumTopicMessages
+     * @see https://core.telegram.org/bots/api#unpinallforumtopicmessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param int $message_thread_id Unique identifier for the target message thread of the forum topic
@@ -2038,7 +2057,7 @@
      * an administrator in the chat for this to work and must have the can_manage_topics administrator
      * rights. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#editGeneralForumTopic
+     * @see https://core.telegram.org/bots/api#editgeneralforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      * @param string $name New topic name, 1-128 characters
@@ -2054,7 +2073,7 @@
      * administrator in the chat for this to work and must have the can_manage_topics administrator rights.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#closeGeneralForumTopic
+     * @see https://core.telegram.org/bots/api#closegeneralforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      *
@@ -2069,7 +2088,7 @@
      * administrator in the chat for this to work and must have the can_manage_topics administrator rights.
      * The topic will be automatically unhidden if it was hidden. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#reopenGeneralForumTopic
+     * @see https://core.telegram.org/bots/api#reopengeneralforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      *
@@ -2084,7 +2103,7 @@
      * administrator in the chat for this to work and must have the can_manage_topics administrator rights.
      * The topic will be automatically closed if it was open. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#hideGeneralForumTopic
+     * @see https://core.telegram.org/bots/api#hidegeneralforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      *
@@ -2099,7 +2118,7 @@
      * administrator in the chat for this to work and must have the can_manage_topics administrator rights.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unhideGeneralForumTopic
+     * @see https://core.telegram.org/bots/api#unhidegeneralforumtopic
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      *
@@ -2114,7 +2133,7 @@
      * administrator in the chat for this to work and must have the can_pin_messages administrator right in
      * the supergroup. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#unpinAllGeneralForumTopicMessages
+     * @see https://core.telegram.org/bots/api#unpinallgeneralforumtopicmessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
      *
@@ -2129,7 +2148,7 @@
      * displayed to the user as a notification at the top of the chat screen or as an alert. On success,
      * True is returned.
      * 
-     * @see https://core.telegram.org/bots/api#answerCallbackQuery
+     * @see https://core.telegram.org/bots/api#answercallbackquery
      *
      * @param string $callback_query_id Unique identifier for the query to be answered
      * @param string|NULL $text Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
@@ -2157,7 +2176,7 @@
      * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights
      * in the chat. Returns a UserChatBoosts object.
      * 
-     * @see https://core.telegram.org/bots/api#getUserChatBoosts
+     * @see https://core.telegram.org/bots/api#getuserchatboosts
      *
      * @param int|string $chat_id Unique identifier for the chat or username of the channel (in the format @channelusername)
      * @param int $user_id Unique identifier of the target user
@@ -2172,7 +2191,7 @@
      * Use this method to get information about the connection of the bot with a business account. Returns
      * a BusinessConnection object on success.
      * 
-     * @see https://core.telegram.org/bots/api#getBusinessConnection
+     * @see https://core.telegram.org/bots/api#getbusinessconnection
      *
      * @param string $business_connection_id Unique identifier of the business connection
      *
@@ -2186,7 +2205,7 @@
      * Use this method to change the list of the bot's commands. See this manual for more details about bot
      * commands. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setMyCommands
+     * @see https://core.telegram.org/bots/api#setmycommands
      *
      * @param BotCommand[] $commands A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100
      *                              commands can be specified.
@@ -2208,7 +2227,7 @@
      * Use this method to delete the list of the bot's commands for the given scope and user language.
      * After deletion, higher level commands will be shown to affected users. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteMyCommands
+     * @see https://core.telegram.org/bots/api#deletemycommands
      *
      * @param BotCommandScope|NULL $scope A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to
      *                              BotCommandScopeDefault.
@@ -2228,7 +2247,7 @@
      * Use this method to get the current list of the bot's commands for the given scope and user language.
      * Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
      * 
-     * @see https://core.telegram.org/bots/api#getMyCommands
+     * @see https://core.telegram.org/bots/api#getmycommands
      *
      * @param BotCommandScope|NULL $scope A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
      * @param string|NULL $language_code A two-letter ISO 639-1 language code or an empty string
@@ -2245,7 +2264,7 @@
     /**
      * Use this method to change the bot's name. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setMyName
+     * @see https://core.telegram.org/bots/api#setmyname
      *
      * @param string|NULL $name New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
      * @param string|NULL $language_code A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose
@@ -2263,7 +2282,7 @@
     /**
      * Use this method to get the current bot name for the given user language. Returns BotName on success.
      * 
-     * @see https://core.telegram.org/bots/api#getMyName
+     * @see https://core.telegram.org/bots/api#getmyname
      *
      * @param string|NULL $language_code A two-letter ISO 639-1 language code or an empty string
      *
@@ -2279,7 +2298,7 @@
      * Use this method to change the bot's description, which is shown in the chat with the bot if the chat
      * is empty. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setMyDescription
+     * @see https://core.telegram.org/bots/api#setmydescription
      *
      * @param string|NULL $description New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for
      *                              the given language.
@@ -2299,7 +2318,7 @@
      * Use this method to get the current bot description for the given user language. Returns
      * BotDescription on success.
      * 
-     * @see https://core.telegram.org/bots/api#getMyDescription
+     * @see https://core.telegram.org/bots/api#getmydescription
      *
      * @param string|NULL $language_code A two-letter ISO 639-1 language code or an empty string
      *
@@ -2315,7 +2334,7 @@
      * Use this method to change the bot's short description, which is shown on the bot's profile page and
      * is sent together with the link when users share the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setMyShortDescription
+     * @see https://core.telegram.org/bots/api#setmyshortdescription
      *
      * @param string|NULL $short_description New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated
      *                              short description for the given language.
@@ -2335,7 +2354,7 @@
      * Use this method to get the current bot short description for the given user language. Returns
      * BotShortDescription on success.
      * 
-     * @see https://core.telegram.org/bots/api#getMyShortDescription
+     * @see https://core.telegram.org/bots/api#getmyshortdescription
      *
      * @param string|NULL $language_code A two-letter ISO 639-1 language code or an empty string
      *
@@ -2348,10 +2367,35 @@
     }
 
     /**
+     * Changes the profile photo of the bot. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#setmyprofilephoto
+     *
+     * @param InputProfilePhoto $photo The new profile photo to set
+     *
+     * @return stdClass
+     */
+    public function setMyProfilePhoto ( array $photo ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'photo' => json_encode( $photo ) ] );
+    }
+
+    /**
+     * Removes the profile photo of the bot. Requires no parameters. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#removemyprofilephoto
+     *
+     *
+     * @return stdClass
+     */
+    public function removeMyProfilePhoto ( ) : stdClass {
+      return $this->Request( __FUNCTION__, [] );
+    }
+
+    /**
      * Use this method to change the bot's menu button in a private chat, or the default menu button.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setChatMenuButton
+     * @see https://core.telegram.org/bots/api#setchatmenubutton
      *
      * @param int|NULL $chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
      * @param MenuButton|NULL $menu_button A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
@@ -2369,7 +2413,7 @@
      * Use this method to get the current value of the bot's menu button in a private chat, or the default
      * menu button. Returns MenuButton on success.
      * 
-     * @see https://core.telegram.org/bots/api#getChatMenuButton
+     * @see https://core.telegram.org/bots/api#getchatmenubutton
      *
      * @param int|NULL $chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
      *
@@ -2386,7 +2430,7 @@
      * an administrator to groups or channels. These rights will be suggested to users, but they are free
      * to modify the list before adding the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setMyDefaultAdministratorRights
+     * @see https://core.telegram.org/bots/api#setmydefaultadministratorrights
      *
      * @param ChatAdministratorRights|NULL $rights A JSON-serialized object describing new default administrator rights. If not specified, the default
      *                              administrator rights will be cleared.
@@ -2406,7 +2450,7 @@
      * Use this method to get the current default administrator rights of the bot. Returns
      * ChatAdministratorRights on success.
      * 
-     * @see https://core.telegram.org/bots/api#getMyDefaultAdministratorRights
+     * @see https://core.telegram.org/bots/api#getmydefaultadministratorrights
      *
      * @param bool|NULL $for_channels Pass True to get default administrator rights of the bot in channels. Otherwise, default
      *                              administrator rights of the bot for groups and supergroups will be returned.
@@ -2423,7 +2467,7 @@
      * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no
      * parameters. Returns a Gifts object.
      * 
-     * @see https://core.telegram.org/bots/api#getAvailableGifts
+     * @see https://core.telegram.org/bots/api#getavailablegifts
      *
      *
      * @return stdClass
@@ -2436,7 +2480,7 @@
      * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the
      * receiver. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#sendGift
+     * @see https://core.telegram.org/bots/api#sendgift
      *
      * @param int|NULL $user_id Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
      * @param int|string|NULL $chat_id Required if user_id is not specified. Unique identifier for the chat or username of the channel (in
@@ -2468,7 +2512,7 @@
     /**
      * Gifts a Telegram Premium subscription to the given user. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#giftPremiumSubscription
+     * @see https://core.telegram.org/bots/api#giftpremiumsubscription
      *
      * @param int $user_id Unique identifier of the target user who will receive a Telegram Premium subscription
      * @param int $month_count Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6,
@@ -2496,7 +2540,7 @@
     /**
      * Verifies a user on behalf of the organization which is represented by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#verifyUser
+     * @see https://core.telegram.org/bots/api#verifyuser
      *
      * @param int $user_id Unique identifier of the target user
      * @param string|NULL $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
@@ -2513,7 +2557,7 @@
     /**
      * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#verifyChat
+     * @see https://core.telegram.org/bots/api#verifychat
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                              @channelusername). Channel direct messages chats can't be verified.
@@ -2532,7 +2576,7 @@
      * Removes verification from a user who is currently verified on behalf of the organization represented
      * by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#removeUserVerification
+     * @see https://core.telegram.org/bots/api#removeuserverification
      *
      * @param int $user_id Unique identifier of the target user
      *
@@ -2546,7 +2590,7 @@
      * Removes verification from a chat that is currently verified on behalf of the organization
      * represented by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#removeChatVerification
+     * @see https://core.telegram.org/bots/api#removechatverification
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      *
@@ -2560,7 +2604,7 @@
      * Marks incoming message as read on behalf of a business account. Requires the can_read_messages
      * business bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#readBusinessMessage
+     * @see https://core.telegram.org/bots/api#readbusinessmessage
      *
      * @param string $business_connection_id Unique identifier of the business connection on behalf of which to read the message
      * @param int $chat_id Unique identifier of the chat in which the message was received. The chat must have been active in
@@ -2578,7 +2622,7 @@
      * right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right
      * to delete any message. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteBusinessMessages
+     * @see https://core.telegram.org/bots/api#deletebusinessmessages
      *
      * @param string $business_connection_id Unique identifier of the business connection on behalf of which to delete the messages
      * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. All messages must be from the
@@ -2594,7 +2638,7 @@
      * Changes the first and last name of a managed business account. Requires the can_change_name business
      * bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setBusinessAccountName
+     * @see https://core.telegram.org/bots/api#setbusinessaccountname
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param string $first_name The new value of the first name for the business account; 1-64 characters
@@ -2612,7 +2656,7 @@
      * Changes the username of a managed business account. Requires the can_change_username business bot
      * right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setBusinessAccountUsername
+     * @see https://core.telegram.org/bots/api#setbusinessaccountusername
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param string|NULL $username The new value of the username for the business account; 0-32 characters
@@ -2629,7 +2673,7 @@
      * Changes the bio of a managed business account. Requires the can_change_bio business bot right.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setBusinessAccountBio
+     * @see https://core.telegram.org/bots/api#setbusinessaccountbio
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param string|NULL $bio The new value of the bio for the business account; 0-140 characters
@@ -2646,7 +2690,7 @@
      * Changes the profile photo of a managed business account. Requires the can_edit_profile_photo
      * business bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setBusinessAccountProfilePhoto
+     * @see https://core.telegram.org/bots/api#setbusinessaccountprofilephoto
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param InputProfilePhoto $photo The new profile photo to set
@@ -2665,7 +2709,7 @@
      * Removes the current profile photo of a managed business account. Requires the can_edit_profile_photo
      * business bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#removeBusinessAccountProfilePhoto
+     * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param bool|NULL $is_public Pass True to remove the public photo, which is visible even if the main photo is hidden by the
@@ -2684,7 +2728,7 @@
      * Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires
      * the can_change_gift_settings business bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setBusinessAccountGiftSettings
+     * @see https://core.telegram.org/bots/api#setbusinessaccountgiftsettings
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param bool $show_gift_button Pass True, if a button for sending a gift to the user or by the business account must always be
@@ -2701,7 +2745,7 @@
      * Returns the amount of Telegram Stars owned by a managed business account. Requires the
      * can_view_gifts_and_stars business bot right. Returns StarAmount on success.
      * 
-     * @see https://core.telegram.org/bots/api#getBusinessAccountStarBalance
+     * @see https://core.telegram.org/bots/api#getbusinessaccountstarbalance
      *
      * @param string $business_connection_id Unique identifier of the business connection
      *
@@ -2715,7 +2759,7 @@
      * Transfers Telegram Stars from the business account balance to the bot's balance. Requires the
      * can_transfer_stars business bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#transferBusinessAccountStars
+     * @see https://core.telegram.org/bots/api#transferbusinessaccountstars
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param int $star_count Number of Telegram Stars to transfer; 1-10000
@@ -2730,7 +2774,7 @@
      * Returns the gifts received and owned by a managed business account. Requires the
      * can_view_gifts_and_stars business bot right. Returns OwnedGifts on success.
      * 
-     * @see https://core.telegram.org/bots/api#getBusinessAccountGifts
+     * @see https://core.telegram.org/bots/api#getbusinessaccountgifts
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param bool|NULL $exclude_unsaved Pass True to exclude gifts that aren't saved to the account's profile page
@@ -2766,7 +2810,7 @@
     /**
      * Returns the gifts owned and hosted by a user. Returns OwnedGifts on success.
      * 
-     * @see https://core.telegram.org/bots/api#getUserGifts
+     * @see https://core.telegram.org/bots/api#getusergifts
      *
      * @param int $user_id Unique identifier of the user
      * @param bool|NULL $exclude_unlimited Pass True to exclude gifts that can be purchased an unlimited number of times
@@ -2798,7 +2842,7 @@
     /**
      * Returns the gifts owned by a chat. Returns OwnedGifts on success.
      * 
-     * @see https://core.telegram.org/bots/api#getChatGifts
+     * @see https://core.telegram.org/bots/api#getchatgifts
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param bool|NULL $exclude_unsaved Pass True to exclude gifts that aren't saved to the chat's profile page. Always True, unless the bot
@@ -2837,7 +2881,7 @@
      * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business
      * bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#convertGiftToStars
+     * @see https://core.telegram.org/bots/api#convertgifttostars
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param string $owned_gift_id Unique identifier of the regular gift that should be converted to Telegram Stars
@@ -2853,7 +2897,7 @@
      * bot right. Additionally requires the can_transfer_stars business bot right if the upgrade is paid.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#upgradeGift
+     * @see https://core.telegram.org/bots/api#upgradegift
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param string $owned_gift_id Unique identifier of the regular gift that should be upgraded to a unique one
@@ -2875,7 +2919,7 @@
      * Transfers an owned unique gift to another user. Requires the can_transfer_and_upgrade_gifts business
      * bot right. Requires can_transfer_stars business bot right if the transfer is paid. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#transferGift
+     * @see https://core.telegram.org/bots/api#transfergift
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param string $owned_gift_id Unique identifier of the regular gift that should be transferred
@@ -2895,7 +2939,7 @@
      * Posts a story on behalf of a managed business account. Requires the can_manage_stories business bot
      * right. Returns Story on success.
      * 
-     * @see https://core.telegram.org/bots/api#postStory
+     * @see https://core.telegram.org/bots/api#poststory
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param InputStoryContent $content Content of the story
@@ -2928,7 +2972,7 @@
      * (or reposted) by the bot. Requires the can_manage_stories business bot right for both business
      * accounts. Returns Story on success.
      * 
-     * @see https://core.telegram.org/bots/api#repostStory
+     * @see https://core.telegram.org/bots/api#repoststory
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param int $from_chat_id Unique identifier of the chat which posted the story that should be reposted
@@ -2951,7 +2995,7 @@
      * Edits a story previously posted by the bot on behalf of a managed business account. Requires the
      * can_manage_stories business bot right. Returns Story on success.
      * 
-     * @see https://core.telegram.org/bots/api#editStory
+     * @see https://core.telegram.org/bots/api#editstory
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param int $story_id Unique identifier of the story to edit
@@ -2977,7 +3021,7 @@
      * Deletes a story previously posted by the bot on behalf of a managed business account. Requires the
      * can_manage_stories business bot right. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteStory
+     * @see https://core.telegram.org/bots/api#deletestory
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param int $story_id Unique identifier of the story to delete
@@ -2994,7 +3038,7 @@
      * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
      * hours from the time they were sent.
      * 
-     * @see https://core.telegram.org/bots/api#editMessageText
+     * @see https://core.telegram.org/bots/api#editmessagetext
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
@@ -3029,7 +3073,7 @@
      * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
      * hours from the time they were sent.
      * 
-     * @see https://core.telegram.org/bots/api#editMessageCaption
+     * @see https://core.telegram.org/bots/api#editmessagecaption
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
@@ -3070,7 +3114,7 @@
      * the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they
      * were sent.
      * 
-     * @see https://core.telegram.org/bots/api#editMessageMedia
+     * @see https://core.telegram.org/bots/api#editmessagemedia
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
@@ -3097,7 +3141,7 @@
      * expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the
      * edited message is not an inline message, the edited Message is returned, otherwise True is returned.
      * 
-     * @see https://core.telegram.org/bots/api#editMessageLiveLocation
+     * @see https://core.telegram.org/bots/api#editmessagelivelocation
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
@@ -3136,7 +3180,7 @@
      * Use this method to stop updating a live location message before live_period expires. On success, if
      * the message is not an inline message, the edited Message is returned, otherwise True is returned.
      * 
-     * @see https://core.telegram.org/bots/api#stopMessageLiveLocation
+     * @see https://core.telegram.org/bots/api#stopmessagelivelocation
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
@@ -3161,7 +3205,7 @@
      * Use this method to edit a checklist on behalf of a connected business account. On success, the
      * edited Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#editMessageChecklist
+     * @see https://core.telegram.org/bots/api#editmessagechecklist
      *
      * @param string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int $chat_id Unique identifier for the target chat
@@ -3183,7 +3227,7 @@
      * messages that were not sent by the bot and do not contain an inline keyboard can only be edited
      * within 48 hours from the time they were sent.
      * 
-     * @see https://core.telegram.org/bots/api#editMessageReplyMarkup
+     * @see https://core.telegram.org/bots/api#editmessagereplymarkup
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
@@ -3207,7 +3251,7 @@
     /**
      * Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
      * 
-     * @see https://core.telegram.org/bots/api#stopPoll
+     * @see https://core.telegram.org/bots/api#stoppoll
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -3227,7 +3271,7 @@
      * Use this method to approve a suggested post in a direct messages chat. The bot must have the
      * 'can_post_messages' administrator right in the corresponding channel chat. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#approveSuggestedPost
+     * @see https://core.telegram.org/bots/api#approvesuggestedpost
      *
      * @param int $chat_id Unique identifier for the target direct messages chat
      * @param int $message_id Identifier of a suggested post message to approve
@@ -3247,7 +3291,7 @@
      * Use this method to decline a suggested post in a direct messages chat. The bot must have the
      * 'can_manage_direct_messages' administrator right in the corresponding channel chat. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#declineSuggestedPost
+     * @see https://core.telegram.org/bots/api#declinesuggestedpost
      *
      * @param int $chat_id Unique identifier for the target direct messages chat
      * @param int $message_id Identifier of a suggested post message to decline
@@ -3273,7 +3317,7 @@
      * can_manage_direct_messages administrator right in a channel, it can delete any message in the
      * corresponding direct messages chat.Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteMessage
+     * @see https://core.telegram.org/bots/api#deletemessage
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int $message_id Identifier of the message to delete
@@ -3288,7 +3332,7 @@
      * Use this method to delete multiple messages simultaneously. If some of the specified messages can't
      * be found, they are skipped. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteMessages
+     * @see https://core.telegram.org/bots/api#deletemessages
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations
@@ -3304,7 +3348,7 @@
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent
      * Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendSticker
+     * @see https://core.telegram.org/bots/api#sendsticker
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -3350,7 +3394,7 @@
     /**
      * Use this method to get a sticker set. On success, a StickerSet object is returned.
      * 
-     * @see https://core.telegram.org/bots/api#getStickerSet
+     * @see https://core.telegram.org/bots/api#getstickerset
      *
      * @param string $name Name of the sticker set
      *
@@ -3364,7 +3408,7 @@
      * Use this method to get information about custom emoji stickers by their identifiers. Returns an
      * Array of Sticker objects.
      * 
-     * @see https://core.telegram.org/bots/api#getCustomEmojiStickers
+     * @see https://core.telegram.org/bots/api#getcustomemojistickers
      *
      * @param string[] $custom_emoji_ids A JSON-serialized list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
      *
@@ -3379,7 +3423,7 @@
      * addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the
      * uploaded File on success.
      * 
-     * @see https://core.telegram.org/bots/api#uploadStickerFile
+     * @see https://core.telegram.org/bots/api#uploadstickerfile
      *
      * @param int $user_id User identifier of sticker file owner
      * @param InputFile $sticker A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See
@@ -3396,7 +3440,7 @@
      * Use this method to create a new sticker set owned by a user. The bot will be able to edit the
      * sticker set thus created. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#createNewStickerSet
+     * @see https://core.telegram.org/bots/api#createnewstickerset
      *
      * @param int $user_id User identifier of created sticker set owner
      * @param string $name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only
@@ -3423,7 +3467,7 @@
      * Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to
      * 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#addStickerToSet
+     * @see https://core.telegram.org/bots/api#addstickertoset
      *
      * @param int $user_id User identifier of sticker set owner
      * @param string $name Sticker set name
@@ -3440,7 +3484,7 @@
      * Use this method to move a sticker in a set created by the bot to a specific position. Returns True
      * on success.
      * 
-     * @see https://core.telegram.org/bots/api#setStickerPositionInSet
+     * @see https://core.telegram.org/bots/api#setstickerpositioninset
      *
      * @param string $sticker File identifier of the sticker
      * @param int $position New sticker position in the set, zero-based
@@ -3454,7 +3498,7 @@
     /**
      * Use this method to delete a sticker from a set created by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteStickerFromSet
+     * @see https://core.telegram.org/bots/api#deletestickerfromset
      *
      * @param string $sticker File identifier of the sticker
      *
@@ -3469,7 +3513,7 @@
      * equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet.
      * Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#replaceStickerInSet
+     * @see https://core.telegram.org/bots/api#replacestickerinset
      *
      * @param int $user_id User identifier of the sticker set owner
      * @param string $name Sticker set name
@@ -3487,7 +3531,7 @@
      * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The
      * sticker must belong to a sticker set created by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setStickerEmojiList
+     * @see https://core.telegram.org/bots/api#setstickeremojilist
      *
      * @param string $sticker File identifier of the sticker
      * @param string[] $emoji_list A JSON-serialized list of 1-20 emoji associated with the sticker
@@ -3502,7 +3546,7 @@
      * Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker
      * must belong to a sticker set created by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setStickerKeywords
+     * @see https://core.telegram.org/bots/api#setstickerkeywords
      *
      * @param string $sticker File identifier of the sticker
      * @param string[]|NULL $keywords A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters
@@ -3519,7 +3563,7 @@
      * Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker
      * set that was created by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setStickerMaskPosition
+     * @see https://core.telegram.org/bots/api#setstickermaskposition
      *
      * @param string $sticker File identifier of the sticker
      * @param MaskPosition|NULL $mask_position A JSON-serialized object with the position where the mask should be placed on faces. Omit the
@@ -3536,7 +3580,7 @@
     /**
      * Use this method to set the title of a created sticker set. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setStickerSetTitle
+     * @see https://core.telegram.org/bots/api#setstickersettitle
      *
      * @param string $name Sticker set name
      * @param string $title Sticker set title, 1-64 characters
@@ -3551,7 +3595,7 @@
      * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail
      * file must match the format of the stickers in the set. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setStickerSetThumbnail
+     * @see https://core.telegram.org/bots/api#setstickersetthumbnail
      *
      * @param string $name Sticker set name
      * @param int $user_id User identifier of the sticker set owner
@@ -3579,7 +3623,7 @@
     /**
      * Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#setCustomEmojiStickerSetThumbnail
+     * @see https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail
      *
      * @param string $name Sticker set name
      * @param string|NULL $custom_emoji_id Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the
@@ -3596,7 +3640,7 @@
     /**
      * Use this method to delete a sticker set that was created by the bot. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#deleteStickerSet
+     * @see https://core.telegram.org/bots/api#deletestickerset
      *
      * @param string $name Sticker set name
      *
@@ -3610,7 +3654,7 @@
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50
      * results per query are allowed.
      * 
-     * @see https://core.telegram.org/bots/api#answerInlineQuery
+     * @see https://core.telegram.org/bots/api#answerinlinequery
      *
      * @param string $inline_query_id Unique identifier for the answered query
      * @param InlineQueryResult[] $results A JSON-serialized array of results for the inline query
@@ -3639,7 +3683,7 @@
      * on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage
      * object is returned.
      * 
-     * @see https://core.telegram.org/bots/api#answerWebAppQuery
+     * @see https://core.telegram.org/bots/api#answerwebappquery
      *
      * @param string $web_app_query_id Unique identifier for the query to be answered
      * @param InlineQueryResult $result A JSON-serialized object describing the message to be sent
@@ -3653,7 +3697,7 @@
     /**
      * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
      * 
-     * @see https://core.telegram.org/bots/api#savePreparedInlineMessage
+     * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
      *
      * @param int $user_id Unique identifier of the target user that can use the prepared message
      * @param InlineQueryResult $result A JSON-serialized object describing the message to be sent
@@ -3676,7 +3720,7 @@
     /**
      * Use this method to send invoices. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendInvoice
+     * @see https://core.telegram.org/bots/api#sendinvoice
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
@@ -3770,7 +3814,7 @@
     /**
      * Use this method to create a link for an invoice. Returns the created invoice link as String on success.
      * 
-     * @see https://core.telegram.org/bots/api#createInvoiceLink
+     * @see https://core.telegram.org/bots/api#createinvoicelink
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the link will be created. For
      *                              payments in Telegram Stars only.
@@ -3844,7 +3888,7 @@
      * the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to
      * shipping queries. On success, True is returned.
      * 
-     * @see https://core.telegram.org/bots/api#answerShippingQuery
+     * @see https://core.telegram.org/bots/api#answershippingquery
      *
      * @param string $shipping_query_id Unique identifier for the query to be answered
      * @param bool $ok Pass True if delivery to the specified address is possible and False if there are any problems (for
@@ -3869,7 +3913,7 @@
      * to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer
      * within 10 seconds after the pre-checkout query was sent.
      * 
-     * @see https://core.telegram.org/bots/api#answerPreCheckoutQuery
+     * @see https://core.telegram.org/bots/api#answerprecheckoutquery
      *
      * @param string $pre_checkout_query_id Unique identifier for the query to be answered
      * @param bool $ok Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed
@@ -3891,7 +3935,7 @@
      * A method to get the current Telegram Stars balance of the bot. Requires no parameters. On success,
      * returns a StarAmount object.
      * 
-     * @see https://core.telegram.org/bots/api#getMyStarBalance
+     * @see https://core.telegram.org/bots/api#getmystarbalance
      *
      *
      * @return stdClass
@@ -3904,7 +3948,7 @@
      * Returns the bot's Telegram Star transactions in chronological order. On success, returns a
      * StarTransactions object.
      * 
-     * @see https://core.telegram.org/bots/api#getStarTransactions
+     * @see https://core.telegram.org/bots/api#getstartransactions
      *
      * @param int|NULL $offset Number of transactions to skip in the response
      * @param int|NULL $limit The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.
@@ -3921,7 +3965,7 @@
     /**
      * Refunds a successful payment in Telegram Stars. Returns True on success.
      * 
-     * @see https://core.telegram.org/bots/api#refundStarPayment
+     * @see https://core.telegram.org/bots/api#refundstarpayment
      *
      * @param int $user_id Identifier of the user whose payment will be refunded
      * @param string $telegram_payment_charge_id Telegram payment identifier
@@ -3936,7 +3980,7 @@
      * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars. Returns
      * True on success.
      * 
-     * @see https://core.telegram.org/bots/api#editUserStarSubscription
+     * @see https://core.telegram.org/bots/api#edituserstarsubscription
      *
      * @param int $user_id Identifier of the user whose subscription will be edited
      * @param string $telegram_payment_charge_id Telegram payment identifier for the subscription
@@ -3960,7 +4004,7 @@
      * tampering, etc. Supply some details in the error message to make sure the user knows how to correct
      * the issues.
      * 
-     * @see https://core.telegram.org/bots/api#setPassportDataErrors
+     * @see https://core.telegram.org/bots/api#setpassportdataerrors
      *
      * @param int $user_id User identifier
      * @param PassportElementError[] $errors A JSON-serialized array describing the errors
@@ -3974,7 +4018,7 @@
     /**
      * Use this method to send a game. On success, the sent Message is returned.
      * 
-     * @see https://core.telegram.org/bots/api#sendGame
+     * @see https://core.telegram.org/bots/api#sendgame
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @param int $chat_id Unique identifier for the target chat. Games can't be sent to channel direct messages chats and
@@ -4011,7 +4055,7 @@
      * is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if
      * the new score is not greater than the user's current score in the chat and force is False.
      * 
-     * @see https://core.telegram.org/bots/api#setGameScore
+     * @see https://core.telegram.org/bots/api#setgamescore
      *
      * @param int $user_id User identifier
      * @param int $score New score, must be non-negative
@@ -4038,7 +4082,7 @@
      * Use this method to get data for high score tables. Will return the score of the specified user and
      * several of their neighbors in a game. Returns an Array of GameHighScore objects.
      * 
-     * @see https://core.telegram.org/bots/api#getGameHighScores
+     * @see https://core.telegram.org/bots/api#getgamehighscores
      *
      * @param int $user_id Target user id
      * @param int|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat

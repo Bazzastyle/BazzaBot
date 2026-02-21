@@ -9,7 +9,7 @@
      * This object represents an incoming update.At most one of the optional parameters can be present in
      * any given update.
      * 
-     * @see https://core.telegram.org/bots/api#Update
+     * @see https://core.telegram.org/bots/api#update
      *
      * @param int $update_id The update's unique identifier. Update identifiers start from a certain positive number and increase
      *                              sequentially. This identifier becomes especially handy if you're using webhooks, since it allows you
@@ -86,7 +86,7 @@
     /**
      * Describes the current status of a webhook.
      * 
-     * @see https://core.telegram.org/bots/api#WebhookInfo
+     * @see https://core.telegram.org/bots/api#webhookinfo
      *
      * @param string $url Webhook URL, may be empty if webhook is not set up
      * @param bool $has_custom_certificate True, if a custom certificate was provided for webhook certificate checks
@@ -116,7 +116,7 @@
     /**
      * This object represents a Telegram user or bot.
      * 
-     * @see https://core.telegram.org/bots/api#User
+     * @see https://core.telegram.org/bots/api#user
      *
      * @param int $id Unique identifier for this user or bot. This number may have more than 32 significant bits and some
      *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
@@ -135,10 +135,11 @@
      *                              only in getMe.
      * @param bool|NULL $has_main_web_app True, if the bot has a main Web App. Returned only in getMe.
      * @param bool|NULL $has_topics_enabled True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
+     * @param bool|NULL $allows_users_to_create_topics True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
      *
      * @return array $args
      */
-    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL ) : array {
+    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL ) : array {
       $args = [ 'id' => $id, 'is_bot' => $is_bot, 'first_name' => $first_name ]; 
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -151,13 +152,14 @@
       if ( $can_connect_to_business !== NULL ) $args['can_connect_to_business'] = $can_connect_to_business;
       if ( $has_main_web_app !== NULL ) $args['has_main_web_app'] = $has_main_web_app;
       if ( $has_topics_enabled !== NULL ) $args['has_topics_enabled'] = $has_topics_enabled;
+      if ( $allows_users_to_create_topics !== NULL ) $args['allows_users_to_create_topics'] = $allows_users_to_create_topics;
       return $args;
     }
 
     /**
      * This object represents a chat.
      * 
-     * @see https://core.telegram.org/bots/api#Chat
+     * @see https://core.telegram.org/bots/api#chat
      *
      * @param int $id Unique identifier for this chat. This number may have more than 32 significant bits and some
      *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
@@ -187,7 +189,7 @@
     /**
      * This object contains full information about a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatFullInfo
+     * @see https://core.telegram.org/bots/api#chatfullinfo
      *
      * @param int $id Unique identifier for this chat. This number may have more than 32 significant bits and some
      *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
@@ -255,13 +257,14 @@
      *                              52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
      * @param ChatLocation|NULL $location For supergroups, the location to which the supergroup is connected
      * @param UserRating|NULL $rating For private chats, the rating of the user if any
+     * @param Audio|NULL $first_profile_audio For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColors|NULL $unique_gift_colors The color scheme based on a unique gift that must be used for the chat's name, message replies and
      *                              link previews
      * @param int|NULL $paid_message_star_count The number of Telegram Stars a general user have to pay to send a message to the chat
      *
      * @return array $args
      */
-    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL, ?array $rating = NULL, ?array $unique_gift_colors = NULL, ?int $paid_message_star_count = NULL ) : array {
+    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL, ?array $rating = NULL, ?array $first_profile_audio = NULL, ?array $unique_gift_colors = NULL, ?int $paid_message_star_count = NULL ) : array {
       $args = [ 'id' => $id, 'type' => $type, 'accent_color_id' => $accent_color_id, 'max_reaction_count' => $max_reaction_count, 'accepted_gift_types' => $accepted_gift_types ]; 
       if ( $title !== NULL ) $args['title'] = $title;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -306,6 +309,7 @@
       if ( $linked_chat_id !== NULL ) $args['linked_chat_id'] = $linked_chat_id;
       if ( $location !== NULL ) $args['location'] = $location;
       if ( $rating !== NULL ) $args['rating'] = $rating;
+      if ( $first_profile_audio !== NULL ) $args['first_profile_audio'] = $first_profile_audio;
       if ( $unique_gift_colors !== NULL ) $args['unique_gift_colors'] = $unique_gift_colors;
       if ( $paid_message_star_count !== NULL ) $args['paid_message_star_count'] = $paid_message_star_count;
       return $args;
@@ -314,7 +318,7 @@
     /**
      * This object represents a message.
      * 
-     * @see https://core.telegram.org/bots/api#Message
+     * @see https://core.telegram.org/bots/api#message
      *
      * @param int $message_id Unique message identifier inside this chat. In specific instances (e.g., message containing a video
      *                              sent to a big chat), the server might automatically schedule a message instead of sending it
@@ -390,6 +394,8 @@
      * @param User[]|NULL $new_chat_members New members that were added to the group or supergroup and information about them (the bot itself
      *                              may be one of these members)
      * @param User|NULL $left_chat_member A member was removed from the group, information about them (this member may be the bot itself)
+     * @param ChatOwnerLeft|NULL $chat_owner_left Service message: chat owner has left
+     * @param ChatOwnerChanged|NULL $chat_owner_changed Service message: chat owner has changed
      * @param string|NULL $new_chat_title A chat title was changed to this value
      * @param PhotoSize[]|NULL $new_chat_photo A chat photo was change to this value
      * @param bool|NULL $delete_chat_photo Service message: the chat photo was deleted
@@ -458,7 +464,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
@@ -511,6 +517,8 @@
       if ( $location !== NULL ) $args['location'] = $location;
       if ( $new_chat_members !== NULL ) $args['new_chat_members'] = $new_chat_members;
       if ( $left_chat_member !== NULL ) $args['left_chat_member'] = $left_chat_member;
+      if ( $chat_owner_left !== NULL ) $args['chat_owner_left'] = $chat_owner_left;
+      if ( $chat_owner_changed !== NULL ) $args['chat_owner_changed'] = $chat_owner_changed;
       if ( $new_chat_title !== NULL ) $args['new_chat_title'] = $new_chat_title;
       if ( $new_chat_photo !== NULL ) $args['new_chat_photo'] = $new_chat_photo;
       if ( $delete_chat_photo !== NULL ) $args['delete_chat_photo'] = $delete_chat_photo;
@@ -566,7 +574,7 @@
     /**
      * This object represents a unique message identifier.
      * 
-     * @see https://core.telegram.org/bots/api#MessageId
+     * @see https://core.telegram.org/bots/api#messageid
      *
      * @param int $message_id Unique message identifier. In specific instances (e.g., message containing a video sent to a big
      *                              chat), the server might automatically schedule a message instead of sending it immediately. In such
@@ -581,7 +589,7 @@
     /**
      * This object describes a message that was deleted or is otherwise inaccessible to the bot.
      * 
-     * @see https://core.telegram.org/bots/api#InaccessibleMessage
+     * @see https://core.telegram.org/bots/api#inaccessiblemessage
      *
      * @param Chat $chat Chat the message belonged to
      * @param int $message_id Unique message identifier inside the chat
@@ -596,7 +604,7 @@
     /**
      * This object describes a message that can be inaccessible to the bot. It can be one of
      * 
-     * @see https://core.telegram.org/bots/api#MaybeInaccessibleMessage
+     * @see https://core.telegram.org/bots/api#maybeinaccessiblemessage
      *
      *
      * @return array $args
@@ -609,7 +617,7 @@
      * This object represents one special entity in a text message. For example, hashtags, usernames, URLs,
      * etc.
      * 
-     * @see https://core.telegram.org/bots/api#MessageEntity
+     * @see https://core.telegram.org/bots/api#messageentity
      *
      * @param string $type Type of the entity. Currently, can be “mention” (@username), “hashtag” (#hashtag or
      *                              #hashtag@chatusername), “cashtag” ($USD or $USD@chatusername), “bot_command”
@@ -642,7 +650,7 @@
     /**
      * This object contains information about the quoted part of a message that is replied to by the given message.
      * 
-     * @see https://core.telegram.org/bots/api#TextQuote
+     * @see https://core.telegram.org/bots/api#textquote
      *
      * @param string $text Text of the quoted part of a message that is replied to by the given message
      * @param MessageEntity[]|NULL $entities Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough,
@@ -664,7 +672,7 @@
      * This object contains information about a message that is being replied to, which may come from
      * another chat or forum topic.
      * 
-     * @see https://core.telegram.org/bots/api#ExternalReplyInfo
+     * @see https://core.telegram.org/bots/api#externalreplyinfo
      *
      * @param MessageOrigin $origin Origin of the message replied to by the given message
      * @param Chat|NULL $chat Chat the original message belongs to. Available only if the chat is a supergroup or a channel.
@@ -727,7 +735,7 @@
     /**
      * Describes reply parameters for the message that is being sent.
      * 
-     * @see https://core.telegram.org/bots/api#ReplyParameters
+     * @see https://core.telegram.org/bots/api#replyparameters
      *
      * @param int $message_id Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it
      *                              is specified
@@ -763,7 +771,7 @@
     /**
      * This object describes the origin of a message. It can be one of
      * 
-     * @see https://core.telegram.org/bots/api#MessageOrigin
+     * @see https://core.telegram.org/bots/api#messageorigin
      *
      *
      * @return array $args
@@ -775,7 +783,7 @@
     /**
      * The message was originally sent by a known user.
      * 
-     * @see https://core.telegram.org/bots/api#MessageOriginUser
+     * @see https://core.telegram.org/bots/api#messageoriginuser
      *
      * @param string $type Type of the message origin, always “user”
      * @param int $date Date the message was sent originally in Unix time
@@ -790,7 +798,7 @@
     /**
      * The message was originally sent by an unknown user.
      * 
-     * @see https://core.telegram.org/bots/api#MessageOriginHiddenUser
+     * @see https://core.telegram.org/bots/api#messageoriginhiddenuser
      *
      * @param string $type Type of the message origin, always “hidden_user”
      * @param int $date Date the message was sent originally in Unix time
@@ -805,7 +813,7 @@
     /**
      * The message was originally sent on behalf of a chat to a group chat.
      * 
-     * @see https://core.telegram.org/bots/api#MessageOriginChat
+     * @see https://core.telegram.org/bots/api#messageoriginchat
      *
      * @param string $type Type of the message origin, always “chat”
      * @param int $date Date the message was sent originally in Unix time
@@ -823,7 +831,7 @@
     /**
      * The message was originally sent to a channel chat.
      * 
-     * @see https://core.telegram.org/bots/api#MessageOriginChannel
+     * @see https://core.telegram.org/bots/api#messageoriginchannel
      *
      * @param string $type Type of the message origin, always “channel”
      * @param int $date Date the message was sent originally in Unix time
@@ -842,7 +850,7 @@
     /**
      * This object represents one size of a photo or a file / sticker thumbnail.
      * 
-     * @see https://core.telegram.org/bots/api#PhotoSize
+     * @see https://core.telegram.org/bots/api#photosize
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -862,7 +870,7 @@
     /**
      * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
      * 
-     * @see https://core.telegram.org/bots/api#Animation
+     * @see https://core.telegram.org/bots/api#animation
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -891,7 +899,7 @@
     /**
      * This object represents an audio file to be treated as music by the Telegram clients.
      * 
-     * @see https://core.telegram.org/bots/api#Audio
+     * @see https://core.telegram.org/bots/api#audio
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -922,7 +930,7 @@
     /**
      * This object represents a general file (as opposed to photos, voice messages and audio files).
      * 
-     * @see https://core.telegram.org/bots/api#Document
+     * @see https://core.telegram.org/bots/api#document
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -948,7 +956,7 @@
     /**
      * This object represents a story.
      * 
-     * @see https://core.telegram.org/bots/api#Story
+     * @see https://core.telegram.org/bots/api#story
      *
      * @param Chat $chat Chat that posted the story
      * @param int $id Unique identifier for the story in the chat
@@ -960,9 +968,32 @@
     }
 
     /**
+     * This object represents a video file of a specific quality.
+     * 
+     * @see https://core.telegram.org/bots/api#videoquality
+     *
+     * @param string $file_id Identifier for this file, which can be used to download or reuse the file
+     * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
+     *                              Can't be used to download or reuse the file.
+     * @param int $width Video width
+     * @param int $height Video height
+     * @param string $codec Codec that was used to encode the video, for example, “h264”, “h265”, or “av01”
+     * @param int|NULL $file_size File size in bytes. It can be bigger than 2^31 and some programming languages may have
+     *                              difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed
+     *                              64-bit integer or double-precision float type are safe for storing this value.
+     *
+     * @return array $args
+     */
+    public function VideoQuality ( string $file_id, string $file_unique_id, int $width, int $height, string $codec, ?int $file_size = NULL ) : array {
+      $args = [ 'file_id' => $file_id, 'file_unique_id' => $file_unique_id, 'width' => $width, 'height' => $height, 'codec' => $codec ]; 
+      if ( $file_size !== NULL ) $args['file_size'] = $file_size;
+      return $args;
+    }
+
+    /**
      * This object represents a video file.
      * 
-     * @see https://core.telegram.org/bots/api#Video
+     * @see https://core.telegram.org/bots/api#video
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -973,6 +1004,7 @@
      * @param PhotoSize|NULL $thumbnail Video thumbnail
      * @param PhotoSize[]|NULL $cover Available sizes of the cover of the video in the message
      * @param int|NULL $start_timestamp Timestamp in seconds from which the video will play in the message
+     * @param VideoQuality[]|NULL $qualities List of available qualities of the video
      * @param string|NULL $file_name Original filename as defined by the sender
      * @param string|NULL $mime_type MIME type of the file as defined by the sender
      * @param int|NULL $file_size File size in bytes. It can be bigger than 2^31 and some programming languages may have
@@ -981,11 +1013,12 @@
      *
      * @return array $args
      */
-    public function Video ( string $file_id, string $file_unique_id, int $width, int $height, int $duration, ?array $thumbnail = NULL, ?array $cover = NULL, ?int $start_timestamp = NULL, ?string $file_name = NULL, ?string $mime_type = NULL, ?int $file_size = NULL ) : array {
+    public function Video ( string $file_id, string $file_unique_id, int $width, int $height, int $duration, ?array $thumbnail = NULL, ?array $cover = NULL, ?int $start_timestamp = NULL, ?array $qualities = NULL, ?string $file_name = NULL, ?string $mime_type = NULL, ?int $file_size = NULL ) : array {
       $args = [ 'file_id' => $file_id, 'file_unique_id' => $file_unique_id, 'width' => $width, 'height' => $height, 'duration' => $duration ]; 
       if ( $thumbnail !== NULL ) $args['thumbnail'] = $thumbnail;
       if ( $cover !== NULL ) $args['cover'] = $cover;
       if ( $start_timestamp !== NULL ) $args['start_timestamp'] = $start_timestamp;
+      if ( $qualities !== NULL ) $args['qualities'] = $qualities;
       if ( $file_name !== NULL ) $args['file_name'] = $file_name;
       if ( $mime_type !== NULL ) $args['mime_type'] = $mime_type;
       if ( $file_size !== NULL ) $args['file_size'] = $file_size;
@@ -995,7 +1028,7 @@
     /**
      * This object represents a video message (available in Telegram apps as of v.4.0).
      * 
-     * @see https://core.telegram.org/bots/api#VideoNote
+     * @see https://core.telegram.org/bots/api#videonote
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -1017,7 +1050,7 @@
     /**
      * This object represents a voice note.
      * 
-     * @see https://core.telegram.org/bots/api#Voice
+     * @see https://core.telegram.org/bots/api#voice
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -1040,7 +1073,7 @@
     /**
      * Describes the paid media added to a message.
      * 
-     * @see https://core.telegram.org/bots/api#PaidMediaInfo
+     * @see https://core.telegram.org/bots/api#paidmediainfo
      *
      * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media
      * @param PaidMedia[] $paid_media Information about the paid media
@@ -1054,7 +1087,7 @@
     /**
      * This object describes paid media. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#PaidMedia
+     * @see https://core.telegram.org/bots/api#paidmedia
      *
      *
      * @return array $args
@@ -1066,7 +1099,7 @@
     /**
      * The paid media isn't available before the payment.
      * 
-     * @see https://core.telegram.org/bots/api#PaidMediaPreview
+     * @see https://core.telegram.org/bots/api#paidmediapreview
      *
      * @param string $type Type of the paid media, always “preview”
      * @param int|NULL $width Media width as defined by the sender
@@ -1086,7 +1119,7 @@
     /**
      * The paid media is a photo.
      * 
-     * @see https://core.telegram.org/bots/api#PaidMediaPhoto
+     * @see https://core.telegram.org/bots/api#paidmediaphoto
      *
      * @param string $type Type of the paid media, always “photo”
      * @param PhotoSize[] $photo The photo
@@ -1100,7 +1133,7 @@
     /**
      * The paid media is a video.
      * 
-     * @see https://core.telegram.org/bots/api#PaidMediaVideo
+     * @see https://core.telegram.org/bots/api#paidmediavideo
      *
      * @param string $type Type of the paid media, always “video”
      * @param Video $video The video
@@ -1114,7 +1147,7 @@
     /**
      * This object represents a phone contact.
      * 
-     * @see https://core.telegram.org/bots/api#Contact
+     * @see https://core.telegram.org/bots/api#contact
      *
      * @param string $phone_number Contact's phone number
      * @param string $first_name Contact's first name
@@ -1137,7 +1170,7 @@
     /**
      * This object represents an animated emoji that displays a random value.
      * 
-     * @see https://core.telegram.org/bots/api#Dice
+     * @see https://core.telegram.org/bots/api#dice
      *
      * @param string $emoji Emoji on which the dice throw animation is based
      * @param int $value Value of the dice, 1-6 for “🎲”, “🎯” and “🎳” base emoji, 1-5 for “🏀” and
@@ -1152,7 +1185,7 @@
     /**
      * This object contains information about one answer option in a poll.
      * 
-     * @see https://core.telegram.org/bots/api#PollOption
+     * @see https://core.telegram.org/bots/api#polloption
      *
      * @param string $text Option text, 1-100 characters
      * @param MessageEntity[]|NULL $text_entities Special entities that appear in the option text. Currently, only custom emoji entities are allowed
@@ -1170,7 +1203,7 @@
     /**
      * This object contains information about one answer option in a poll to be sent.
      * 
-     * @see https://core.telegram.org/bots/api#InputPollOption
+     * @see https://core.telegram.org/bots/api#inputpolloption
      *
      * @param string $text Option text, 1-100 characters
      * @param string|NULL $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Currently, only
@@ -1190,7 +1223,7 @@
     /**
      * This object represents an answer of a user in a non-anonymous poll.
      * 
-     * @see https://core.telegram.org/bots/api#PollAnswer
+     * @see https://core.telegram.org/bots/api#pollanswer
      *
      * @param string $poll_id Unique poll identifier
      * @param Chat|NULL $voter_chat The chat that changed the answer to the poll, if the voter is anonymous
@@ -1209,7 +1242,7 @@
     /**
      * This object contains information about a poll.
      * 
-     * @see https://core.telegram.org/bots/api#Poll
+     * @see https://core.telegram.org/bots/api#poll
      *
      * @param string $id Unique poll identifier
      * @param string $question Poll question, 1-300 characters
@@ -1245,7 +1278,7 @@
     /**
      * Describes a task in a checklist.
      * 
-     * @see https://core.telegram.org/bots/api#ChecklistTask
+     * @see https://core.telegram.org/bots/api#checklisttask
      *
      * @param int $id Unique identifier of the task
      * @param string $text Text of the task
@@ -1268,7 +1301,7 @@
     /**
      * Describes a checklist.
      * 
-     * @see https://core.telegram.org/bots/api#Checklist
+     * @see https://core.telegram.org/bots/api#checklist
      *
      * @param string $title Title of the checklist
      * @param MessageEntity[]|NULL $title_entities Special entities that appear in the checklist title
@@ -1289,7 +1322,7 @@
     /**
      * Describes a task to add to a checklist.
      * 
-     * @see https://core.telegram.org/bots/api#InputChecklistTask
+     * @see https://core.telegram.org/bots/api#inputchecklisttask
      *
      * @param int $id Unique identifier of the task; must be positive and unique among all task identifiers currently
      *                              present in the checklist
@@ -1310,7 +1343,7 @@
     /**
      * Describes a checklist to create.
      * 
-     * @see https://core.telegram.org/bots/api#InputChecklist
+     * @see https://core.telegram.org/bots/api#inputchecklist
      *
      * @param string $title Title of the checklist; 1-255 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the title. See formatting options for more details.
@@ -1334,7 +1367,7 @@
     /**
      * Describes a service message about checklist tasks marked as done or not done.
      * 
-     * @see https://core.telegram.org/bots/api#ChecklistTasksDone
+     * @see https://core.telegram.org/bots/api#checklisttasksdone
      *
      * @param Message|NULL $checklist_message Message containing the checklist whose tasks were marked as done or not done. Note that the Message
      *                              object in this field will not contain the reply_to_message field even if it itself is a reply.
@@ -1354,7 +1387,7 @@
     /**
      * Describes a service message about tasks added to a checklist.
      * 
-     * @see https://core.telegram.org/bots/api#ChecklistTasksAdded
+     * @see https://core.telegram.org/bots/api#checklisttasksadded
      *
      * @param Message|NULL $checklist_message Message containing the checklist to which the tasks were added. Note that the Message object in this
      *                              field will not contain the reply_to_message field even if it itself is a reply.
@@ -1371,7 +1404,7 @@
     /**
      * This object represents a point on the map.
      * 
-     * @see https://core.telegram.org/bots/api#Location
+     * @see https://core.telegram.org/bots/api#location
      *
      * @param float $latitude Latitude as defined by the sender
      * @param float $longitude Longitude as defined by the sender
@@ -1396,7 +1429,7 @@
     /**
      * This object represents a venue.
      * 
-     * @see https://core.telegram.org/bots/api#Venue
+     * @see https://core.telegram.org/bots/api#venue
      *
      * @param Location $location Venue location. Can't be a live location
      * @param string $title Name of the venue
@@ -1421,7 +1454,7 @@
     /**
      * Describes data sent from a Web App to the bot.
      * 
-     * @see https://core.telegram.org/bots/api#WebAppData
+     * @see https://core.telegram.org/bots/api#webappdata
      *
      * @param string $data The data. Be aware that a bad client can send arbitrary data in this field.
      * @param string $button_text Text of the web_app keyboard button from which the Web App was opened. Be aware that a bad client
@@ -1437,7 +1470,7 @@
      * This object represents the content of a service message, sent whenever a user in the chat triggers a
      * proximity alert set by another user.
      * 
-     * @see https://core.telegram.org/bots/api#ProximityAlertTriggered
+     * @see https://core.telegram.org/bots/api#proximityalerttriggered
      *
      * @param User $traveler User that triggered the alert
      * @param User $watcher User that set the alert
@@ -1452,7 +1485,7 @@
     /**
      * This object represents a service message about a change in auto-delete timer settings.
      * 
-     * @see https://core.telegram.org/bots/api#MessageAutoDeleteTimerChanged
+     * @see https://core.telegram.org/bots/api#messageautodeletetimerchanged
      *
      * @param int $message_auto_delete_time New auto-delete time for messages in the chat; in seconds
      *
@@ -1465,7 +1498,7 @@
     /**
      * This object represents a service message about a user boosting a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostAdded
+     * @see https://core.telegram.org/bots/api#chatboostadded
      *
      * @param int $boost_count Number of boosts added by the user
      *
@@ -1479,7 +1512,7 @@
      * This object describes the way a background is filled based on the selected colors. Currently, it can
      * be one of
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundFill
+     * @see https://core.telegram.org/bots/api#backgroundfill
      *
      *
      * @return array $args
@@ -1491,7 +1524,7 @@
     /**
      * The background is filled using the selected color.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundFillSolid
+     * @see https://core.telegram.org/bots/api#backgroundfillsolid
      *
      * @param string $type Type of the background fill, always “solid”
      * @param int $color The color of the background fill in the RGB24 format
@@ -1505,7 +1538,7 @@
     /**
      * The background is a gradient fill.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundFillGradient
+     * @see https://core.telegram.org/bots/api#backgroundfillgradient
      *
      * @param string $type Type of the background fill, always “gradient”
      * @param int $top_color Top color of the gradient in the RGB24 format
@@ -1521,7 +1554,7 @@
     /**
      * The background is a freeform gradient that rotates after every message in the chat.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundFillFreeformGradient
+     * @see https://core.telegram.org/bots/api#backgroundfillfreeformgradient
      *
      * @param string $type Type of the background fill, always “freeform_gradient”
      * @param int[] $colors A list of the 3 or 4 base colors that are used to generate the freeform gradient in the RGB24 format
@@ -1535,7 +1568,7 @@
     /**
      * This object describes the type of a background. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundType
+     * @see https://core.telegram.org/bots/api#backgroundtype
      *
      *
      * @return array $args
@@ -1547,7 +1580,7 @@
     /**
      * The background is automatically filled based on the selected colors.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundTypeFill
+     * @see https://core.telegram.org/bots/api#backgroundtypefill
      *
      * @param string $type Type of the background, always “fill”
      * @param BackgroundFill $fill The background fill
@@ -1562,7 +1595,7 @@
     /**
      * The background is a wallpaper in the JPEG format.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundTypeWallpaper
+     * @see https://core.telegram.org/bots/api#backgroundtypewallpaper
      *
      * @param string $type Type of the background, always “wallpaper”
      * @param Document $document Document with the wallpaper
@@ -1583,7 +1616,7 @@
      * The background is a .PNG or .TGV (gzipped subset of SVG with MIME type
      * “application/x-tgwallpattern”) pattern to be combined with the background fill chosen by the user.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundTypePattern
+     * @see https://core.telegram.org/bots/api#backgroundtypepattern
      *
      * @param string $type Type of the background, always “pattern”
      * @param Document $document Document with the pattern
@@ -1605,7 +1638,7 @@
     /**
      * The background is taken directly from a built-in chat theme.
      * 
-     * @see https://core.telegram.org/bots/api#BackgroundTypeChatTheme
+     * @see https://core.telegram.org/bots/api#backgroundtypechattheme
      *
      * @param string $type Type of the background, always “chat_theme”
      * @param string $theme_name Name of the chat theme, which is usually an emoji
@@ -1619,7 +1652,7 @@
     /**
      * This object represents a chat background.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBackground
+     * @see https://core.telegram.org/bots/api#chatbackground
      *
      * @param BackgroundType $type Type of the background
      *
@@ -1632,7 +1665,7 @@
     /**
      * This object represents a service message about a new forum topic created in the chat.
      * 
-     * @see https://core.telegram.org/bots/api#ForumTopicCreated
+     * @see https://core.telegram.org/bots/api#forumtopiccreated
      *
      * @param string $name Name of the topic
      * @param int $icon_color Color of the topic icon in RGB format
@@ -1652,7 +1685,7 @@
     /**
      * This object represents a service message about a forum topic closed in the chat. Currently holds no information.
      * 
-     * @see https://core.telegram.org/bots/api#ForumTopicClosed
+     * @see https://core.telegram.org/bots/api#forumtopicclosed
      *
      *
      * @return array $args
@@ -1664,7 +1697,7 @@
     /**
      * This object represents a service message about an edited forum topic.
      * 
-     * @see https://core.telegram.org/bots/api#ForumTopicEdited
+     * @see https://core.telegram.org/bots/api#forumtopicedited
      *
      * @param string|NULL $name New name of the topic, if it was edited
      * @param string|NULL $icon_custom_emoji_id New identifier of the custom emoji shown as the topic icon, if it was edited; an empty string if the
@@ -1683,7 +1716,7 @@
      * This object represents a service message about a forum topic reopened in the chat. Currently holds
      * no information.
      * 
-     * @see https://core.telegram.org/bots/api#ForumTopicReopened
+     * @see https://core.telegram.org/bots/api#forumtopicreopened
      *
      *
      * @return array $args
@@ -1696,7 +1729,7 @@
      * This object represents a service message about General forum topic hidden in the chat. Currently
      * holds no information.
      * 
-     * @see https://core.telegram.org/bots/api#GeneralForumTopicHidden
+     * @see https://core.telegram.org/bots/api#generalforumtopichidden
      *
      *
      * @return array $args
@@ -1709,7 +1742,7 @@
      * This object represents a service message about General forum topic unhidden in the chat. Currently
      * holds no information.
      * 
-     * @see https://core.telegram.org/bots/api#GeneralForumTopicUnhidden
+     * @see https://core.telegram.org/bots/api#generalforumtopicunhidden
      *
      *
      * @return array $args
@@ -1722,7 +1755,7 @@
      * This object contains information about a user that was shared with the bot using a
      * KeyboardButtonRequestUsers button.
      * 
-     * @see https://core.telegram.org/bots/api#SharedUser
+     * @see https://core.telegram.org/bots/api#shareduser
      *
      * @param int $user_id Identifier of the shared user. This number may have more than 32 significant bits and some
      *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
@@ -1749,7 +1782,7 @@
      * This object contains information about the users whose identifiers were shared with the bot using a
      * KeyboardButtonRequestUsers button.
      * 
-     * @see https://core.telegram.org/bots/api#UsersShared
+     * @see https://core.telegram.org/bots/api#usersshared
      *
      * @param int $request_id Identifier of the request
      * @param SharedUser[] $users Information about users shared with the bot.
@@ -1764,7 +1797,7 @@
      * This object contains information about a chat that was shared with the bot using a
      * KeyboardButtonRequestChat button.
      * 
-     * @see https://core.telegram.org/bots/api#ChatShared
+     * @see https://core.telegram.org/bots/api#chatshared
      *
      * @param int $request_id Identifier of the request
      * @param int $chat_id Identifier of the shared chat. This number may have more than 32 significant bits and some
@@ -1791,7 +1824,7 @@
      * it to the attachment menu, launching a Web App from a link, or accepting an explicit request from a
      * Web App sent by the method requestWriteAccess.
      * 
-     * @see https://core.telegram.org/bots/api#WriteAccessAllowed
+     * @see https://core.telegram.org/bots/api#writeaccessallowed
      *
      * @param bool|NULL $from_request True, if the access was granted after the user accepted an explicit request from a Web App sent by
      *                              the method requestWriteAccess
@@ -1811,7 +1844,7 @@
     /**
      * This object represents a service message about a video chat scheduled in the chat.
      * 
-     * @see https://core.telegram.org/bots/api#VideoChatScheduled
+     * @see https://core.telegram.org/bots/api#videochatscheduled
      *
      * @param int $start_date Point in time (Unix timestamp) when the video chat is supposed to be started by a chat administrator
      *
@@ -1824,7 +1857,7 @@
     /**
      * This object represents a service message about a video chat started in the chat. Currently holds no information.
      * 
-     * @see https://core.telegram.org/bots/api#VideoChatStarted
+     * @see https://core.telegram.org/bots/api#videochatstarted
      *
      *
      * @return array $args
@@ -1836,7 +1869,7 @@
     /**
      * This object represents a service message about a video chat ended in the chat.
      * 
-     * @see https://core.telegram.org/bots/api#VideoChatEnded
+     * @see https://core.telegram.org/bots/api#videochatended
      *
      * @param int $duration Video chat duration in seconds
      *
@@ -1849,7 +1882,7 @@
     /**
      * This object represents a service message about new members invited to a video chat.
      * 
-     * @see https://core.telegram.org/bots/api#VideoChatParticipantsInvited
+     * @see https://core.telegram.org/bots/api#videochatparticipantsinvited
      *
      * @param User[] $users New members that were invited to the video chat
      *
@@ -1862,7 +1895,7 @@
     /**
      * Describes a service message about a change in the price of paid messages within a chat.
      * 
-     * @see https://core.telegram.org/bots/api#PaidMessagePriceChanged
+     * @see https://core.telegram.org/bots/api#paidmessagepricechanged
      *
      * @param int $paid_message_star_count The new number of Telegram Stars that must be paid by non-administrator users of the supergroup chat
      *                              for each sent message
@@ -1876,7 +1909,7 @@
     /**
      * Describes a service message about a change in the price of direct messages sent to a channel chat.
      * 
-     * @see https://core.telegram.org/bots/api#DirectMessagePriceChanged
+     * @see https://core.telegram.org/bots/api#directmessagepricechanged
      *
      * @param bool $are_direct_messages_enabled True, if direct messages are enabled for the channel chat; false otherwise
      * @param int|NULL $direct_message_star_count The new number of Telegram Stars that must be paid by users for each direct message sent to the
@@ -1893,7 +1926,7 @@
     /**
      * Describes a service message about the approval of a suggested post.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostApproved
+     * @see https://core.telegram.org/bots/api#suggestedpostapproved
      *
      * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
      *                              the reply_to_message field even if it itself is a reply.
@@ -1913,7 +1946,7 @@
      * Describes a service message about the failed approval of a suggested post. Currently, only caused by
      * insufficient user funds at the time of approval.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostApprovalFailed
+     * @see https://core.telegram.org/bots/api#suggestedpostapprovalfailed
      *
      * @param Message|NULL $suggested_post_message Message containing the suggested post whose approval has failed. Note that the Message object in
      *                              this field will not contain the reply_to_message field even if it itself is a reply.
@@ -1930,7 +1963,7 @@
     /**
      * Describes a service message about the rejection of a suggested post.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostDeclined
+     * @see https://core.telegram.org/bots/api#suggestedpostdeclined
      *
      * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
      *                              the reply_to_message field even if it itself is a reply.
@@ -1948,7 +1981,7 @@
     /**
      * Describes a service message about a successful payment for a suggested post.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostPaid
+     * @see https://core.telegram.org/bots/api#suggestedpostpaid
      *
      * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
      *                              the reply_to_message field even if it itself is a reply.
@@ -1971,7 +2004,7 @@
     /**
      * Describes a service message about a payment refund for a suggested post.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostRefunded
+     * @see https://core.telegram.org/bots/api#suggestedpostrefunded
      *
      * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
      *                              the reply_to_message field even if it itself is a reply.
@@ -1990,7 +2023,7 @@
     /**
      * This object represents a service message about the creation of a scheduled giveaway.
      * 
-     * @see https://core.telegram.org/bots/api#GiveawayCreated
+     * @see https://core.telegram.org/bots/api#giveawaycreated
      *
      * @param int|NULL $prize_star_count The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
      *
@@ -2005,7 +2038,7 @@
     /**
      * This object represents a message about a scheduled giveaway.
      * 
-     * @see https://core.telegram.org/bots/api#Giveaway
+     * @see https://core.telegram.org/bots/api#giveaway
      *
      * @param Chat[] $chats The list of chats which the user must join to participate in the giveaway
      * @param int $winners_selection_date Point in time (Unix timestamp) when winners of the giveaway will be selected
@@ -2036,7 +2069,7 @@
     /**
      * This object represents a message about the completion of a giveaway with public winners.
      * 
-     * @see https://core.telegram.org/bots/api#GiveawayWinners
+     * @see https://core.telegram.org/bots/api#giveawaywinners
      *
      * @param Chat $chat The chat that created the giveaway
      * @param int $giveaway_message_id Identifier of the message with the giveaway in the chat
@@ -2069,7 +2102,7 @@
     /**
      * This object represents a service message about the completion of a giveaway without public winners.
      * 
-     * @see https://core.telegram.org/bots/api#GiveawayCompleted
+     * @see https://core.telegram.org/bots/api#giveawaycompleted
      *
      * @param int $winner_count Number of winners in the giveaway
      * @param int|NULL $unclaimed_prize_count Number of undistributed prizes
@@ -2090,7 +2123,7 @@
     /**
      * Describes the options used for link preview generation.
      * 
-     * @see https://core.telegram.org/bots/api#LinkPreviewOptions
+     * @see https://core.telegram.org/bots/api#linkpreviewoptions
      *
      * @param bool|NULL $is_disabled True, if the link preview is disabled
      * @param string|NULL $url URL to use for the link preview. If empty, then the first URL found in the message text will be used
@@ -2116,7 +2149,7 @@
     /**
      * Describes the price of a suggested post.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostPrice
+     * @see https://core.telegram.org/bots/api#suggestedpostprice
      *
      * @param string $currency Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or
      *                              “TON” for toncoins
@@ -2133,7 +2166,7 @@
     /**
      * Contains information about a suggested post.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostInfo
+     * @see https://core.telegram.org/bots/api#suggestedpostinfo
      *
      * @param string $state State of the suggested post. Currently, it can be one of “pending”, “approved”, “declined”.
      * @param SuggestedPostPrice|NULL $price Proposed price of the post. If the field is omitted, then the post is unpaid.
@@ -2152,7 +2185,7 @@
     /**
      * Contains parameters of a post that is being suggested by the bot.
      * 
-     * @see https://core.telegram.org/bots/api#SuggestedPostParameters
+     * @see https://core.telegram.org/bots/api#suggestedpostparameters
      *
      * @param SuggestedPostPrice|NULL $price Proposed price for the post. If the field is omitted, then the post is unpaid.
      * @param int|NULL $send_date Proposed send date of the post. If specified, then the date must be between 300 second and 2678400
@@ -2171,7 +2204,7 @@
     /**
      * Describes a topic of a direct messages chat.
      * 
-     * @see https://core.telegram.org/bots/api#DirectMessagesTopic
+     * @see https://core.telegram.org/bots/api#directmessagestopic
      *
      * @param int $topic_id Unique identifier of the topic. This number may have more than 32 significant bits and some
      *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
@@ -2189,7 +2222,7 @@
     /**
      * This object represent a user's profile pictures.
      * 
-     * @see https://core.telegram.org/bots/api#UserProfilePhotos
+     * @see https://core.telegram.org/bots/api#userprofilephotos
      *
      * @param int $total_count Total number of profile pictures the target user has
      * @param Array<PhotoSize[]> $photos Requested profile pictures (in up to 4 sizes each)
@@ -2201,11 +2234,25 @@
     }
 
     /**
+     * This object represents the audios displayed on a user's profile.
+     * 
+     * @see https://core.telegram.org/bots/api#userprofileaudios
+     *
+     * @param int $total_count Total number of profile audios for the target user
+     * @param Audio[] $audios Requested profile audios
+     *
+     * @return array $args
+     */
+    public function UserProfileAudios ( int $total_count, array $audios ) : array {
+      return [ 'total_count' => $total_count, 'audios' => $audios ];
+    }
+
+    /**
      * This object represents a file ready to be downloaded. The file can be downloaded via the link
      * https://api.telegram.org/file/bot<token>/<file_path>. It is guaranteed that the link will be valid
      * for at least 1 hour. When the link expires, a new one can be requested by calling getFile.
      * 
-     * @see https://core.telegram.org/bots/api#File
+     * @see https://core.telegram.org/bots/api#file
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -2227,7 +2274,7 @@
     /**
      * Describes a Web App.
      * 
-     * @see https://core.telegram.org/bots/api#WebAppInfo
+     * @see https://core.telegram.org/bots/api#webappinfo
      *
      * @param string $url An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
      *
@@ -2241,7 +2288,7 @@
      * This object represents a custom keyboard with reply options (see Introduction to bots for details
      * and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
      * 
-     * @see https://core.telegram.org/bots/api#ReplyKeyboardMarkup
+     * @see https://core.telegram.org/bots/api#replykeyboardmarkup
      *
      * @param Array<KeyboardButton[]> $keyboard Array of button rows, each represented by an Array of KeyboardButton objects
      * @param bool|NULL $is_persistent Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false,
@@ -2272,14 +2319,19 @@
     }
 
     /**
-     * This object represents one button of the reply keyboard. At most one of the optional fields must be
-     * used to specify type of the button. For simple text buttons, String can be used instead of this
-     * object to specify the button text.
+     * This object represents one button of the reply keyboard. At most one of the fields other than text,
+     * icon_custom_emoji_id, and style must be used to specify the type of the button. For simple text
+     * buttons, String can be used instead of this object to specify the button text.
      * 
-     * @see https://core.telegram.org/bots/api#KeyboardButton
+     * @see https://core.telegram.org/bots/api#keyboardbutton
      *
-     * @param string $text Text of the button. If none of the optional fields are used, it will be sent as a message when the
-     *                              button is pressed
+     * @param string $text Text of the button. If none of the fields other than text, icon_custom_emoji_id, and style are used,
+     *                              it will be sent as a message when the button is pressed
+     * @param string|NULL $icon_custom_emoji_id Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots
+     *                              that purchased additional usernames on Fragment or in the messages directly sent by the bot to
+     *                              private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
+     * @param string|NULL $style Style of the button. Must be one of “danger” (red), “success” (green) or “primary”
+     *                              (blue). If omitted, then an app-specific style is used.
      * @param KeyboardButtonRequestUsers|NULL $request_users If specified, pressing the button will open a list of suitable users. Identifiers of selected users
      *                              will be sent to the bot in a “users_shared” service message. Available in private chats only.
      * @param KeyboardButtonRequestChat|NULL $request_chat If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
@@ -2295,8 +2347,10 @@
      *
      * @return array $args
      */
-    public function KeyboardButton ( string $text, ?array $request_users = NULL, ?array $request_chat = NULL, ?bool $request_contact = NULL, ?bool $request_location = NULL, ?array $request_poll = NULL, ?array $web_app = NULL ) : array {
+    public function KeyboardButton ( string $text, ?string $icon_custom_emoji_id = NULL, ?string $style = NULL, ?array $request_users = NULL, ?array $request_chat = NULL, ?bool $request_contact = NULL, ?bool $request_location = NULL, ?array $request_poll = NULL, ?array $web_app = NULL ) : array {
       $args = [ 'text' => $text ]; 
+      if ( $icon_custom_emoji_id !== NULL ) $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
+      if ( $style !== NULL ) $args['style'] = $style;
       if ( $request_users !== NULL ) $args['request_users'] = $request_users;
       if ( $request_chat !== NULL ) $args['request_chat'] = $request_chat;
       if ( $request_contact !== NULL ) $args['request_contact'] = $request_contact;
@@ -2311,7 +2365,7 @@
      * users will be shared with the bot when the corresponding button is pressed. More about requesting
      * users »
      * 
-     * @see https://core.telegram.org/bots/api#KeyboardButtonRequestUsers
+     * @see https://core.telegram.org/bots/api#keyboardbuttonrequestusers
      *
      * @param int $request_id Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must
      *                              be unique within the message
@@ -2342,7 +2396,7 @@
      * chat will be shared with the bot when the corresponding button is pressed. The bot will be granted
      * requested rights in the chat if appropriate. More about requesting chats ».
      * 
-     * @see https://core.telegram.org/bots/api#KeyboardButtonRequestChat
+     * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
      *
      * @param int $request_id Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must
      *                              be unique within the message
@@ -2383,7 +2437,7 @@
      * This object represents type of a poll, which is allowed to be created and sent when the
      * corresponding button is pressed.
      * 
-     * @see https://core.telegram.org/bots/api#KeyboardButtonPollType
+     * @see https://core.telegram.org/bots/api#keyboardbuttonpolltype
      *
      * @param string|NULL $type If quiz is passed, the user will be allowed to create only polls in the quiz mode. If regular is
      *                              passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of
@@ -2404,7 +2458,7 @@
      * after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for
      * messages sent on behalf of a Telegram Business account.
      * 
-     * @see https://core.telegram.org/bots/api#ReplyKeyboardRemove
+     * @see https://core.telegram.org/bots/api#replykeyboardremove
      *
      * @param bool $remove_keyboard Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if
      *                              you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
@@ -2425,7 +2479,7 @@
     /**
      * This object represents an inline keyboard that appears right next to the message it belongs to.
      * 
-     * @see https://core.telegram.org/bots/api#InlineKeyboardMarkup
+     * @see https://core.telegram.org/bots/api#inlinekeyboardmarkup
      *
      * @param Array<InlineKeyboardButton[]> $inline_keyboard Array of button rows, each represented by an Array of InlineKeyboardButton objects
      *
@@ -2436,12 +2490,17 @@
     }
 
     /**
-     * This object represents one button of an inline keyboard. Exactly one of the optional fields must be
-     * used to specify type of the button.
+     * This object represents one button of an inline keyboard. Exactly one of the fields other than text,
+     * icon_custom_emoji_id, and style must be used to specify the type of the button.
      * 
-     * @see https://core.telegram.org/bots/api#InlineKeyboardButton
+     * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
      *
      * @param string $text Label text on the button
+     * @param string|NULL $icon_custom_emoji_id Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots
+     *                              that purchased additional usernames on Fragment or in the messages directly sent by the bot to
+     *                              private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
+     * @param string|NULL $style Style of the button. Must be one of “danger” (red), “success” (green) or “primary”
+     *                              (blue). If omitted, then an app-specific style is used.
      * @param string|NULL $url HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used
      *                              to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
      * @param string|NULL $callback_data Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
@@ -2472,8 +2531,10 @@
      *
      * @return array $args
      */
-    public function InlineKeyboardButton ( string $text, ?string $url = NULL, ?string $callback_data = NULL, ?array $web_app = NULL, ?array $login_url = NULL, ?string $switch_inline_query = NULL, ?string $switch_inline_query_current_chat = NULL, ?array $switch_inline_query_chosen_chat = NULL, ?array $copy_text = NULL, ?array $callback_game = NULL, ?bool $pay = NULL ) : array {
+    public function InlineKeyboardButton ( string $text, ?string $icon_custom_emoji_id = NULL, ?string $style = NULL, ?string $url = NULL, ?string $callback_data = NULL, ?array $web_app = NULL, ?array $login_url = NULL, ?string $switch_inline_query = NULL, ?string $switch_inline_query_current_chat = NULL, ?array $switch_inline_query_chosen_chat = NULL, ?array $copy_text = NULL, ?array $callback_game = NULL, ?bool $pay = NULL ) : array {
       $args = [ 'text' => $text ]; 
+      if ( $icon_custom_emoji_id !== NULL ) $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
+      if ( $style !== NULL ) $args['style'] = $style;
       if ( $url !== NULL ) $args['url'] = $url;
       if ( $callback_data !== NULL ) $args['callback_data'] = $callback_data;
       if ( $web_app !== NULL ) $args['web_app'] = $web_app;
@@ -2494,7 +2555,7 @@
     
      * * Telegram apps support these buttons as of version 5.7.
      * 
-     * @see https://core.telegram.org/bots/api#LoginUrl
+     * @see https://core.telegram.org/bots/api#loginurl
      *
      * @param string $url An HTTPS URL to be opened with user authorization data added to the query string when the button is
      *                              pressed. If the user refuses to provide authorization data, the original URL without information
@@ -2521,7 +2582,7 @@
      * This object represents an inline button that switches the current user to inline mode in a chosen
      * chat, with an optional default inline query.
      * 
-     * @see https://core.telegram.org/bots/api#SwitchInlineQueryChosenChat
+     * @see https://core.telegram.org/bots/api#switchinlinequerychosenchat
      *
      * @param string|NULL $query The default inline query to be inserted in the input field. If left empty, only the bot's username
      *                              will be inserted
@@ -2545,7 +2606,7 @@
     /**
      * This object represents an inline keyboard button that copies specified text to the clipboard.
      * 
-     * @see https://core.telegram.org/bots/api#CopyTextButton
+     * @see https://core.telegram.org/bots/api#copytextbutton
      *
      * @param string $text The text to be copied to the clipboard; 1-256 characters
      *
@@ -2561,7 +2622,7 @@
      * will be present. If the button was attached to a message sent via the bot (in inline mode), the
      * field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
      * 
-     * @see https://core.telegram.org/bots/api#CallbackQuery
+     * @see https://core.telegram.org/bots/api#callbackquery
      *
      * @param string $id Unique identifier for this query
      * @param User $from Sender
@@ -2590,7 +2651,7 @@
      * useful if you want to create user-friendly step-by-step interfaces without having to sacrifice
      * privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
      * 
-     * @see https://core.telegram.org/bots/api#ForceReply
+     * @see https://core.telegram.org/bots/api#forcereply
      *
      * @param bool $force_reply Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
      * @param string|NULL $input_field_placeholder The placeholder to be shown in the input field when the reply is active; 1-64 characters
@@ -2610,7 +2671,7 @@
     /**
      * This object represents a chat photo.
      * 
-     * @see https://core.telegram.org/bots/api#ChatPhoto
+     * @see https://core.telegram.org/bots/api#chatphoto
      *
      * @param string $small_file_id File identifier of small (160x160) chat photo. This file_id can be used only for photo download and
      *                              only for as long as the photo is not changed.
@@ -2630,7 +2691,7 @@
     /**
      * Represents an invite link for a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatInviteLink
+     * @see https://core.telegram.org/bots/api#chatinvitelink
      *
      * @param string $invite_link The invite link. If the link was created by another chat administrator, then the second part of the
      *                              link will be replaced with “…”.
@@ -2663,7 +2724,7 @@
     /**
      * Represents the rights of an administrator in a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatAdministratorRights
+     * @see https://core.telegram.org/bots/api#chatadministratorrights
      *
      * @param bool $is_anonymous True, if the user's presence in the chat is hidden
      * @param bool $can_manage_chat True, if the administrator can access the chat event log, get boost list, see hidden supergroup and
@@ -2704,7 +2765,7 @@
     /**
      * This object represents changes in the status of a chat member.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberUpdated
+     * @see https://core.telegram.org/bots/api#chatmemberupdated
      *
      * @param Chat $chat Chat the user belongs to
      * @param User $from Performer of the action, which resulted in the change
@@ -2730,7 +2791,7 @@
      * This object contains information about one member of a chat. Currently, the following 6 types of
      * chat members are supported:
      * 
-     * @see https://core.telegram.org/bots/api#ChatMember
+     * @see https://core.telegram.org/bots/api#chatmember
      *
      *
      * @return array $args
@@ -2742,7 +2803,7 @@
     /**
      * Represents a chat member that owns the chat and has all administrator privileges.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberOwner
+     * @see https://core.telegram.org/bots/api#chatmemberowner
      *
      * @param string $status The member's status in the chat, always “creator”
      * @param User $user Information about the user
@@ -2760,7 +2821,7 @@
     /**
      * Represents a chat member that has some additional privileges.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberAdministrator
+     * @see https://core.telegram.org/bots/api#chatmemberadministrator
      *
      * @param string $status The member's status in the chat, always “administrator”
      * @param User $user Information about the user
@@ -2806,7 +2867,7 @@
     /**
      * Represents a chat member that has no additional privileges or restrictions.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberMember
+     * @see https://core.telegram.org/bots/api#chatmembermember
      *
      * @param string $status The member's status in the chat, always “member”
      * @param User $user Information about the user
@@ -2823,7 +2884,7 @@
     /**
      * Represents a chat member that is under certain restrictions in the chat. Supergroups only.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberRestricted
+     * @see https://core.telegram.org/bots/api#chatmemberrestricted
      *
      * @param string $status The member's status in the chat, always “restricted”
      * @param User $user Information about the user
@@ -2854,7 +2915,7 @@
     /**
      * Represents a chat member that isn't currently a member of the chat, but may join it themselves.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberLeft
+     * @see https://core.telegram.org/bots/api#chatmemberleft
      *
      * @param string $status The member's status in the chat, always “left”
      * @param User $user Information about the user
@@ -2868,7 +2929,7 @@
     /**
      * Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.
      * 
-     * @see https://core.telegram.org/bots/api#ChatMemberBanned
+     * @see https://core.telegram.org/bots/api#chatmemberbanned
      *
      * @param string $status The member's status in the chat, always “kicked”
      * @param User $user Information about the user
@@ -2883,7 +2944,7 @@
     /**
      * Represents a join request sent to a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatJoinRequest
+     * @see https://core.telegram.org/bots/api#chatjoinrequest
      *
      * @param Chat $chat Chat to which the request was sent
      * @param User $from User that sent the join request
@@ -2908,7 +2969,7 @@
     /**
      * Describes actions that a non-administrator user is allowed to take in a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatPermissions
+     * @see https://core.telegram.org/bots/api#chatpermissions
      *
      * @param bool|NULL $can_send_messages True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices,
      *                              locations and venues
@@ -2950,7 +3011,7 @@
     /**
      * Describes the birthdate of a user.
      * 
-     * @see https://core.telegram.org/bots/api#Birthdate
+     * @see https://core.telegram.org/bots/api#birthdate
      *
      * @param int $day Day of the user's birth; 1-31
      * @param int $month Month of the user's birth; 1-12
@@ -2967,7 +3028,7 @@
     /**
      * Contains information about the start page settings of a Telegram Business account.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessIntro
+     * @see https://core.telegram.org/bots/api#businessintro
      *
      * @param string|NULL $title Title text of the business intro
      * @param string|NULL $message Message text of the business intro
@@ -2986,7 +3047,7 @@
     /**
      * Contains information about the location of a Telegram Business account.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessLocation
+     * @see https://core.telegram.org/bots/api#businesslocation
      *
      * @param string $address Address of the business
      * @param Location|NULL $location Location of the business
@@ -3002,7 +3063,7 @@
     /**
      * Describes an interval of time during which a business is open.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessOpeningHoursInterval
+     * @see https://core.telegram.org/bots/api#businessopeninghoursinterval
      *
      * @param int $opening_minute The minute's sequence number in a week, starting on Monday, marking the start of the time interval
      *                              during which the business is open; 0 - 7 * 24 * 60
@@ -3018,7 +3079,7 @@
     /**
      * Describes the opening hours of a business.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessOpeningHours
+     * @see https://core.telegram.org/bots/api#businessopeninghours
      *
      * @param string $time_zone_name Unique name of the time zone for which the opening hours are defined
      * @param BusinessOpeningHoursInterval[] $opening_hours List of time intervals describing business opening hours
@@ -3032,7 +3093,7 @@
     /**
      * This object describes the rating of a user based on their Telegram Star spendings.
      * 
-     * @see https://core.telegram.org/bots/api#UserRating
+     * @see https://core.telegram.org/bots/api#userrating
      *
      * @param int $level Current level of the user, indicating their reliability when purchasing digital goods and services.
      *                              A higher level suggests a more trustworthy customer; a negative level is likely reason for concern.
@@ -3051,7 +3112,7 @@
     /**
      * Describes the position of a clickable area within a story.
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaPosition
+     * @see https://core.telegram.org/bots/api#storyareaposition
      *
      * @param float $x_percentage The abscissa of the area's center, as a percentage of the media width
      * @param float $y_percentage The ordinate of the area's center, as a percentage of the media height
@@ -3069,7 +3130,7 @@
     /**
      * Describes the physical address of a location.
      * 
-     * @see https://core.telegram.org/bots/api#LocationAddress
+     * @see https://core.telegram.org/bots/api#locationaddress
      *
      * @param string $country_code The two-letter ISO 3166-1 alpha-2 country code of the country where the location is located
      * @param string|NULL $state State of the location
@@ -3089,7 +3150,7 @@
     /**
      * Describes the type of a clickable area on a story. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaType
+     * @see https://core.telegram.org/bots/api#storyareatype
      *
      *
      * @return array $args
@@ -3101,7 +3162,7 @@
     /**
      * Describes a story area pointing to a location. Currently, a story can have up to 10 location areas.
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaTypeLocation
+     * @see https://core.telegram.org/bots/api#storyareatypelocation
      *
      * @param string $type Type of the area, always “location”
      * @param float $latitude Location latitude in degrees
@@ -3120,7 +3181,7 @@
      * Describes a story area pointing to a suggested reaction. Currently, a story can have up to 5
      * suggested reaction areas.
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaTypeSuggestedReaction
+     * @see https://core.telegram.org/bots/api#storyareatypesuggestedreaction
      *
      * @param string $type Type of the area, always “suggested_reaction”
      * @param ReactionType $reaction_type Type of the reaction
@@ -3139,7 +3200,7 @@
     /**
      * Describes a story area pointing to an HTTP or tg:// link. Currently, a story can have up to 3 link areas.
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaTypeLink
+     * @see https://core.telegram.org/bots/api#storyareatypelink
      *
      * @param string $type Type of the area, always “link”
      * @param string $url HTTP or tg:// URL to be opened when the area is clicked
@@ -3153,7 +3214,7 @@
     /**
      * Describes a story area containing weather information. Currently, a story can have up to 3 weather areas.
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaTypeWeather
+     * @see https://core.telegram.org/bots/api#storyareatypeweather
      *
      * @param string $type Type of the area, always “weather”
      * @param float $temperature Temperature, in degree Celsius
@@ -3169,7 +3230,7 @@
     /**
      * Describes a story area pointing to a unique gift. Currently, a story can have at most 1 unique gift area.
      * 
-     * @see https://core.telegram.org/bots/api#StoryAreaTypeUniqueGift
+     * @see https://core.telegram.org/bots/api#storyareatypeuniquegift
      *
      * @param string $type Type of the area, always “unique_gift”
      * @param string $name Unique name of the gift
@@ -3183,7 +3244,7 @@
     /**
      * Describes a clickable area on a story media.
      * 
-     * @see https://core.telegram.org/bots/api#StoryArea
+     * @see https://core.telegram.org/bots/api#storyarea
      *
      * @param StoryAreaPosition $position Position of the area
      * @param StoryAreaType $type Type of the area
@@ -3197,7 +3258,7 @@
     /**
      * Represents a location to which a chat is connected.
      * 
-     * @see https://core.telegram.org/bots/api#ChatLocation
+     * @see https://core.telegram.org/bots/api#chatlocation
      *
      * @param Location $location The location to which the supergroup is connected. Can't be a live location.
      * @param string $address Location address; 1-64 characters, as defined by the chat owner
@@ -3211,7 +3272,7 @@
     /**
      * This object describes the type of a reaction. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#ReactionType
+     * @see https://core.telegram.org/bots/api#reactiontype
      *
      *
      * @return array $args
@@ -3223,7 +3284,7 @@
     /**
      * The reaction is based on an emoji.
      * 
-     * @see https://core.telegram.org/bots/api#ReactionTypeEmoji
+     * @see https://core.telegram.org/bots/api#reactiontypeemoji
      *
      * @param string $type Type of the reaction, always “emoji”
      * @param string $emoji Reaction emoji. Currently, it can be one of "❤", "👍", "👎", "🔥", "🥰", "👏", "😁",
@@ -3243,7 +3304,7 @@
     /**
      * The reaction is based on a custom emoji.
      * 
-     * @see https://core.telegram.org/bots/api#ReactionTypeCustomEmoji
+     * @see https://core.telegram.org/bots/api#reactiontypecustomemoji
      *
      * @param string $type Type of the reaction, always “custom_emoji”
      * @param string $custom_emoji_id Custom emoji identifier
@@ -3257,7 +3318,7 @@
     /**
      * The reaction is paid.
      * 
-     * @see https://core.telegram.org/bots/api#ReactionTypePaid
+     * @see https://core.telegram.org/bots/api#reactiontypepaid
      *
      * @param string $type Type of the reaction, always “paid”
      *
@@ -3270,7 +3331,7 @@
     /**
      * Represents a reaction added to a message along with the number of times it was added.
      * 
-     * @see https://core.telegram.org/bots/api#ReactionCount
+     * @see https://core.telegram.org/bots/api#reactioncount
      *
      * @param ReactionType $type Type of the reaction
      * @param int $total_count Number of times the reaction was added
@@ -3284,7 +3345,7 @@
     /**
      * This object represents a change of a reaction on a message performed by a user.
      * 
-     * @see https://core.telegram.org/bots/api#MessageReactionUpdated
+     * @see https://core.telegram.org/bots/api#messagereactionupdated
      *
      * @param Chat $chat The chat containing the message the user reacted to
      * @param int $message_id Unique identifier of the message inside the chat
@@ -3306,7 +3367,7 @@
     /**
      * This object represents reaction changes on a message with anonymous reactions.
      * 
-     * @see https://core.telegram.org/bots/api#MessageReactionCountUpdated
+     * @see https://core.telegram.org/bots/api#messagereactioncountupdated
      *
      * @param Chat $chat The chat containing the message
      * @param int $message_id Unique message identifier inside the chat
@@ -3322,7 +3383,7 @@
     /**
      * This object represents a forum topic.
      * 
-     * @see https://core.telegram.org/bots/api#ForumTopic
+     * @see https://core.telegram.org/bots/api#forumtopic
      *
      * @param int $message_thread_id Unique identifier of the forum topic
      * @param string $name Name of the topic
@@ -3343,7 +3404,7 @@
     /**
      * This object describes the background of a gift.
      * 
-     * @see https://core.telegram.org/bots/api#GiftBackground
+     * @see https://core.telegram.org/bots/api#giftbackground
      *
      * @param int $center_color Center color of the background in RGB format
      * @param int $edge_color Edge color of the background in RGB format
@@ -3358,7 +3419,7 @@
     /**
      * This object represents a gift that can be sent by the bot.
      * 
-     * @see https://core.telegram.org/bots/api#Gift
+     * @see https://core.telegram.org/bots/api#gift
      *
      * @param string $id Unique identifier of the gift
      * @param Sticker $sticker The sticker that represents the gift
@@ -3394,7 +3455,7 @@
     /**
      * This object represent a list of gifts.
      * 
-     * @see https://core.telegram.org/bots/api#Gifts
+     * @see https://core.telegram.org/bots/api#gifts
      *
      * @param Gift[] $gifts The list of gifts
      *
@@ -3407,22 +3468,27 @@
     /**
      * This object describes the model of a unique gift.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGiftModel
+     * @see https://core.telegram.org/bots/api#uniquegiftmodel
      *
      * @param string $name Name of the model
      * @param Sticker $sticker The sticker that represents the unique gift
-     * @param int $rarity_per_mille The number of unique gifts that receive this model for every 1000 gifts upgraded
+     * @param int $rarity_per_mille The number of unique gifts that receive this model for every 1000 gift upgrades. Always 0 for
+     *                              crafted gifts.
+     * @param string|NULL $rarity Rarity of the model if it is a crafted model. Currently, can be “uncommon”, “rare”,
+     *                              “epic”, or “legendary”.
      *
      * @return array $args
      */
-    public function UniqueGiftModel ( string $name, array $sticker, int $rarity_per_mille ) : array {
-      return [ 'name' => $name, 'sticker' => $sticker, 'rarity_per_mille' => $rarity_per_mille ];
+    public function UniqueGiftModel ( string $name, array $sticker, int $rarity_per_mille, ?string $rarity = NULL ) : array {
+      $args = [ 'name' => $name, 'sticker' => $sticker, 'rarity_per_mille' => $rarity_per_mille ]; 
+      if ( $rarity !== NULL ) $args['rarity'] = $rarity;
+      return $args;
     }
 
     /**
      * This object describes the symbol shown on the pattern of a unique gift.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGiftSymbol
+     * @see https://core.telegram.org/bots/api#uniquegiftsymbol
      *
      * @param string $name Name of the symbol
      * @param Sticker $sticker The sticker that represents the unique gift
@@ -3437,7 +3503,7 @@
     /**
      * This object describes the colors of the backdrop of a unique gift.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGiftBackdropColors
+     * @see https://core.telegram.org/bots/api#uniquegiftbackdropcolors
      *
      * @param int $center_color The color in the center of the backdrop in RGB format
      * @param int $edge_color The color on the edges of the backdrop in RGB format
@@ -3453,7 +3519,7 @@
     /**
      * This object describes the backdrop of a unique gift.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGiftBackdrop
+     * @see https://core.telegram.org/bots/api#uniquegiftbackdrop
      *
      * @param string $name Name of the backdrop
      * @param UniqueGiftBackdropColors $colors Colors of the backdrop
@@ -3469,7 +3535,7 @@
      * This object contains information about the color scheme for a user's name, message replies and link
      * previews based on a unique gift.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGiftColors
+     * @see https://core.telegram.org/bots/api#uniquegiftcolors
      *
      * @param string $model_custom_emoji_id Custom emoji identifier of the unique gift's model
      * @param string $symbol_custom_emoji_id Custom emoji identifier of the unique gift's symbol
@@ -3487,7 +3553,7 @@
     /**
      * This object describes a unique gift that was upgraded from a regular gift.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGift
+     * @see https://core.telegram.org/bots/api#uniquegift
      *
      * @param string $gift_id Identifier of the regular gift from which the gift was upgraded
      * @param string $base_name Human-readable name of the regular gift from which this unique gift was upgraded
@@ -3497,6 +3563,7 @@
      * @param UniqueGiftSymbol $symbol Symbol of the gift
      * @param UniqueGiftBackdrop $backdrop Backdrop of the gift
      * @param bool|NULL $is_premium True, if the original regular gift was exclusively purchaseable by Telegram Premium subscribers
+     * @param bool|NULL $is_burned True, if the gift was used to craft another gift and isn't available anymore
      * @param bool|NULL $is_from_blockchain True, if the gift is assigned from the TON blockchain and can't be resold or transferred in Telegram
      * @param UniqueGiftColors|NULL $colors The color scheme that can be used by the gift's owner for the chat's name, replies to messages and
      *                              link previews; for business account gifts and gifts that are currently on sale only
@@ -3504,9 +3571,10 @@
      *
      * @return array $args
      */
-    public function UniqueGift ( string $gift_id, string $base_name, string $name, int $number, array $model, array $symbol, array $backdrop, ?bool $is_premium = NULL, ?bool $is_from_blockchain = NULL, ?array $colors = NULL, ?array $publisher_chat = NULL ) : array {
+    public function UniqueGift ( string $gift_id, string $base_name, string $name, int $number, array $model, array $symbol, array $backdrop, ?bool $is_premium = NULL, ?bool $is_burned = NULL, ?bool $is_from_blockchain = NULL, ?array $colors = NULL, ?array $publisher_chat = NULL ) : array {
       $args = [ 'gift_id' => $gift_id, 'base_name' => $base_name, 'name' => $name, 'number' => $number, 'model' => $model, 'symbol' => $symbol, 'backdrop' => $backdrop ]; 
       if ( $is_premium !== NULL ) $args['is_premium'] = $is_premium;
+      if ( $is_burned !== NULL ) $args['is_burned'] = $is_burned;
       if ( $is_from_blockchain !== NULL ) $args['is_from_blockchain'] = $is_from_blockchain;
       if ( $colors !== NULL ) $args['colors'] = $colors;
       if ( $publisher_chat !== NULL ) $args['publisher_chat'] = $publisher_chat;
@@ -3516,7 +3584,7 @@
     /**
      * Describes a service message about a regular gift that was sent or received.
      * 
-     * @see https://core.telegram.org/bots/api#GiftInfo
+     * @see https://core.telegram.org/bots/api#giftinfo
      *
      * @param Gift $gift Information about the gift
      * @param string|NULL $owned_gift_id Unique identifier of the received gift for the bot; only present for gifts received on behalf of
@@ -3551,7 +3619,7 @@
     /**
      * Describes a service message about a unique gift that was sent or received.
      * 
-     * @see https://core.telegram.org/bots/api#UniqueGiftInfo
+     * @see https://core.telegram.org/bots/api#uniquegiftinfo
      *
      * @param UniqueGift $gift Information about the gift
      * @param string $origin Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts,
@@ -3583,7 +3651,7 @@
     /**
      * This object describes a gift received and owned by a user or a chat. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#OwnedGift
+     * @see https://core.telegram.org/bots/api#ownedgift
      *
      *
      * @return array $args
@@ -3595,7 +3663,7 @@
     /**
      * Describes a regular gift owned by a user or a chat.
      * 
-     * @see https://core.telegram.org/bots/api#OwnedGiftRegular
+     * @see https://core.telegram.org/bots/api#ownedgiftregular
      *
      * @param string $type Type of the gift, always “regular”
      * @param Gift $gift Information about the regular gift
@@ -3640,7 +3708,7 @@
     /**
      * Describes a unique gift received and owned by a user or a chat.
      * 
-     * @see https://core.telegram.org/bots/api#OwnedGiftUnique
+     * @see https://core.telegram.org/bots/api#ownedgiftunique
      *
      * @param string $type Type of the gift, always “unique”
      * @param UniqueGift $gift Information about the unique gift
@@ -3673,7 +3741,7 @@
     /**
      * Contains the list of gifts received and owned by a user or a chat.
      * 
-     * @see https://core.telegram.org/bots/api#OwnedGifts
+     * @see https://core.telegram.org/bots/api#ownedgifts
      *
      * @param int $total_count The total number of gifts owned by the user or the chat
      * @param OwnedGift[] $gifts The list of gifts
@@ -3690,7 +3758,7 @@
     /**
      * This object describes the types of gifts that can be gifted to a user or a chat.
      * 
-     * @see https://core.telegram.org/bots/api#AcceptedGiftTypes
+     * @see https://core.telegram.org/bots/api#acceptedgifttypes
      *
      * @param bool $unlimited_gifts True, if unlimited regular gifts are accepted
      * @param bool $limited_gifts True, if limited regular gifts are accepted
@@ -3707,7 +3775,7 @@
     /**
      * Describes an amount of Telegram Stars.
      * 
-     * @see https://core.telegram.org/bots/api#StarAmount
+     * @see https://core.telegram.org/bots/api#staramount
      *
      * @param int $amount Integer amount of Telegram Stars, rounded to 0; can be negative
      * @param int|NULL $nanostar_amount The number of 1/1000000000 shares of Telegram Stars; from -999999999 to 999999999; can be negative
@@ -3724,7 +3792,7 @@
     /**
      * This object represents a bot command.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommand
+     * @see https://core.telegram.org/bots/api#botcommand
      *
      * @param string $command Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
      * @param string $description Description of the command; 1-256 characters.
@@ -3739,7 +3807,7 @@
      * This object represents the scope to which bot commands are applied. Currently, the following 7
      * scopes are supported:
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScope
+     * @see https://core.telegram.org/bots/api#botcommandscope
      *
      *
      * @return array $args
@@ -3752,7 +3820,7 @@
      * Represents the default scope of bot commands. Default commands are used if no commands with a
      * narrower scope are specified for the user.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeDefault
+     * @see https://core.telegram.org/bots/api#botcommandscopedefault
      *
      * @param string $type Scope type, must be default
      *
@@ -3765,7 +3833,7 @@
     /**
      * Represents the scope of bot commands, covering all private chats.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeAllPrivateChats
+     * @see https://core.telegram.org/bots/api#botcommandscopeallprivatechats
      *
      * @param string $type Scope type, must be all_private_chats
      *
@@ -3778,7 +3846,7 @@
     /**
      * Represents the scope of bot commands, covering all group and supergroup chats.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeAllGroupChats
+     * @see https://core.telegram.org/bots/api#botcommandscopeallgroupchats
      *
      * @param string $type Scope type, must be all_group_chats
      *
@@ -3791,7 +3859,7 @@
     /**
      * Represents the scope of bot commands, covering all group and supergroup chat administrators.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeAllChatAdministrators
+     * @see https://core.telegram.org/bots/api#botcommandscopeallchatadministrators
      *
      * @param string $type Scope type, must be all_chat_administrators
      *
@@ -3804,7 +3872,7 @@
     /**
      * Represents the scope of bot commands, covering a specific chat.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeChat
+     * @see https://core.telegram.org/bots/api#botcommandscopechat
      *
      * @param string $type Scope type, must be chat
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
@@ -3819,7 +3887,7 @@
     /**
      * Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeChatAdministrators
+     * @see https://core.telegram.org/bots/api#botcommandscopechatadministrators
      *
      * @param string $type Scope type, must be chat_administrators
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
@@ -3834,7 +3902,7 @@
     /**
      * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
      * 
-     * @see https://core.telegram.org/bots/api#BotCommandScopeChatMember
+     * @see https://core.telegram.org/bots/api#botcommandscopechatmember
      *
      * @param string $type Scope type, must be chat_member
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
@@ -3850,7 +3918,7 @@
     /**
      * This object represents the bot's name.
      * 
-     * @see https://core.telegram.org/bots/api#BotName
+     * @see https://core.telegram.org/bots/api#botname
      *
      * @param string $name The bot's name
      *
@@ -3863,7 +3931,7 @@
     /**
      * This object represents the bot's description.
      * 
-     * @see https://core.telegram.org/bots/api#BotDescription
+     * @see https://core.telegram.org/bots/api#botdescription
      *
      * @param string $description The bot's description
      *
@@ -3876,7 +3944,7 @@
     /**
      * This object represents the bot's short description.
      * 
-     * @see https://core.telegram.org/bots/api#BotShortDescription
+     * @see https://core.telegram.org/bots/api#botshortdescription
      *
      * @param string $short_description The bot's short description
      *
@@ -3889,7 +3957,7 @@
     /**
      * This object describes the bot's menu button in a private chat. It should be one of
      * 
-     * @see https://core.telegram.org/bots/api#MenuButton
+     * @see https://core.telegram.org/bots/api#menubutton
      *
      *
      * @return array $args
@@ -3901,7 +3969,7 @@
     /**
      * Represents a menu button, which opens the bot's list of commands.
      * 
-     * @see https://core.telegram.org/bots/api#MenuButtonCommands
+     * @see https://core.telegram.org/bots/api#menubuttoncommands
      *
      * @param string $type Type of the button, must be commands
      *
@@ -3914,7 +3982,7 @@
     /**
      * Represents a menu button, which launches a Web App.
      * 
-     * @see https://core.telegram.org/bots/api#MenuButtonWebApp
+     * @see https://core.telegram.org/bots/api#menubuttonwebapp
      *
      * @param string $type Type of the button, must be web_app
      * @param string $text Text on the button
@@ -3932,7 +4000,7 @@
     /**
      * Describes that no specific value for the menu button was set.
      * 
-     * @see https://core.telegram.org/bots/api#MenuButtonDefault
+     * @see https://core.telegram.org/bots/api#menubuttondefault
      *
      * @param string $type Type of the button, must be default
      *
@@ -3945,7 +4013,7 @@
     /**
      * This object describes the source of a chat boost. It can be one of
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostSource
+     * @see https://core.telegram.org/bots/api#chatboostsource
      *
      *
      * @return array $args
@@ -3958,7 +4026,7 @@
      * The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium
      * subscription to another user.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostSourcePremium
+     * @see https://core.telegram.org/bots/api#chatboostsourcepremium
      *
      * @param string $source Source of the boost, always “premium”
      * @param User $user User that boosted the chat
@@ -3973,7 +4041,7 @@
      * The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such
      * code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostSourceGiftCode
+     * @see https://core.telegram.org/bots/api#chatboostsourcegiftcode
      *
      * @param string $source Source of the boost, always “gift_code”
      * @param User $user User for which the gift code was created
@@ -3989,7 +4057,7 @@
      * boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription for
      * Telegram Premium giveaways and prize_star_count / 500 times for one year for Telegram Star giveaways.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostSourceGiveaway
+     * @see https://core.telegram.org/bots/api#chatboostsourcegiveaway
      *
      * @param string $source Source of the boost, always “giveaway”
      * @param int $giveaway_message_id Identifier of a message in the chat with the giveaway; the message could have been deleted already.
@@ -4011,7 +4079,7 @@
     /**
      * This object contains information about a chat boost.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoost
+     * @see https://core.telegram.org/bots/api#chatboost
      *
      * @param string $boost_id Unique identifier of the boost
      * @param int $add_date Point in time (Unix timestamp) when the chat was boosted
@@ -4028,7 +4096,7 @@
     /**
      * This object represents a boost added to a chat or changed.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostUpdated
+     * @see https://core.telegram.org/bots/api#chatboostupdated
      *
      * @param Chat $chat Chat which was boosted
      * @param ChatBoost $boost Information about the chat boost
@@ -4042,7 +4110,7 @@
     /**
      * This object represents a boost removed from a chat.
      * 
-     * @see https://core.telegram.org/bots/api#ChatBoostRemoved
+     * @see https://core.telegram.org/bots/api#chatboostremoved
      *
      * @param Chat $chat Chat which was boosted
      * @param string $boost_id Unique identifier of the boost
@@ -4056,9 +4124,37 @@
     }
 
     /**
+     * Describes a service message about the chat owner leaving the chat.
+     * 
+     * @see https://core.telegram.org/bots/api#chatownerleft
+     *
+     * @param User|NULL $new_owner The user which will be the new owner of the chat if the previous owner does not return to the chat
+     *
+     * @return array $args
+     */
+    public function ChatOwnerLeft ( ?array $new_owner = NULL ) : array {
+      $args = []; 
+      if ( $new_owner !== NULL ) $args['new_owner'] = $new_owner;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about an ownership change in the chat.
+     * 
+     * @see https://core.telegram.org/bots/api#chatownerchanged
+     *
+     * @param User $new_owner The new owner of the chat
+     *
+     * @return array $args
+     */
+    public function ChatOwnerChanged ( array $new_owner ) : array {
+      return [ 'new_owner' => $new_owner ];
+    }
+
+    /**
      * This object represents a list of boosts added to a chat by a user.
      * 
-     * @see https://core.telegram.org/bots/api#UserChatBoosts
+     * @see https://core.telegram.org/bots/api#userchatboosts
      *
      * @param ChatBoost[] $boosts The list of boosts added to the chat by the user
      *
@@ -4071,7 +4167,7 @@
     /**
      * Represents the rights of a business bot.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessBotRights
+     * @see https://core.telegram.org/bots/api#businessbotrights
      *
      * @param bool|NULL $can_reply True, if the bot can send and edit messages in the private chats that had incoming messages in the
      *                              last 24 hours
@@ -4114,7 +4210,7 @@
     /**
      * Describes the connection of the bot with a business account.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessConnection
+     * @see https://core.telegram.org/bots/api#businessconnection
      *
      * @param string $id Unique identifier of the business connection
      * @param User $user Business account user that created the business connection
@@ -4137,7 +4233,7 @@
     /**
      * This object is received when messages are deleted from a connected business account.
      * 
-     * @see https://core.telegram.org/bots/api#BusinessMessagesDeleted
+     * @see https://core.telegram.org/bots/api#businessmessagesdeleted
      *
      * @param string $business_connection_id Unique identifier of the business connection
      * @param Chat $chat Information about a chat in the business account. The bot may not have access to the chat or the
@@ -4153,7 +4249,7 @@
     /**
      * Describes why a request was unsuccessful.
      * 
-     * @see https://core.telegram.org/bots/api#ResponseParameters
+     * @see https://core.telegram.org/bots/api#responseparameters
      *
      * @param int|NULL $migrate_to_chat_id The group has been migrated to a supergroup with the specified identifier. This number may have more
      *                              than 32 significant bits and some programming languages may have difficulty/silent defects in
@@ -4173,7 +4269,7 @@
     /**
      * This object represents the content of a media message to be sent. It should be one of
      * 
-     * @see https://core.telegram.org/bots/api#InputMedia
+     * @see https://core.telegram.org/bots/api#inputmedia
      *
      *
      * @return array $args
@@ -4185,7 +4281,7 @@
     /**
      * Represents a photo to be sent.
      * 
-     * @see https://core.telegram.org/bots/api#InputMediaPhoto
+     * @see https://core.telegram.org/bots/api#inputmediaphoto
      *
      * @param string $type Type of the result, must be photo
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4213,7 +4309,7 @@
     /**
      * Represents a video to be sent.
      * 
-     * @see https://core.telegram.org/bots/api#InputMediaVideo
+     * @see https://core.telegram.org/bots/api#inputmediavideo
      *
      * @param string $type Type of the result, must be video
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4263,7 +4359,7 @@
     /**
      * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
      * 
-     * @see https://core.telegram.org/bots/api#InputMediaAnimation
+     * @see https://core.telegram.org/bots/api#inputmediaanimation
      *
      * @param string $type Type of the result, must be animation
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4304,7 +4400,7 @@
     /**
      * Represents an audio file to be treated as music to be sent.
      * 
-     * @see https://core.telegram.org/bots/api#InputMediaAudio
+     * @see https://core.telegram.org/bots/api#inputmediaaudio
      *
      * @param string $type Type of the result, must be audio
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4341,7 +4437,7 @@
     /**
      * Represents a general file to be sent.
      * 
-     * @see https://core.telegram.org/bots/api#InputMediaDocument
+     * @see https://core.telegram.org/bots/api#inputmediadocument
      *
      * @param string $type Type of the result, must be document
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4376,7 +4472,7 @@
      * This object represents the contents of a file to be uploaded. Must be posted using
      * multipart/form-data in the usual way that files are uploaded via the browser.
      * 
-     * @see https://core.telegram.org/bots/api#InputFile
+     * @see https://core.telegram.org/bots/api#inputfile
      *
      *
      * @return array $args
@@ -4388,7 +4484,7 @@
     /**
      * This object describes the paid media to be sent. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#InputPaidMedia
+     * @see https://core.telegram.org/bots/api#inputpaidmedia
      *
      *
      * @return array $args
@@ -4400,7 +4496,7 @@
     /**
      * The paid media to send is a photo.
      * 
-     * @see https://core.telegram.org/bots/api#InputPaidMediaPhoto
+     * @see https://core.telegram.org/bots/api#inputpaidmediaphoto
      *
      * @param string $type Type of the media, must be photo
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4417,7 +4513,7 @@
     /**
      * The paid media to send is a video.
      * 
-     * @see https://core.telegram.org/bots/api#InputPaidMediaVideo
+     * @see https://core.telegram.org/bots/api#inputpaidmediavideo
      *
      * @param string $type Type of the media, must be video
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
@@ -4457,7 +4553,7 @@
     /**
      * This object describes a profile photo to set. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#InputProfilePhoto
+     * @see https://core.telegram.org/bots/api#inputprofilephoto
      *
      *
      * @return array $args
@@ -4469,7 +4565,7 @@
     /**
      * A static profile photo in the .JPG format.
      * 
-     * @see https://core.telegram.org/bots/api#InputProfilePhotoStatic
+     * @see https://core.telegram.org/bots/api#inputprofilephotostatic
      *
      * @param string $type Type of the profile photo, must be static
      * @param string $photo The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so
@@ -4485,7 +4581,7 @@
     /**
      * An animated profile photo in the MPEG4 format.
      * 
-     * @see https://core.telegram.org/bots/api#InputProfilePhotoAnimated
+     * @see https://core.telegram.org/bots/api#inputprofilephotoanimated
      *
      * @param string $type Type of the profile photo, must be animated
      * @param string $animation The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file,
@@ -4504,7 +4600,7 @@
     /**
      * This object describes the content of a story to post. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#InputStoryContent
+     * @see https://core.telegram.org/bots/api#inputstorycontent
      *
      *
      * @return array $args
@@ -4516,7 +4612,7 @@
     /**
      * Describes a photo to post as a story.
      * 
-     * @see https://core.telegram.org/bots/api#InputStoryContentPhoto
+     * @see https://core.telegram.org/bots/api#inputstorycontentphoto
      *
      * @param string $type Type of the content, must be photo
      * @param string $photo The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The
@@ -4533,7 +4629,7 @@
     /**
      * Describes a video to post as a story.
      * 
-     * @see https://core.telegram.org/bots/api#InputStoryContentVideo
+     * @see https://core.telegram.org/bots/api#inputstorycontentvideo
      *
      * @param string $type Type of the content, must be video
      * @param string $video The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265
@@ -4558,7 +4654,7 @@
     /**
      * This object represents a sticker.
      * 
-     * @see https://core.telegram.org/bots/api#Sticker
+     * @see https://core.telegram.org/bots/api#sticker
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -4597,7 +4693,7 @@
     /**
      * This object represents a sticker set.
      * 
-     * @see https://core.telegram.org/bots/api#StickerSet
+     * @see https://core.telegram.org/bots/api#stickerset
      *
      * @param string $name Sticker set name
      * @param string $title Sticker set title
@@ -4616,7 +4712,7 @@
     /**
      * This object describes the position on faces where a mask should be placed by default.
      * 
-     * @see https://core.telegram.org/bots/api#MaskPosition
+     * @see https://core.telegram.org/bots/api#maskposition
      *
      * @param string $point The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”,
      *                              “mouth”, or “chin”.
@@ -4635,7 +4731,7 @@
     /**
      * This object describes a sticker to be added to a sticker set.
      * 
-     * @see https://core.telegram.org/bots/api#InputSticker
+     * @see https://core.telegram.org/bots/api#inputsticker
      *
      * @param string $sticker The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram
      *                              servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or pass
@@ -4662,7 +4758,7 @@
      * This object represents an incoming inline query. When the user sends an empty query, your bot could
      * return some default or trending results.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQuery
+     * @see https://core.telegram.org/bots/api#inlinequery
      *
      * @param string $id Unique identifier for this query
      * @param User $from Sender
@@ -4687,7 +4783,7 @@
      * This object represents a button to be shown above inline query results. You must use exactly one of
      * the optional fields.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultsButton
+     * @see https://core.telegram.org/bots/api#inlinequeryresultsbutton
      *
      * @param string $text Label text on the button
      * @param WebAppInfo|NULL $web_app Description of the Web App that will be launched when the user presses the button. The Web App will
@@ -4714,7 +4810,7 @@
      * This object represents one result of an inline query. Telegram clients currently support results of
      * the following 20 types:
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResult
+     * @see https://core.telegram.org/bots/api#inlinequeryresult
      *
      *
      * @return array $args
@@ -4726,7 +4822,7 @@
     /**
      * Represents a link to an article or web page.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultArticle
+     * @see https://core.telegram.org/bots/api#inlinequeryresultarticle
      *
      * @param string $type Type of the result, must be article
      * @param string $id Unique identifier for this result, 1-64 Bytes
@@ -4757,7 +4853,7 @@
      * Alternatively, you can use input_message_content to send a message with the specified content
      * instead of the photo.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultPhoto
+     * @see https://core.telegram.org/bots/api#inlinequeryresultphoto
      *
      * @param string $type Type of the result, must be photo
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -4796,7 +4892,7 @@
      * user with optional caption. Alternatively, you can use input_message_content to send a message with
      * the specified content instead of the animation.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultGif
+     * @see https://core.telegram.org/bots/api#inlinequeryresultgif
      *
      * @param string $type Type of the result, must be gif
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -4838,7 +4934,7 @@
      * animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use
      * input_message_content to send a message with the specified content instead of the animation.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultMpeg4Gif
+     * @see https://core.telegram.org/bots/api#inlinequeryresultmpeg4gif
      *
      * @param string $type Type of the result, must be mpeg4_gif
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -4880,7 +4976,7 @@
      * video file will be sent by the user with an optional caption. Alternatively, you can use
      * input_message_content to send a message with the specified content instead of the video.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultVideo
+     * @see https://core.telegram.org/bots/api#inlinequeryresultvideo
      *
      * @param string $type Type of the result, must be video
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -4922,7 +5018,7 @@
      * Alternatively, you can use input_message_content to send a message with the specified content
      * instead of the audio.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultAudio
+     * @see https://core.telegram.org/bots/api#inlinequeryresultaudio
      *
      * @param string $type Type of the result, must be audio
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -4955,7 +5051,7 @@
      * voice recording will be sent by the user. Alternatively, you can use input_message_content to send a
      * message with the specified content instead of the the voice message.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultVoice
+     * @see https://core.telegram.org/bots/api#inlinequeryresultvoice
      *
      * @param string $type Type of the result, must be voice
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -4986,7 +5082,7 @@
      * caption. Alternatively, you can use input_message_content to send a message with the specified
      * content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultDocument
+     * @see https://core.telegram.org/bots/api#inlinequeryresultdocument
      *
      * @param string $type Type of the result, must be document
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5023,7 +5119,7 @@
      * Represents a location on a map. By default, the location will be sent by the user. Alternatively,
      * you can use input_message_content to send a message with the specified content instead of the location.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultLocation
+     * @see https://core.telegram.org/bots/api#inlinequeryresultlocation
      *
      * @param string $type Type of the result, must be location
      * @param string $id Unique identifier for this result, 1-64 Bytes
@@ -5063,7 +5159,7 @@
      * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use
      * input_message_content to send a message with the specified content instead of the venue.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultVenue
+     * @see https://core.telegram.org/bots/api#inlinequeryresultvenue
      *
      * @param string $type Type of the result, must be venue
      * @param string $id Unique identifier for this result, 1-64 Bytes
@@ -5103,7 +5199,7 @@
      * Alternatively, you can use input_message_content to send a message with the specified content
      * instead of the contact.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultContact
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcontact
      *
      * @param string $type Type of the result, must be contact
      * @param string $id Unique identifier for this result, 1-64 Bytes
@@ -5134,7 +5230,7 @@
     /**
      * Represents a Game.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultGame
+     * @see https://core.telegram.org/bots/api#inlinequeryresultgame
      *
      * @param string $type Type of the result, must be game
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5154,7 +5250,7 @@
      * the user with an optional caption. Alternatively, you can use input_message_content to send a
      * message with the specified content instead of the photo.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedPhoto
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedphoto
      *
      * @param string $type Type of the result, must be photo
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5188,7 +5284,7 @@
      * GIF file will be sent by the user with an optional caption. Alternatively, you can use
      * input_message_content to send a message with specified content instead of the animation.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedGif
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedgif
      *
      * @param string $type Type of the result, must be gif
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5221,7 +5317,7 @@
      * Alternatively, you can use input_message_content to send a message with the specified content
      * instead of the animation.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedMpeg4Gif
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedmpeg4gif
      *
      * @param string $type Type of the result, must be mpeg4_gif
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5253,7 +5349,7 @@
      * by the user. Alternatively, you can use input_message_content to send a message with the specified
      * content instead of the sticker.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedSticker
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedsticker
      *
      * @param string $type Type of the result, must be sticker
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5275,7 +5371,7 @@
      * the user with an optional caption. Alternatively, you can use input_message_content to send a
      * message with the specified content instead of the file.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedDocument
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcacheddocument
      *
      * @param string $type Type of the result, must be document
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5306,7 +5402,7 @@
      * be sent by the user with an optional caption. Alternatively, you can use input_message_content to
      * send a message with the specified content instead of the video.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedVideo
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedvideo
      *
      * @param string $type Type of the result, must be video
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5339,7 +5435,7 @@
      * will be sent by the user. Alternatively, you can use input_message_content to send a message with
      * the specified content instead of the voice message.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedVoice
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedvoice
      *
      * @param string $type Type of the result, must be voice
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5368,7 +5464,7 @@
      * will be sent by the user. Alternatively, you can use input_message_content to send a message with
      * the specified content instead of the audio.
      * 
-     * @see https://core.telegram.org/bots/api#InlineQueryResultCachedAudio
+     * @see https://core.telegram.org/bots/api#inlinequeryresultcachedaudio
      *
      * @param string $type Type of the result, must be audio
      * @param string $id Unique identifier for this result, 1-64 bytes
@@ -5395,7 +5491,7 @@
      * This object represents the content of a message to be sent as a result of an inline query. Telegram
      * clients currently support the following 5 types:
      * 
-     * @see https://core.telegram.org/bots/api#InputMessageContent
+     * @see https://core.telegram.org/bots/api#inputmessagecontent
      *
      *
      * @return array $args
@@ -5407,7 +5503,7 @@
     /**
      * Represents the content of a text message to be sent as the result of an inline query.
      * 
-     * @see https://core.telegram.org/bots/api#InputTextMessageContent
+     * @see https://core.telegram.org/bots/api#inputtextmessagecontent
      *
      * @param string $message_text Text of the message to be sent, 1-4096 characters
      * @param string|NULL $parse_mode Mode for parsing entities in the message text. See formatting options for more details.
@@ -5427,7 +5523,7 @@
     /**
      * Represents the content of a location message to be sent as the result of an inline query.
      * 
-     * @see https://core.telegram.org/bots/api#InputLocationMessageContent
+     * @see https://core.telegram.org/bots/api#inputlocationmessagecontent
      *
      * @param float $latitude Latitude of the location in degrees
      * @param float $longitude Longitude of the location in degrees
@@ -5453,7 +5549,7 @@
     /**
      * Represents the content of a venue message to be sent as the result of an inline query.
      * 
-     * @see https://core.telegram.org/bots/api#InputVenueMessageContent
+     * @see https://core.telegram.org/bots/api#inputvenuemessagecontent
      *
      * @param float $latitude Latitude of the venue in degrees
      * @param float $longitude Longitude of the venue in degrees
@@ -5479,7 +5575,7 @@
     /**
      * Represents the content of a contact message to be sent as the result of an inline query.
      * 
-     * @see https://core.telegram.org/bots/api#InputContactMessageContent
+     * @see https://core.telegram.org/bots/api#inputcontactmessagecontent
      *
      * @param string $phone_number Contact's phone number
      * @param string $first_name Contact's first name
@@ -5498,7 +5594,7 @@
     /**
      * Represents the content of an invoice message to be sent as the result of an inline query.
      * 
-     * @see https://core.telegram.org/bots/api#InputInvoiceMessageContent
+     * @see https://core.telegram.org/bots/api#inputinvoicemessagecontent
      *
      * @param string $title Product name, 1-32 characters
      * @param string $description Product description, 1-255 characters
@@ -5561,7 +5657,7 @@
     /**
      * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
      * 
-     * @see https://core.telegram.org/bots/api#ChosenInlineResult
+     * @see https://core.telegram.org/bots/api#choseninlineresult
      *
      * @param string $result_id The unique identifier for the result that was chosen
      * @param User $from The user that chose the result
@@ -5582,7 +5678,7 @@
     /**
      * Describes an inline message sent by a Web App on behalf of a user.
      * 
-     * @see https://core.telegram.org/bots/api#SentWebAppMessage
+     * @see https://core.telegram.org/bots/api#sentwebappmessage
      *
      * @param string|NULL $inline_message_id Identifier of the sent inline message. Available only if there is an inline keyboard attached to the
      *                              message.
@@ -5598,7 +5694,7 @@
     /**
      * Describes an inline message to be sent by a user of a Mini App.
      * 
-     * @see https://core.telegram.org/bots/api#PreparedInlineMessage
+     * @see https://core.telegram.org/bots/api#preparedinlinemessage
      *
      * @param string $id Unique identifier of the prepared message
      * @param int $expiration_date Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used
@@ -5612,7 +5708,7 @@
     /**
      * This object represents a portion of the price for goods or services.
      * 
-     * @see https://core.telegram.org/bots/api#LabeledPrice
+     * @see https://core.telegram.org/bots/api#labeledprice
      *
      * @param string $label Portion label
      * @param int $amount Price of the product in the smallest units of the currency (integer, not float/double). For example,
@@ -5628,7 +5724,7 @@
     /**
      * This object contains basic information about an invoice.
      * 
-     * @see https://core.telegram.org/bots/api#Invoice
+     * @see https://core.telegram.org/bots/api#invoice
      *
      * @param string $title Product name
      * @param string $description Product description
@@ -5647,7 +5743,7 @@
     /**
      * This object represents a shipping address.
      * 
-     * @see https://core.telegram.org/bots/api#ShippingAddress
+     * @see https://core.telegram.org/bots/api#shippingaddress
      *
      * @param string $country_code Two-letter ISO 3166-1 alpha-2 country code
      * @param string $state State, if applicable
@@ -5665,7 +5761,7 @@
     /**
      * This object represents information about an order.
      * 
-     * @see https://core.telegram.org/bots/api#OrderInfo
+     * @see https://core.telegram.org/bots/api#orderinfo
      *
      * @param string|NULL $name User name
      * @param string|NULL $phone_number User's phone number
@@ -5686,7 +5782,7 @@
     /**
      * This object represents one shipping option.
      * 
-     * @see https://core.telegram.org/bots/api#ShippingOption
+     * @see https://core.telegram.org/bots/api#shippingoption
      *
      * @param string $id Shipping option identifier
      * @param string $title Option title
@@ -5703,7 +5799,7 @@
      * a chargeback with the relevant payment provider following this transaction, the funds may be debited
      * from your balance. This is outside of Telegram's control.
      * 
-     * @see https://core.telegram.org/bots/api#SuccessfulPayment
+     * @see https://core.telegram.org/bots/api#successfulpayment
      *
      * @param string $currency Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars
      * @param int $total_amount Total price in the smallest units of the currency (integer, not float/double). For example, for a
@@ -5733,7 +5829,7 @@
     /**
      * This object contains basic information about a refunded payment.
      * 
-     * @see https://core.telegram.org/bots/api#RefundedPayment
+     * @see https://core.telegram.org/bots/api#refundedpayment
      *
      * @param string $currency Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”
      * @param int $total_amount Total refunded price in the smallest units of the currency (integer, not float/double). For example,
@@ -5754,7 +5850,7 @@
     /**
      * This object contains information about an incoming shipping query.
      * 
-     * @see https://core.telegram.org/bots/api#ShippingQuery
+     * @see https://core.telegram.org/bots/api#shippingquery
      *
      * @param string $id Unique query identifier
      * @param User $from User who sent the query
@@ -5770,7 +5866,7 @@
     /**
      * This object contains information about an incoming pre-checkout query.
      * 
-     * @see https://core.telegram.org/bots/api#PreCheckoutQuery
+     * @see https://core.telegram.org/bots/api#precheckoutquery
      *
      * @param string $id Unique query identifier
      * @param User $from User who sent the query
@@ -5794,7 +5890,7 @@
     /**
      * This object contains information about a paid media purchase.
      * 
-     * @see https://core.telegram.org/bots/api#PaidMediaPurchased
+     * @see https://core.telegram.org/bots/api#paidmediapurchased
      *
      * @param User $from User who purchased the media
      * @param string $paid_media_payload Bot-specified paid media payload
@@ -5808,7 +5904,7 @@
     /**
      * This object describes the state of a revenue withdrawal operation. Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#RevenueWithdrawalState
+     * @see https://core.telegram.org/bots/api#revenuewithdrawalstate
      *
      *
      * @return array $args
@@ -5820,7 +5916,7 @@
     /**
      * The withdrawal is in progress.
      * 
-     * @see https://core.telegram.org/bots/api#RevenueWithdrawalStatePending
+     * @see https://core.telegram.org/bots/api#revenuewithdrawalstatepending
      *
      * @param string $type Type of the state, always “pending”
      *
@@ -5833,7 +5929,7 @@
     /**
      * The withdrawal succeeded.
      * 
-     * @see https://core.telegram.org/bots/api#RevenueWithdrawalStateSucceeded
+     * @see https://core.telegram.org/bots/api#revenuewithdrawalstatesucceeded
      *
      * @param string $type Type of the state, always “succeeded”
      * @param int $date Date the withdrawal was completed in Unix time
@@ -5848,7 +5944,7 @@
     /**
      * The withdrawal failed and the transaction was refunded.
      * 
-     * @see https://core.telegram.org/bots/api#RevenueWithdrawalStateFailed
+     * @see https://core.telegram.org/bots/api#revenuewithdrawalstatefailed
      *
      * @param string $type Type of the state, always “failed”
      *
@@ -5861,7 +5957,7 @@
     /**
      * Contains information about the affiliate that received a commission via this transaction.
      * 
-     * @see https://core.telegram.org/bots/api#AffiliateInfo
+     * @see https://core.telegram.org/bots/api#affiliateinfo
      *
      * @param User|NULL $affiliate_user The bot or the user that received an affiliate commission if it was received by a bot or a user
      * @param Chat|NULL $affiliate_chat The chat that received an affiliate commission if it was received by a chat
@@ -5886,7 +5982,7 @@
      * This object describes the source of a transaction, or its recipient for outgoing transactions.
      * Currently, it can be one of
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartner
+     * @see https://core.telegram.org/bots/api#transactionpartner
      *
      *
      * @return array $args
@@ -5898,7 +5994,7 @@
     /**
      * Describes a transaction with a user.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerUser
+     * @see https://core.telegram.org/bots/api#transactionpartneruser
      *
      * @param string $type Type of the transaction partner, always “user”
      * @param string $transaction_type Type of the transaction, currently one of “invoice_payment” for payments via invoices,
@@ -5933,7 +6029,7 @@
     /**
      * Describes a transaction with a chat.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerChat
+     * @see https://core.telegram.org/bots/api#transactionpartnerchat
      *
      * @param string $type Type of the transaction partner, always “chat”
      * @param Chat $chat Information about the chat
@@ -5950,7 +6046,7 @@
     /**
      * Describes the affiliate program that issued the affiliate commission received via this transaction.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerAffiliateProgram
+     * @see https://core.telegram.org/bots/api#transactionpartneraffiliateprogram
      *
      * @param string $type Type of the transaction partner, always “affiliate_program”
      * @param User|NULL $sponsor_user Information about the bot that sponsored the affiliate program
@@ -5968,7 +6064,7 @@
     /**
      * Describes a withdrawal transaction with Fragment.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerFragment
+     * @see https://core.telegram.org/bots/api#transactionpartnerfragment
      *
      * @param string $type Type of the transaction partner, always “fragment”
      * @param RevenueWithdrawalState|NULL $withdrawal_state State of the transaction if the transaction is outgoing
@@ -5984,7 +6080,7 @@
     /**
      * Describes a withdrawal transaction to the Telegram Ads platform.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerTelegramAds
+     * @see https://core.telegram.org/bots/api#transactionpartnertelegramads
      *
      * @param string $type Type of the transaction partner, always “telegram_ads”
      *
@@ -5997,7 +6093,7 @@
     /**
      * Describes a transaction with payment for paid broadcasting.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerTelegramApi
+     * @see https://core.telegram.org/bots/api#transactionpartnertelegramapi
      *
      * @param string $type Type of the transaction partner, always “telegram_api”
      * @param int $request_count The number of successful requests that exceeded regular limits and were therefore billed
@@ -6011,7 +6107,7 @@
     /**
      * Describes a transaction with an unknown source or recipient.
      * 
-     * @see https://core.telegram.org/bots/api#TransactionPartnerOther
+     * @see https://core.telegram.org/bots/api#transactionpartnerother
      *
      * @param string $type Type of the transaction partner, always “other”
      *
@@ -6026,7 +6122,7 @@
      * payment provider from whom they acquired Stars (e.g., Apple, Google) following this transaction, the
      * refunded Stars will be deducted from the bot's balance. This is outside of Telegram's control.
      * 
-     * @see https://core.telegram.org/bots/api#StarTransaction
+     * @see https://core.telegram.org/bots/api#startransaction
      *
      * @param string $id Unique identifier of the transaction. Coincides with the identifier of the original transaction for
      *                              refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful
@@ -6052,7 +6148,7 @@
     /**
      * Contains a list of Telegram Star transactions.
      * 
-     * @see https://core.telegram.org/bots/api#StarTransactions
+     * @see https://core.telegram.org/bots/api#startransactions
      *
      * @param StarTransaction[] $transactions The list of transactions
      *
@@ -6065,7 +6161,7 @@
     /**
      * Describes Telegram Passport data shared with the bot by the user.
      * 
-     * @see https://core.telegram.org/bots/api#PassportData
+     * @see https://core.telegram.org/bots/api#passportdata
      *
      * @param EncryptedPassportElement[] $data Array with information about documents and other Telegram Passport elements that was shared with the
      *                              bot
@@ -6081,7 +6177,7 @@
      * This object represents a file uploaded to Telegram Passport. Currently all Telegram Passport files
      * are in JPEG format when decrypted and don't exceed 10MB.
      * 
-     * @see https://core.telegram.org/bots/api#PassportFile
+     * @see https://core.telegram.org/bots/api#passportfile
      *
      * @param string $file_id Identifier for this file, which can be used to download or reuse the file
      * @param string $file_unique_id Unique identifier for this file, which is supposed to be the same over time and for different bots.
@@ -6098,7 +6194,7 @@
     /**
      * Describes documents or other Telegram Passport elements shared with the bot by the user.
      * 
-     * @see https://core.telegram.org/bots/api#EncryptedPassportElement
+     * @see https://core.telegram.org/bots/api#encryptedpassportelement
      *
      * @param string $type Element type. One of “personal_details”, “passport”, “driver_license”,
      *                              “identity_card”, “internal_passport”, “address”, “utility_bill”,
@@ -6147,7 +6243,7 @@
      * Describes data required for decrypting and authenticating EncryptedPassportElement. See the Telegram
      * Passport Documentation for a complete description of the data decryption and authentication processes.
      * 
-     * @see https://core.telegram.org/bots/api#EncryptedCredentials
+     * @see https://core.telegram.org/bots/api#encryptedcredentials
      *
      * @param string $data Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets
      *                              required for EncryptedPassportElement decryption and authentication
@@ -6164,7 +6260,7 @@
      * This object represents an error in the Telegram Passport element which was submitted that should be
      * resolved by the user. It should be one of:
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementError
+     * @see https://core.telegram.org/bots/api#passportelementerror
      *
      *
      * @return array $args
@@ -6177,7 +6273,7 @@
      * Represents an issue in one of the data fields that was provided by the user. The error is considered
      * resolved when the field's value changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorDataField
+     * @see https://core.telegram.org/bots/api#passportelementerrordatafield
      *
      * @param string $source Error source, must be data
      * @param string $type The section of the user's Telegram Passport which has the error, one of “personal_details”,
@@ -6196,7 +6292,7 @@
      * Represents an issue with the front side of a document. The error is considered resolved when the
      * file with the front side of the document changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorFrontSide
+     * @see https://core.telegram.org/bots/api#passportelementerrorfrontside
      *
      * @param string $source Error source, must be front_side
      * @param string $type The section of the user's Telegram Passport which has the issue, one of “passport”,
@@ -6214,7 +6310,7 @@
      * Represents an issue with the reverse side of a document. The error is considered resolved when the
      * file with reverse side of the document changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorReverseSide
+     * @see https://core.telegram.org/bots/api#passportelementerrorreverseside
      *
      * @param string $source Error source, must be reverse_side
      * @param string $type The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
@@ -6231,7 +6327,7 @@
      * Represents an issue with the selfie with a document. The error is considered resolved when the file
      * with the selfie changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorSelfie
+     * @see https://core.telegram.org/bots/api#passportelementerrorselfie
      *
      * @param string $source Error source, must be selfie
      * @param string $type The section of the user's Telegram Passport which has the issue, one of “passport”,
@@ -6249,7 +6345,7 @@
      * Represents an issue with a document scan. The error is considered resolved when the file with the
      * document scan changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorFile
+     * @see https://core.telegram.org/bots/api#passportelementerrorfile
      *
      * @param string $source Error source, must be file
      * @param string $type The section of the user's Telegram Passport which has the issue, one of “utility_bill”,
@@ -6267,7 +6363,7 @@
      * Represents an issue with a list of scans. The error is considered resolved when the list of files
      * containing the scans changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorFiles
+     * @see https://core.telegram.org/bots/api#passportelementerrorfiles
      *
      * @param string $source Error source, must be files
      * @param string $type The section of the user's Telegram Passport which has the issue, one of “utility_bill”,
@@ -6285,7 +6381,7 @@
      * Represents an issue with one of the files that constitute the translation of a document. The error
      * is considered resolved when the file changes.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorTranslationFile
+     * @see https://core.telegram.org/bots/api#passportelementerrortranslationfile
      *
      * @param string $source Error source, must be translation_file
      * @param string $type Type of element of the user's Telegram Passport which has the issue, one of “passport”,
@@ -6304,7 +6400,7 @@
      * Represents an issue with the translated version of a document. The error is considered resolved when
      * a file with the document translation change.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorTranslationFiles
+     * @see https://core.telegram.org/bots/api#passportelementerrortranslationfiles
      *
      * @param string $source Error source, must be translation_files
      * @param string $type Type of element of the user's Telegram Passport which has the issue, one of “passport”,
@@ -6322,7 +6418,7 @@
     /**
      * Represents an issue in an unspecified place. The error is considered resolved when new data is added.
      * 
-     * @see https://core.telegram.org/bots/api#PassportElementErrorUnspecified
+     * @see https://core.telegram.org/bots/api#passportelementerrorunspecified
      *
      * @param string $source Error source, must be unspecified
      * @param string $type Type of element of the user's Telegram Passport which has the issue
@@ -6339,7 +6435,7 @@
      * This object represents a game. Use BotFather to create and edit games, their short names will act as
      * unique identifiers.
      * 
-     * @see https://core.telegram.org/bots/api#Game
+     * @see https://core.telegram.org/bots/api#game
      *
      * @param string $title Title of the game
      * @param string $description Description of the game
@@ -6363,7 +6459,7 @@
     /**
      * A placeholder, currently holds no information. Use BotFather to set up your game.
      * 
-     * @see https://core.telegram.org/bots/api#CallbackGame
+     * @see https://core.telegram.org/bots/api#callbackgame
      *
      *
      * @return array $args
@@ -6375,7 +6471,7 @@
     /**
      * This object represents one row of the high scores table for a game.
      * 
-     * @see https://core.telegram.org/bots/api#GameHighScore
+     * @see https://core.telegram.org/bots/api#gamehighscore
      *
      * @param int $position Position in high score table for the game
      * @param User $user User
