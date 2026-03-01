@@ -336,6 +336,7 @@
      * @param int|NULL $sender_boost_count If the sender of the message boosted the chat, the number of boosts added by the user
      * @param User|NULL $sender_business_bot The bot that actually sent the message on behalf of the business account. Available only for
      *                              outgoing messages sent on behalf of the connected business account.
+     * @param string|NULL $sender_tag Tag or custom title of the sender of the message; for supergroups only
      * @param int $date Date the message was sent in Unix time. It is always a positive number, representing a valid date.
      * @param string|NULL $business_connection_id Unique identifier of the business connection from which the message was received. If non-empty, the
      *                              message belongs to a chat of the corresponding business account that is independent from any
@@ -357,7 +358,7 @@
      *                              message, or as a scheduled message
      * @param bool|NULL $is_paid_post True, if the message is a paid post. Note that such posts must not be deleted for 24 hours to
      *                              receive the payment and can't be edited.
-     * @param string|NULL $media_group_id The unique identifier of a media message group this message belongs to
+     * @param string|NULL $media_group_id The unique identifier inside this chat of a media message group this message belongs to
      * @param string|NULL $author_signature Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
      * @param int|NULL $paid_star_count The number of Telegram Stars that were paid by the sender of the message to send it
      * @param string|NULL $text For text messages, the actual UTF-8 text of the message
@@ -464,7 +465,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
@@ -472,6 +473,7 @@
       if ( $sender_chat !== NULL ) $args['sender_chat'] = $sender_chat;
       if ( $sender_boost_count !== NULL ) $args['sender_boost_count'] = $sender_boost_count;
       if ( $sender_business_bot !== NULL ) $args['sender_business_bot'] = $sender_business_bot;
+      if ( $sender_tag !== NULL ) $args['sender_tag'] = $sender_tag;
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $forward_origin !== NULL ) $args['forward_origin'] = $forward_origin;
       if ( $is_topic_message !== NULL ) $args['is_topic_message'] = $is_topic_message;
@@ -627,7 +629,7 @@
      *                              message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default
      *                              block quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for
      *                              clickable text URLs), “text_mention” (for users without usernames), “custom_emoji” (for
-     *                              inline custom emoji stickers)
+     *                              inline custom emoji stickers), or “date_time” (for formatted date and time)
      * @param int $offset Offset in UTF-16 code units to the start of the entity
      * @param int $length Length of the entity in UTF-16 code units
      * @param string|NULL $url For “text_link” only, URL that will be opened after user taps on the text
@@ -635,15 +637,20 @@
      * @param string|NULL $language For “pre” only, the programming language of the entity text
      * @param string|NULL $custom_emoji_id For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to
      *                              get full information about the sticker
+     * @param int|NULL $unix_time For “date_time” only, the Unix time associated with the entity
+     * @param string|NULL $date_time_format For “date_time” only, the string that defines the formatting of the date and time. See date-time
+     *                              entity formatting for more details.
      *
      * @return array $args
      */
-    public function MessageEntity ( string $type, int $offset, int $length, ?string $url = NULL, ?array $user = NULL, ?string $language = NULL, ?string $custom_emoji_id = NULL ) : array {
+    public function MessageEntity ( string $type, int $offset, int $length, ?string $url = NULL, ?array $user = NULL, ?string $language = NULL, ?string $custom_emoji_id = NULL, ?int $unix_time = NULL, ?string $date_time_format = NULL ) : array {
       $args = [ 'type' => $type, 'offset' => $offset, 'length' => $length ]; 
       if ( $url !== NULL ) $args['url'] = $url;
       if ( $user !== NULL ) $args['user'] = $user;
       if ( $language !== NULL ) $args['language'] = $language;
       if ( $custom_emoji_id !== NULL ) $args['custom_emoji_id'] = $custom_emoji_id;
+      if ( $unix_time !== NULL ) $args['unix_time'] = $unix_time;
+      if ( $date_time_format !== NULL ) $args['date_time_format'] = $date_time_format;
       return $args;
     }
 
@@ -2749,16 +2756,19 @@
      * @param bool|NULL $can_manage_topics True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
      * @param bool|NULL $can_manage_direct_messages True, if the administrator can manage direct messages of the channel and decline suggested posts;
      *                              for channels only
+     * @param bool|NULL $can_manage_tags True, if the administrator can edit the tags of regular members; for groups and supergroups only. If
+     *                              omitted defaults to the value of can_pin_messages.
      *
      * @return array $args
      */
-    public function ChatAdministratorRights ( bool $is_anonymous = false, bool $can_manage_chat = false, bool $can_delete_messages = false, bool $can_manage_video_chats = false, bool $can_restrict_members = false, bool $can_promote_members = false, bool $can_change_info = false, bool $can_invite_users = false, bool $can_post_stories = false, bool $can_edit_stories = false, bool $can_delete_stories = false, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL ) : array {
+    public function ChatAdministratorRights ( bool $is_anonymous = false, bool $can_manage_chat = false, bool $can_delete_messages = false, bool $can_manage_video_chats = false, bool $can_restrict_members = false, bool $can_promote_members = false, bool $can_change_info = false, bool $can_invite_users = false, bool $can_post_stories = false, bool $can_edit_stories = false, bool $can_delete_stories = false, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL, ?bool $can_manage_tags = NULL ) : array {
       $args = [ 'is_anonymous' => $is_anonymous, 'can_manage_chat' => $can_manage_chat, 'can_delete_messages' => $can_delete_messages, 'can_manage_video_chats' => $can_manage_video_chats, 'can_restrict_members' => $can_restrict_members, 'can_promote_members' => $can_promote_members, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_post_stories' => $can_post_stories, 'can_edit_stories' => $can_edit_stories, 'can_delete_stories' => $can_delete_stories ]; 
       if ( $can_post_messages !== NULL ) $args['can_post_messages'] = $can_post_messages;
       if ( $can_edit_messages !== NULL ) $args['can_edit_messages'] = $can_edit_messages;
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;
       if ( $can_manage_topics !== NULL ) $args['can_manage_topics'] = $can_manage_topics;
       if ( $can_manage_direct_messages !== NULL ) $args['can_manage_direct_messages'] = $can_manage_direct_messages;
+      if ( $can_manage_tags !== NULL ) $args['can_manage_tags'] = $can_manage_tags;
       return $args;
     }
 
@@ -2849,17 +2859,20 @@
      * @param bool|NULL $can_manage_topics True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
      * @param bool|NULL $can_manage_direct_messages True, if the administrator can manage direct messages of the channel and decline suggested posts;
      *                              for channels only
+     * @param bool|NULL $can_manage_tags True, if the administrator can edit the tags of regular members; for groups and supergroups only. If
+     *                              omitted defaults to the value of can_pin_messages.
      * @param string|NULL $custom_title Custom title for this user
      *
      * @return array $args
      */
-    public function ChatMemberAdministrator ( string $status = 'administrator', array $user, bool $can_be_edited, bool $is_anonymous, bool $can_manage_chat, bool $can_delete_messages, bool $can_manage_video_chats, bool $can_restrict_members, bool $can_promote_members, bool $can_change_info, bool $can_invite_users, bool $can_post_stories, bool $can_edit_stories, bool $can_delete_stories, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL, ?string $custom_title = NULL ) : array {
+    public function ChatMemberAdministrator ( string $status = 'administrator', array $user, bool $can_be_edited, bool $is_anonymous, bool $can_manage_chat, bool $can_delete_messages, bool $can_manage_video_chats, bool $can_restrict_members, bool $can_promote_members, bool $can_change_info, bool $can_invite_users, bool $can_post_stories, bool $can_edit_stories, bool $can_delete_stories, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL, ?bool $can_manage_tags = NULL, ?string $custom_title = NULL ) : array {
       $args = [ 'status' => $status, 'user' => $user, 'can_be_edited' => $can_be_edited, 'is_anonymous' => $is_anonymous, 'can_manage_chat' => $can_manage_chat, 'can_delete_messages' => $can_delete_messages, 'can_manage_video_chats' => $can_manage_video_chats, 'can_restrict_members' => $can_restrict_members, 'can_promote_members' => $can_promote_members, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_post_stories' => $can_post_stories, 'can_edit_stories' => $can_edit_stories, 'can_delete_stories' => $can_delete_stories ]; 
       if ( $can_post_messages !== NULL ) $args['can_post_messages'] = $can_post_messages;
       if ( $can_edit_messages !== NULL ) $args['can_edit_messages'] = $can_edit_messages;
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;
       if ( $can_manage_topics !== NULL ) $args['can_manage_topics'] = $can_manage_topics;
       if ( $can_manage_direct_messages !== NULL ) $args['can_manage_direct_messages'] = $can_manage_direct_messages;
+      if ( $can_manage_tags !== NULL ) $args['can_manage_tags'] = $can_manage_tags;
       if ( $custom_title !== NULL ) $args['custom_title'] = $custom_title;
       return $args;
     }
@@ -2870,13 +2883,15 @@
      * @see https://core.telegram.org/bots/api#chatmembermember
      *
      * @param string $status The member's status in the chat, always “member”
+     * @param string|NULL $tag Tag of the member
      * @param User $user Information about the user
      * @param int|NULL $until_date Date when the user's subscription will expire; Unix time
      *
      * @return array $args
      */
-    public function ChatMemberMember ( string $status = 'member', array $user, ?int $until_date = NULL ) : array {
+    public function ChatMemberMember ( string $status = 'member', array $user, ?string $tag = NULL, ?int $until_date = NULL ) : array {
       $args = [ 'status' => $status, 'user' => $user ]; 
+      if ( $tag !== NULL ) $args['tag'] = $tag;
       if ( $until_date !== NULL ) $args['until_date'] = $until_date;
       return $args;
     }
@@ -2887,6 +2902,7 @@
      * @see https://core.telegram.org/bots/api#chatmemberrestricted
      *
      * @param string $status The member's status in the chat, always “restricted”
+     * @param string|NULL $tag Tag of the member
      * @param User $user Information about the user
      * @param bool $is_member True, if the user is a member of the chat at the moment of the request
      * @param bool $can_send_messages True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices,
@@ -2900,6 +2916,7 @@
      * @param bool $can_send_polls True, if the user is allowed to send polls and checklists
      * @param bool $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
+     * @param bool $can_edit_tag True, if the user is allowed to edit their own tag
      * @param bool $can_change_info True, if the user is allowed to change the chat title, photo and other settings
      * @param bool $can_invite_users True, if the user is allowed to invite new users to the chat
      * @param bool $can_pin_messages True, if the user is allowed to pin messages
@@ -2908,8 +2925,10 @@
      *
      * @return array $args
      */
-    public function ChatMemberRestricted ( string $status = 'restricted', array $user, bool $is_member, bool $can_send_messages, bool $can_send_audios, bool $can_send_documents, bool $can_send_photos, bool $can_send_videos, bool $can_send_video_notes, bool $can_send_voice_notes, bool $can_send_polls, bool $can_send_other_messages, bool $can_add_web_page_previews, bool $can_change_info, bool $can_invite_users, bool $can_pin_messages, bool $can_manage_topics, int $until_date ) : array {
-      return [ 'status' => $status, 'user' => $user, 'is_member' => $is_member, 'can_send_messages' => $can_send_messages, 'can_send_audios' => $can_send_audios, 'can_send_documents' => $can_send_documents, 'can_send_photos' => $can_send_photos, 'can_send_videos' => $can_send_videos, 'can_send_video_notes' => $can_send_video_notes, 'can_send_voice_notes' => $can_send_voice_notes, 'can_send_polls' => $can_send_polls, 'can_send_other_messages' => $can_send_other_messages, 'can_add_web_page_previews' => $can_add_web_page_previews, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_pin_messages' => $can_pin_messages, 'can_manage_topics' => $can_manage_topics, 'until_date' => $until_date ];
+    public function ChatMemberRestricted ( string $status = 'restricted', array $user, bool $is_member, bool $can_send_messages, bool $can_send_audios, bool $can_send_documents, bool $can_send_photos, bool $can_send_videos, bool $can_send_video_notes, bool $can_send_voice_notes, bool $can_send_polls, bool $can_send_other_messages, bool $can_add_web_page_previews, bool $can_edit_tag, bool $can_change_info, bool $can_invite_users, bool $can_pin_messages, bool $can_manage_topics, int $until_date, ?string $tag = NULL ) : array {
+      $args = [ 'status' => $status, 'user' => $user, 'is_member' => $is_member, 'can_send_messages' => $can_send_messages, 'can_send_audios' => $can_send_audios, 'can_send_documents' => $can_send_documents, 'can_send_photos' => $can_send_photos, 'can_send_videos' => $can_send_videos, 'can_send_video_notes' => $can_send_video_notes, 'can_send_voice_notes' => $can_send_voice_notes, 'can_send_polls' => $can_send_polls, 'can_send_other_messages' => $can_send_other_messages, 'can_add_web_page_previews' => $can_add_web_page_previews, 'can_edit_tag' => $can_edit_tag, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_pin_messages' => $can_pin_messages, 'can_manage_topics' => $can_manage_topics, 'until_date' => $until_date ]; 
+      if ( $tag !== NULL ) $args['tag'] = $tag;
+      return $args;
     }
 
     /**
@@ -2982,6 +3001,7 @@
      * @param bool|NULL $can_send_polls True, if the user is allowed to send polls and checklists
      * @param bool|NULL $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|NULL $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
+     * @param bool|NULL $can_edit_tag True, if the user is allowed to edit their own tag
      * @param bool|NULL $can_change_info True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
      * @param bool|NULL $can_invite_users True, if the user is allowed to invite new users to the chat
      * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages. Ignored in public supergroups
@@ -2989,7 +3009,7 @@
      *
      * @return array $args
      */
-    public function ChatPermissions ( ?bool $can_send_messages = NULL, ?bool $can_send_audios = NULL, ?bool $can_send_documents = NULL, ?bool $can_send_photos = NULL, ?bool $can_send_videos = NULL, ?bool $can_send_video_notes = NULL, ?bool $can_send_voice_notes = NULL, ?bool $can_send_polls = NULL, ?bool $can_send_other_messages = NULL, ?bool $can_add_web_page_previews = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL ) : array {
+    public function ChatPermissions ( ?bool $can_send_messages = NULL, ?bool $can_send_audios = NULL, ?bool $can_send_documents = NULL, ?bool $can_send_photos = NULL, ?bool $can_send_videos = NULL, ?bool $can_send_video_notes = NULL, ?bool $can_send_voice_notes = NULL, ?bool $can_send_polls = NULL, ?bool $can_send_other_messages = NULL, ?bool $can_add_web_page_previews = NULL, ?bool $can_edit_tag = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL ) : array {
       $args = []; 
       if ( $can_send_messages !== NULL ) $args['can_send_messages'] = $can_send_messages;
       if ( $can_send_audios !== NULL ) $args['can_send_audios'] = $can_send_audios;
@@ -3001,6 +3021,7 @@
       if ( $can_send_polls !== NULL ) $args['can_send_polls'] = $can_send_polls;
       if ( $can_send_other_messages !== NULL ) $args['can_send_other_messages'] = $can_send_other_messages;
       if ( $can_add_web_page_previews !== NULL ) $args['can_add_web_page_previews'] = $can_add_web_page_previews;
+      if ( $can_edit_tag !== NULL ) $args['can_edit_tag'] = $can_edit_tag;
       if ( $can_change_info !== NULL ) $args['can_change_info'] = $can_change_info;
       if ( $can_invite_users !== NULL ) $args['can_invite_users'] = $can_invite_users;
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;

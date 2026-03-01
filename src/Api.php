@@ -1186,8 +1186,8 @@
     }
 
     /**
-     * Use this method to stream a partial message to a user while the message is being generated;
-     * supported only for bots with forum topic mode enabled. Returns True on success.
+     * Use this method to stream a partial message to a user while the message is being generated. Returns
+     * True on success.
      * 
      * @see https://core.telegram.org/bots/api#sendmessagedraft
      *
@@ -1444,10 +1444,11 @@
      * @param bool|NULL $can_manage_topics Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
      * @param bool|NULL $can_manage_direct_messages Pass True if the administrator can manage direct messages within the channel and decline suggested
      *                              posts; for channels only
+     * @param bool|NULL $can_manage_tags Pass True if the administrator can edit the tags of regular members; for groups and supergroups only
      *
      * @return stdClass
      */
-    public function promoteChatMember ( int|string $chat_id, int $user_id, ?bool $is_anonymous = NULL, ?bool $can_manage_chat = NULL, ?bool $can_delete_messages = NULL, ?bool $can_manage_video_chats = NULL, ?bool $can_restrict_members = NULL, ?bool $can_promote_members = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_post_stories = NULL, ?bool $can_edit_stories = NULL, ?bool $can_delete_stories = NULL, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL ) : stdClass {
+    public function promoteChatMember ( int|string $chat_id, int $user_id, ?bool $is_anonymous = NULL, ?bool $can_manage_chat = NULL, ?bool $can_delete_messages = NULL, ?bool $can_manage_video_chats = NULL, ?bool $can_restrict_members = NULL, ?bool $can_promote_members = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_post_stories = NULL, ?bool $can_edit_stories = NULL, ?bool $can_delete_stories = NULL, ?bool $can_post_messages = NULL, ?bool $can_edit_messages = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL, ?bool $can_manage_direct_messages = NULL, ?bool $can_manage_tags = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'user_id' => $user_id ]; 
       if ( $is_anonymous !== NULL ) $args['is_anonymous'] = $is_anonymous;
       if ( $can_manage_chat !== NULL ) $args['can_manage_chat'] = $can_manage_chat;
@@ -1465,6 +1466,7 @@
       if ( $can_pin_messages !== NULL ) $args['can_pin_messages'] = $can_pin_messages;
       if ( $can_manage_topics !== NULL ) $args['can_manage_topics'] = $can_manage_topics;
       if ( $can_manage_direct_messages !== NULL ) $args['can_manage_direct_messages'] = $can_manage_direct_messages;
+      if ( $can_manage_tags !== NULL ) $args['can_manage_tags'] = $can_manage_tags;
       return $this->Request( __FUNCTION__, $args );
     }
 
@@ -1482,6 +1484,25 @@
      */
     public function setChatAdministratorCustomTitle ( int|string $chat_id, int $user_id, string $custom_title ) : stdClass {
       return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'user_id' => $user_id, 'custom_title' => $custom_title ] );
+    }
+
+    /**
+     * Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an
+     * administrator in the chat for this to work and must have the can_manage_tags administrator right.
+     * Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#setchatmembertag
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     * @param int $user_id Unique identifier of the target user
+     * @param string|NULL $tag New tag for the member; 0-16 characters, emoji are not allowed
+     *
+     * @return stdClass
+     */
+    public function setChatMemberTag ( int|string $chat_id, int $user_id, ?string $tag = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'user_id' => $user_id ]; 
+      if ( $tag !== NULL ) $args['tag'] = $tag;
+      return $this->Request( __FUNCTION__, $args );
     }
 
     /**
