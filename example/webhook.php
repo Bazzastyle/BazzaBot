@@ -60,6 +60,7 @@
 		elseif ( isset( $update->chat_member ) ) require_once __DIR__ . '/update/chat_member.php';
 		elseif ( isset( $update->chat_join_request ) ) require_once __DIR__ . '/update/request.php';
 		elseif ( isset( $update->chat_boost ) || isset( $update->removed_chat_boost ) ) require_once __DIR__ . '/update/boost.php';
+		elseif ( isset( $update->managed_bot ) ) require __DIR__ . '/update/managed_bot.php';
 	}
 
 	$future = async( handleUpdate( ... ), $client, $update, $env );

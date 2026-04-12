@@ -41,7 +41,8 @@ $env = [
 			"chat_member",
 			"chat_join_request",
 			"chat_boost",
-			"removed_chat_boost"
+			"removed_chat_boost",
+			'managed_bot',
 		],
 	],
 
