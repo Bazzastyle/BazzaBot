@@ -26,6 +26,7 @@
 			'chat_join_request',
 			'chat_boost',
 			'removed_chat_boost',
+			'managed_bot',
 		];
 		private string $update_type;
 
@@ -60,25 +61,29 @@
 				elseif ( $this->update_type === 'chat_join_request' ) $this->ChatJoinRequest( $update );
 				elseif ( $this->update_type === 'chat_boost' ) $this->ChatBoostUpdated( $update );
 				elseif ( $this->update_type === 'removed_chat_boost' ) $this->ChatBoostRemoved( $update );
+				elseif ( $this->update_type === 'managed_bot' ) $this->ManagedBotUpdated( $update );
 			}
 		}
 
 		public function User ( object|array $update, string $prefix ) {
 			if ( is_array( $update ) ) $update = $update[0];
-			$this->{$prefix . '_id'}                          = $update->id ?? NULL;
-			$this->{$prefix . '_is_bot'}                      = $update->is_bot ?? NULL;
-			$this->{$prefix . '_first_name'}                  = $update->first_name ?? NULL;
-			$this->{$prefix . '_last_name'}                   = $update->last_name ?? NULL;
-			$this->{$prefix . '_username'}                    = $update->username ?? NULL;
-			$this->{$prefix . '_language_code'}               = $update->language_code ?? NULL;
-			$this->{$prefix . '_is_premium'}                  = $update->is_premium ?? NULL;
-			$this->{$prefix . '_added_to_attachment_menu'}    = $update->added_to_attachment_menu ?? NULL;
-			$this->{$prefix . '_can_join_groups'}             = $update->can_join_groups ?? NULL;
-			$this->{$prefix . '_can_read_all_group_messages'} = $update->can_read_all_group_messages ?? NULL;
-			$this->{$prefix . '_supports_inline_queries'}     = $update->supports_inline_queries ?? NULL;
-			$this->{$prefix . '_can_connect_to_business'}     = $update->can_connect_to_business ?? NULL;
-			$this->{$prefix . '_has_main_web_app'}            = $update->has_main_web_app ?? NULL;
-		} 
+			$this->{$prefix . '_id'}                            = $update->id ?? NULL;
+			$this->{$prefix . '_is_bot'}                        = $update->is_bot ?? NULL;
+			$this->{$prefix . '_first_name'}                    = $update->first_name ?? NULL;
+			$this->{$prefix . '_last_name'}                     = $update->last_name ?? NULL;
+			$this->{$prefix . '_username'}                      = $update->username ?? NULL;
+			$this->{$prefix . '_language_code'}                 = $update->language_code ?? NULL;
+			$this->{$prefix . '_is_premium'}                    = $update->is_premium ?? NULL;
+			$this->{$prefix . '_added_to_attachment_menu'}      = $update->added_to_attachment_menu ?? NULL;
+			$this->{$prefix . '_can_join_groups'}               = $update->can_join_groups ?? NULL;
+			$this->{$prefix . '_can_read_all_group_messages'}   = $update->can_read_all_group_messages ?? NULL;
+			$this->{$prefix . '_supports_inline_queries'}       = $update->supports_inline_queries ?? NULL;
+			$this->{$prefix . '_can_connect_to_business'}       = $update->can_connect_to_business ?? NULL;
+			$this->{$prefix . '_has_main_web_app'}              = $update->has_main_web_app ?? NULL;
+			$this->{$prefix . '_has_topics_enabled'}            = $update->has_topics_enabled ?? NULL;
+			$this->{$prefix . '_allows_users_to_create_topics'} = $update->allows_users_to_create_topics ?? NULL;
+			$this->{$prefix . '_can_manage_bots'}               = $update->can_manage_bots ?? NULL;
+		}
 
 		public function Chat ( object $update, string $prefix ) {
 			$this->{$prefix . '_id'}                 = $update->id ?? NULL;
@@ -105,6 +110,7 @@
 			$this->{$prefix . 'sender_boost_count'}                = $update->sender_boost_count ?? NULL;
 			$this->{$prefix . 'sender_business_bot'}               = $update->sender_business_bot ?? NULL;
 			if ( isset( $update->sender_business_bot ) ) $this->User( $update->sender_business_bot, ! empty( $prefix ) ? $prefix . 'sender_business_bot' : 'sender_business_bot' );
+			$this->{$prefix . 'sender_tag'}                        = $update->sender_tag ?? NULL;
 			$this->{$prefix . 'date'}                              = $update->date ?? NULL;
 			$this->{$prefix . 'business_connection_id'}            = $update->business_connection_id ?? NULL;
 			$this->{$prefix . 'chat'}                              = $update->chat ?? NULL;
@@ -123,6 +129,7 @@
 			$this->{$prefix . 'reply_to_story'}                    = $update->reply_to_story ?? NULL;
 			if ( isset( $update->reply_to_story ) ) $this->Story( $update->reply_to_story, ! empty( $prefix ) ? $prefix . 'reply_to_story' : 'reply_to_story'  );
 			$this->{$prefix . 'reply_to_checklist_task_id'}        = $update->reply_to_checklist_task_id ?? NULL;
+			$this->{$prefix . 'reply_to_poll_option_id'}           = $update->reply_to_poll_option_id ?? NULL;
 			$this->{$prefix . 'via_bot'}                           = $update->via_bot ?? NULL;
 			if ( isset( $update->via_bot ) ) $this->User( $update->via_bot, ! empty( $prefix ) ? $prefix . 'via_bot' : 'via_bot' );
 			$this->{$prefix . 'edit_date'}                         = $update->edit_date ?? NULL;
@@ -162,6 +169,7 @@
 			if ( isset( $update->voice ) ) $this->Voice( $update->voice, ! empty( $prefix ) ? $prefix . 'voice' : 'voice' );
 			$this->{$prefix . 'caption'}                           = $update->caption ?? NULL;
 			$this->{$prefix . 'caption_entities'}                  = $update->caption_entities ?? NULL;
+			$this->{$prefix . 'show_caption_above_media'}          = $update->show_caption_above_media ?? NULL;
 			$this->{$prefix . 'has_media_spoiler'}                 = $update->has_media_spoiler ?? NULL;
 			$this->{$prefix . 'checklist'}                         = $update->checklist ?? NULL;
 			if ( isset( $update->checklist ) ) $this->Checklist( $update->checklist, ! empty( $prefix ) ? $prefix . 'checklist' : 'checklist' );
@@ -181,6 +189,10 @@
 			if ( isset( $update->new_chat_members ) ) $this->User( $update->new_chat_members, ! empty( $prefix ) ? $prefix . 'new_chat_members' : 'new_chat_members' );
 			$this->{$prefix . 'left_chat_member'}                  = $update->left_chat_member ?? NULL;
 			if ( isset( $update->left_chat_member ) ) $this->User( $update->left_chat_member, ! empty( $prefix ) ? $prefix . 'left_chat_member' : 'left_chat_member' );
+			$this->{$prefix . 'chat_owner_left'}                   = $update->chat_owner_left ?? NULL;
+			if ( isset( $update->chat_owner_left ) ) $this->ChatOwnerLeft( $update->chat_owner_left, ! empty( $prefix ) ? $prefix . 'chat_owner_left' : 'chat_owner_left' );
+			$this->{$prefix . 'chat_owner_changed'}                = $update->chat_owner_changed ?? NULL;
+			if ( isset( $update->chat_owner_changed ) ) $this->ChatOwnerChanged( $update->chat_owner_changed, ! empty( $prefix ) ? $prefix . 'chat_owner_changed' : 'chat_owner_changed' );
 			$this->{$prefix . 'new_chat_title'}                    = $update->new_chat_title ?? NULL;
 			$this->{$prefix . 'new_chat_photo'}                    = $update->new_chat_photo ?? NULL;
 			if ( isset( $update->new_chat_photo ) ) $this->PhotoSize( $update->new_chat_photo, ! empty( $prefix ) ? $prefix . 'new_chat_photo' : 'new_chat_photo' );
@@ -209,6 +221,8 @@
 			if ( isset( $update->gift ) ) $this->GiftInfo( $update->gift, ! empty( $prefix ) ? $prefix . 'gift' : 'gift' );
 			$this->{$prefix . 'unique_gift'}                       = $update->unique_gift ?? NULL;
 			if ( isset( $update->unique_gift ) ) $this->UniqueGiftInfo( $update->unique_gift, ! empty( $prefix ) ? $prefix . 'unique_gift' : 'unique_gift' );
+			$this->{$prefix . 'gift_upgrade_sent'}                 = $update->gift_upgrade_sent ?? NULL;
+			if ( isset( $update->gift_upgrade_sent ) ) $this->GiftInfo( $update->gift_upgrade_sent, ! empty( $prefix ) ? $prefix . 'gift_upgrade_sent' : 'gift_upgrade_sent' );
 			$this->{$prefix . 'connected_website'}                 = $update->connected_website ?? NULL;
 			$this->{$prefix . 'write_access_allowed'}              = $update->write_access_allowed ?? NULL;
 			if ( isset( $update->write_access_allowed ) ) $this->WriteAccessAllowed( $update->write_access_allowed, ! empty( $prefix ) ? $prefix . 'write_access_allowed' : 'write_access_allowed' );
@@ -220,11 +234,11 @@
 			if ( isset( $update->boost_added ) ) $this->ChatBoostAdded( $update->boost_added, ! empty( $prefix ) ? $prefix . 'boost_added' : 'boost_added' );
 			$this->{$prefix . 'chat_background_set'}               = $update->chat_background_set ?? NULL;
 			if ( isset( $update->chat_background_set ) ) $this->ChatBackground( $update->chat_background_set, ! empty( $prefix ) ? $prefix . 'chat_background_set' : 'chat_background_set' );
-			$this->checklist_tasks_done                            = $update->checklist_tasks_done ?? NULL;
+			$this->{$prefix . 'checklist_tasks_done'}              = $update->checklist_tasks_done ?? NULL;
 			if ( isset( $update->checklist_tasks_done ) ) $this->ChecklistTasksDone( $update->checklist_tasks_done, ! empty( $prefix ) ? $prefix . 'checklist_tasks_done' : 'checklist_tasks_done' );
-			$this->checklist_tasks_added                           = $update->checklist_tasks_added ?? NULL;
+			$this->{$prefix . 'checklist_tasks_added'}             = $update->checklist_tasks_added ?? NULL;
 			if ( isset( $update->checklist_tasks_added ) ) $this->ChecklistTasksAdded( $update->checklist_tasks_added, ! empty( $prefix ) ? $prefix . 'checklist_tasks_added' : 'checklist_tasks_added' );
-			$this->direct_message_price_changed                    = $update->direct_message_price_changed ?? NULL;
+			$this->{$prefix . 'direct_message_price_changed'}      = $update->direct_message_price_changed ?? NULL;
 			if ( isset( $update->direct_message_price_changed ) ) $this->DirectMessagePriceChanged( $update->direct_message_price_changed, ! empty( $prefix ) ? $prefix . 'direct_message_price_changed' : 'direct_message_price_changed' );
 			$this->{$prefix . 'forum_topic_created'}               = $update->forum_topic_created ?? NULL;
 			if ( isset( $update->forum_topic_created ) ) $this->ForumTopicCreated( $update->forum_topic_created, ! empty( $prefix ) ? $prefix . 'forum_topic_created' : 'forum_topic_created' );
@@ -236,6 +250,8 @@
 			if ( isset( $update->forum_topic_reopened ) ) $this->ForumTopicReopened( $update->forum_topic_reopened, ! empty( $prefix ) ? $prefix . 'forum_topic_reopened' : 'forum_topic_reopened' );
 			$this->{$prefix . 'general_forum_topic_hidden'}        = $update->general_forum_topic_hidden ?? NULL;
 			if ( isset( $update->general_forum_topic_hidden ) ) $this->GeneralForumTopicHidden( $update->general_forum_topic_hidden, ! empty( $prefix ) ? $prefix . 'general_forum_topic_hidden' : 'general_forum_topic_hidden' );
+			$this->{$prefix . 'general_forum_topic_unhidden'}      = $update->general_forum_topic_unhidden ?? NULL;
+			if ( isset( $update->general_forum_topic_unhidden ) ) $this->GeneralForumTopicUnhidden( $update->general_forum_topic_unhidden, ! empty( $prefix ) ? $prefix . 'general_forum_topic_unhidden' : 'general_forum_topic_unhidden' );
 			$this->{$prefix . 'giveaway_created'}                  = $update->giveaway_created ?? NULL;
 			if ( isset( $update->giveaway_created ) ) $this->GiveawayCreated( $update->giveaway_created, ! empty( $prefix ) ? $prefix . 'giveaway_created' : 'giveaway_created' );
 			$this->{$prefix . 'giveaway'}                          = $update->giveaway ?? NULL;
@@ -244,8 +260,14 @@
 			if ( isset( $update->giveaway_winners ) ) $this->GiveawayWinners( $update->giveaway_winners, ! empty( $prefix ) ? $prefix . 'giveaway_winners' : 'giveaway_winners' );
 			$this->{$prefix . 'giveaway_completed'}                = $update->giveaway_completed ?? NULL;
 			if ( isset( $update->giveaway_completed ) ) $this->GiveawayCompleted( $update->giveaway_completed, ! empty( $prefix ) ? $prefix . 'giveaway_completed' : 'giveaway_completed' );
+			$this->{$prefix . 'managed_bot_created'}               = $update->managed_bot_created ?? NULL;
+			if ( isset( $update->managed_bot_created ) ) $this->ManagedBotCreated( $update->managed_bot_created, ! empty( $prefix ) ? $prefix . 'managed_bot_created' : 'managed_bot_created' );
 			$this->{$prefix . 'paid_message_price_changed'}        = $update->paid_message_price_changed ?? NULL;
 			if ( isset( $update->paid_message_price_changed ) ) $this->PaidMessagePriceChanged( $update->paid_message_price_changed, ! empty( $prefix ) ? $prefix . 'paid_message_price_changed' : 'paid_message_price_changed' );
+			$this->{$prefix . 'poll_option_added'}                 = $update->poll_option_added ?? NULL;
+			if ( isset( $update->poll_option_added ) ) $this->PollOptionAdded( $update->poll_option_added, ! empty( $prefix ) ? $prefix . 'poll_option_added' : 'poll_option_added' );
+			$this->{$prefix . 'poll_option_deleted'}               = $update->poll_option_deleted ?? NULL;
+			if ( isset( $update->poll_option_deleted ) ) $this->PollOptionDeleted( $update->poll_option_deleted, ! empty( $prefix ) ? $prefix . 'poll_option_deleted' : 'poll_option_deleted' );
 			$this->{$prefix . 'suggested_post_approved'}           = $update->suggested_post_approved ?? NULL;
 			if ( isset( $update->suggested_post_approved ) ) $this->SuggestedPostApproved( $update->suggested_post_approved, ! empty( $prefix ) ? $prefix . 'suggested_post_approved' : 'suggested_post_approved' );
 			$this->{$prefix . 'suggested_post_approval_failed'}    = $update->suggested_post_approval_failed ?? NULL;
@@ -276,14 +298,16 @@
 
 		public function MessageEntity ( array $update, string $prefix ) {
 			foreach( $update as $entity ) {
-				$this->{$prefix . '_type'}            = $entity->type ?? NULL;
-				$this->{$prefix . '_offset'}          = $entity->offset ?? NULL;
-				$this->{$prefix . '_length'}          = $entity->length ?? NULL;
-				$this->{$prefix . '_url'}             = $entity->url ?? NULL;
-				$this->{$prefix . '_user'}            = $entity->user ?? NULL;
+				$this->{$prefix . '_type'}             = $entity->type ?? NULL;
+				$this->{$prefix . '_offset'}           = $entity->offset ?? NULL;
+				$this->{$prefix . '_length'}           = $entity->length ?? NULL;
+				$this->{$prefix . '_url'}              = $entity->url ?? NULL;
+				$this->{$prefix . '_user'}             = $entity->user ?? NULL;
 				if ( isset( $entity->user ) ) $this->User( $entity->user, $prefix . '_user' );
-				$this->{$prefix . '_language'}        = $entity->language ?? NULL;
-				$this->{$prefix . '_custom_emoji_id'} = $entity->custom_emoji_id ?? NULL;
+				$this->{$prefix . '_language'}         = $entity->language ?? NULL;
+				$this->{$prefix . '_custom_emoji_id'}  = $entity->custom_emoji_id ?? NULL;
+				$this->{$prefix . '_unix_time'}        = $entity->unix_time ?? NULL;
+				$this->{$prefix . '_date_time_format'} = $entity->date_time_format ?? NULL;
 			}
 		}
 
@@ -369,6 +393,11 @@
 			$this->{$prefix . '_sender_message_id'} = $update->sender_message_id ?? NULL;
 		}
 
+		public function MessageOriginUser () {}
+		public function MessageOriginHiddenUser () {}
+		public function MessageOriginChat () {}
+		public function MessageOriginChannel () {}
+
 		public function PhotoSize ( array|object $update, string $prefix ) {
 			if ( is_array( $update ) ) $update = end( $update );
 			$this->{$prefix . '_file_id'}        = $update->file_id ?? NULL;
@@ -420,6 +449,17 @@
 			$this->{$prefix . '_id'}   = $update->id ?? NULL;
 		}
 
+		public function VideoQuality ( object $update, string $prefix ) {
+			foreach ( $update as $quality ) {
+				$this->{$prefix . '_file_id'}        = $update->file_id ?? NULL;
+				$this->{$prefix . '_file_unique_id'} = $update->file_unique_id ?? NULL;
+				$this->{$prefix . '_width'}          = $update->width ?? NULL;
+				$this->{$prefix . '_height'}         = $update->height ?? NULL;
+				$this->{$prefix . '_codec'}          = $update->codec ?? NULL;
+				$this->{$prefix . '_file_size'}      = $update->file_size ?? NULL;
+			}
+		}
+
 		public function Video ( object $update, string $prefix ) {
 			$this->{$prefix . '_file_id'}         = $update->file_id ?? NULL;
 			$this->{$prefix . '_file_unique_id'}  = $update->file_unique_id ?? NULL;
@@ -431,6 +471,8 @@
 			$this->{$prefix . '_cover'}           = $update->cover ?? NULL;
 			if ( isset( $update->cover ) ) $this->PhotoSize( $update->cover, $prefix . '_cover' );
 			$this->{$prefix . '_start_timestamp'} = $update->start_timestamp ?? NULL;
+			$this->{$prefix . '_qualities'}       = $update->qualities ?? NULL;
+			if ( isset( $update->qualities ) ) $this->VideoQuality( $update->qualities, $prefix . '_cover' );
 			$this->{$prefix . '_file_name'}       = $update->file_name ?? NULL;
 			$this->{$prefix . '_mime_type'}       = $update->mime_type ?? NULL;
 			$this->{$prefix . '_file_size'}       = $update->file_size ?? NULL;
@@ -471,6 +513,10 @@
 			if ( isset( $update->video ) ) $this->Video( $update->video, $prefix . '_video' );
 		}
 
+		public function PaidMediaPreview () {}
+		public function PaidMediaPhoto () {}
+		public function PaidMediaVideo () {}
+
 		public function Contact ( object $update, string $prefix ) {
 			$this->{$prefix . '_phone_number'} = $update->phone_number ?? NULL;
 			$this->{$prefix . '_first_name'}   = $update->first_name ?? NULL;
@@ -486,10 +532,16 @@
 
 		public function PollOption ( object|array $update, string $prefix ) {
 			if ( is_array( $update ) ) $update = (object) $update;
+			$this->{$prefix . '_persistent_id'} = $update->persistent_id ?? NULL;
 			$this->{$prefix . '_text'}          = $update->text ?? NULL;
 			$this->{$prefix . '_text_entities'} = $update->text_entities ?? NULL;
 			if ( isset( $update->text_entities ) ) $this->MessageEntity( $update->text_entities, $prefix . '_text_entities' );
 			$this->{$prefix . '_voter_count'}   = $update->voter_count ?? NULL;
+			$this->{$prefix . '_added_by_user'} = $update->added_by_user ?? NULL;
+			if ( isset( $update->added_by_user ) ) $this->User( $update->added_by_user, $prefix . '_added_by_user' );
+			$this->{$prefix . '_added_by_chat'} = $update->added_by_chat ?? NULL;
+			if ( isset( $update->added_by_chat ) ) $this->Chat( $update->added_by_chat, $prefix . '_added_by_chat' );
+			$this->{$prefix . '_addition_date'} = $update->addition_date ?? NULL;
 		}
 
 		public function InputPollOption () {}
@@ -500,7 +552,8 @@
 			if ( isset( $update->voter_chat ) ) $this->Chat( $update->voter_chat, $prefix ? $prefix . '_voter_chat' : 'voter_chat' );
 			$this->{$prefix . 'user'}         = $update->user ?? NULL;
 			if ( isset( $update->user ) ) $this->User( $update->user, $prefix ? $prefix . '_user' : 'user' );
-			$this->{$prefix . 'poll_options'} = $update->option_ids ?? NULL;
+			$this->{$prefix . 'option_ids'} = $update->option_ids ?? NULL;
+			$this->{$prefix . 'option_persistent_ids'} = $update->option_persistent_ids ?? NULL;
 		}
 
 		public function Poll ( object $update, string $prefix = '' ) {
@@ -515,12 +568,16 @@
 			$this->{$prefix . 'is_anonymous'}            = $update->is_anonymous ?? NULL;
 			$this->{$prefix . 'type'}                    = $update->type ?? NULL;
 			$this->{$prefix . 'allows_multiple_answers'} = $update->allows_multiple_answers ?? NULL;
-			$this->{$prefix . 'correct_option_id'}       = $update->correct_option_id ?? NULL;
+			$this->{$prefix . 'allows_revoting'}         = $update->allows_revoting ?? NULL;
+			$this->{$prefix . 'correct_option_ids'}      = $update->correct_option_ids ?? NULL;
 			$this->{$prefix . 'explanation'}             = $update->explanation ?? NULL;
 			$this->{$prefix . 'explanation_entities'}    = $update->explanation_entities ?? NULL;
 			if ( isset( $update->explanation_entities ) ) $this->MessageEntity( $update->explanation_entities, $prefix . 'explanation_entities' );
 			$this->{$prefix . 'open_period'}             = $update->open_period ?? NULL;
 			$this->{$prefix . 'close_date'}              = $update->close_date ?? NULL;
+			$this->{$prefix . 'description'}             = $update->description ?? NULL;
+			$this->{$prefix . 'description_entities'}    = $update->description_entities ?? NULL;
+			if ( isset( $update->description_entities ) ) $this->MessageEntity( $update->description_entities, $prefix . 'description_entities' );
 		}
 
 		public function ChecklistTask ( object $update, string $prefix ) {
@@ -530,6 +587,8 @@
 			if ( isset( $update->text_entities ) ) $this->MessageEntity( $update->text_entities, $prefix . '_text_entities' );
 			$this->{$prefix . '_completed_by_user'} = $update->completed_by_user ?? NULL;
 			if ( isset( $update->completed_by_user ) ) $this->User( $update->completed_by_user, $prefix . '_completed_by_user' );
+			$this->{$prefix . '_completed_by_chat'} = $update->completed_by_chat ?? NULL;
+			if ( isset( $update->completed_by_chat ) ) $this->Chat( $update->completed_by_chat, $prefix . '_completed_by_chat' );
 			$this->{$prefix . '_completion_date'}   = $update->completion_date ?? NULL;
 		}
 
@@ -613,6 +672,36 @@
 			$this->{$prefix . '_message_auto_delete_time'} = $update->message_auto_delete_time ?? NULL;
 		}
 
+		public function ManagedBotCreated ( object $update, string $prefix ) {
+			$this->{$prefix . '_bot'}  = $update->bot ?? NULL;
+			if ( isset( $update->bot ) ) $this->User( $update->bot, $prefix . '_bot' );
+		}
+
+		public function ManagedBotUpdated ( object $update, string $prefix = '' ) {
+			$this->{$prefix . 'user'} = $update->user ?? NULL;
+			if ( isset( $update->user ) ) $this->User( $update->user, ! empty( $prefix ) ? $prefix . 'user' : 'user' );
+			$this->{$prefix . 'bot'}  = $update->bot ?? NULL;
+			if ( isset( $update->bot ) ) $this->User( $update->bot, ! empty( $prefix ) ? $prefix . 'bot' : 'bot' );
+		}
+
+		public function PollOptionAdded ( object $update, string $prefix ) {
+			$this->{$prefix . '_poll_message'}         = $update->poll_message ?? NULL;
+			if ( isset( $update->poll_message ) ) $this->MaybeInaccessibleMessage( $update->poll_message, $prefix . '_poll_message' );
+			$this->{$prefix . '_option_persistent_id'} = $update->option_persistent_id ?? NULL;
+			$this->{$prefix . '_option_text'}          = $update->option_text ?? NULL;
+			$this->{$prefix . '_option_text_entities'} = $update->option_text_entities ?? NULL;
+			if ( isset( $update->option_text_entities ) ) $this->MessageEntity( $update->option_text_entities, $prefix . '_option_text_entities' );
+		}
+
+		public function PollOptionDeleted ( object $update, string $prefix ) {
+			$this->{$prefix . '_poll_message'}         = $update->poll_message ?? NULL;
+			if ( isset( $update->poll_message ) ) $this->MaybeInaccessibleMessage( $update->poll_message, $prefix . '_poll_message' );
+			$this->{$prefix . '_option_persistent_id'} = $update->option_persistent_id ?? NULL;
+			$this->{$prefix . '_option_text'}          = $update->option_text ?? NULL;
+			$this->{$prefix . '_option_text_entities'} = $update->option_text_entities ?? NULL;
+			if ( isset( $update->option_text_entities ) ) $this->MessageEntity( $update->option_text_entities, $prefix . '_option_text_entities' );
+		}
+
 		public function ChatBoostAdded ( object $update, string $prefix ) {
 			$this->{$prefix . '_boost_count'} = $update->boost_count ?? NULL;
 		}
@@ -625,6 +714,10 @@
 			$this->{$prefix . '_rotation_angle'} = $update->rotation_angle ?? NULL;
 			$this->{$prefix . '_colors'}         = $update->colors ?? NULL;
 		}
+
+		public function BackgroundFillSolid () {}
+		public function BackgroundFillGradient () {}
+		public function BackgroundFillFreeformGradient () {}
 
 		public function BackgroundType ( object $update, string $prefix ) {
 			$this->{$prefix . '_type'}               = $update->type ?? NULL;
@@ -640,6 +733,11 @@
 			$this->{$prefix . '_theme_name'}         = $update->theme_name ?? NULL;
 		}
 
+		public function BackgroundTypeFill () {}
+		public function BackgroundTypeWallpaper () {}
+		public function BackgroundTypePattern () {}
+		public function BackgroundTypeChatTheme () {}
+
 		public function ChatBackground ( object $update, string $prefix ) {
 			$this->{$prefix . '_type'} = $update->type ?? NULL;
 			if ( isset( $update->type ) ) $this->BackgroundType( $update->type, $prefix . '_type' );
@@ -649,6 +747,7 @@
 			$this->{$prefix . '_name'}                 = $update->name ?? NULL;
 			$this->{$prefix . '_icon_color'}           = $update->icon_color ?? NULL;
 			$this->{$prefix . '_icon_custom_emoji_id'} = $update->icon_custom_emoji_id ?? NULL;
+			$this->{$prefix . '_is_name_implicit'}     = $update->is_name_implicit ?? NULL;
 		}
 
 		public function ForumTopicClosed () {}
@@ -662,7 +761,7 @@
 
 		public function GeneralForumTopicHidden () {}
 
-		public function GeneralForumTopicUnhidden () {}
+		public function GeneralForumTopicUnhidden ( object $update, string $prefix ) {}
 
 		public function SharedUser ( object $update, string $prefix ) {
 			$this->{$prefix . '_user_id'}    = $update->user_id ?? NULL;
@@ -816,7 +915,10 @@
 			$this->{$prefix . '_send_date'} = $update->send_date ?? NULL;
     }
 
+		public function SuggestedPostParameters () {}
+
 		public function UserProfilePhotos () {}
+		public function UserProfileAudios () {}
 
 		public function File ( object $update, string $prefix ) {
 			$this->{$prefix . '_file_id'}        = $update->file_id ?? NULL;
@@ -833,6 +935,7 @@
 		public function KeyboardButton () {}
 		public function KeyboardButtonRequestUsers () {}
 		public function KeyboardButtonRequestChat () {}
+		public function KeyboardButtonRequestManagedBot () {}
 		public function KeyboardButtonPollType () {}
 		public function ReplyKeyboardRemove () {}
 
@@ -843,6 +946,8 @@
 		
 		public function InlineKeyboardButton ( object $update, string $prefix ) {
 			$this->{$prefix . '_text'}                             = $update->text ?? NULL;
+			$this->{$prefix . '_icon_custom_emoji_id'}             = $update->icon_custom_emoji_id ?? NULL;
+			$this->{$prefix . '_style'}                            = $update->style ?? NULL;
 			$this->{$prefix . '_url'}                              = $update->url ?? NULL;
 			$this->{$prefix . '_callback_data'}                    = $update->callback_data ?? NULL;
 			$this->{$prefix . '_web_app'}                          = $update->web_app ?? NULL;
@@ -961,6 +1066,13 @@
 			$this->{$prefix . '_can_add_web_page_previews'} = $update->can_add_web_page_previews ?? NULL;
 		}
 
+		public function ChatMemberOwner () {}
+		public function ChatMemberAdministrator () {}
+		public function ChatMemberMember () {}
+		public function ChatMemberRestricted () {}
+		public function ChatMemberLeft () {}
+		public function ChatMemberBanned () {}
+
 		public function ChatJoinRequest ( object $update, string $prefix = '' ) {
 			$this->{$prefix . 'chat'}         = $update->chat ?? NULL;
 			if ( isset( $update->chat ) ) $this->Chat( $update->chat, $prefix ? $prefix . '_chat' : 'chat' );
@@ -979,9 +1091,15 @@
 		public function BusinessLocation () {}
 		public function BusinessOpeningHoursInterval () {}
 		public function BusinessOpeningHours () {}
+		public function UserRating () {}
 		public function StoryAreaPosition () {}
 		public function LocationAddress () {}
 		public function StoryAreaType () {}
+		public function StoryAreaTypeLocation () {}
+		public function StoryAreaTypeSuggestedReaction () {}
+		public function StoryAreaTypeLink () {}
+		public function StoryAreaTypeWeather () {}
+		public function StoryAreaTypeUniqueGift () {}
 		public function StoryArea () {}
 		public function ChatLocation () {}
 
@@ -993,6 +1111,10 @@
 					$prefix . '_custom_emoji_id' => $reaction->custom_emoji_id ?? NULL,
 				];
 		}
+
+		public function ReactionTypeEmoji () {}
+		public function ReactionTypeCustomEmoji () {}
+		public function ReactionTypePaid () {}
 
 		public function ReactionCount ( object|array $update, string $prefix ) {
 			if ( is_array( $update ) ) $update = (object) $update;
@@ -1027,15 +1149,28 @@
 
 		public function ForumTopic () {}
 
+		public function GiftBackground ( object $update, string $prefix ) {
+			$this->{$prefix . '_center_color' } = $update->center_color ?? NULL;
+			$this->{$prefix . '_edge_color' }   = $update->edge_color ?? NULL;
+			$this->{$prefix . '_text_color' }   = $update->text_color ?? NULL;
+		}
+
 		public function Gift ( object $update, string $prefix ) {
-			$this->{$prefix . '_gift'}               = $update->gift ?? NULL;
-			$this->{$prefix . '_sticker'}            = $update->sticker ?? NULL;
+			$this->{$prefix . '_id'}                        = $update->id ?? NULL;
+			$this->{$prefix . '_sticker'}                   = $update->sticker ?? NULL;
 			if ( isset( $update->sticker ) ) $this->Sticker( $update->sticker, $prefix . '_sticker' );
-			$this->{$prefix . '_star_count'}         = $update->star_count ?? NULL;
-			$this->{$prefix . '_upgrade_star_count'} = $update->upgrade_star_count ?? NULL;
-			$this->{$prefix . '_total_count'}        = $update->total_count ?? NULL;
-			$this->{$prefix . '_remaining_count'}    = $update->remaining_count ?? NULL;
-			$this->{$prefix . '_publisher_chat'}     = $update->publisher_chat ?? NULL;
+			$this->{$prefix . '_star_count'}                = $update->star_count ?? NULL;
+			$this->{$prefix . '_upgrade_star_count'}        = $update->upgrade_star_count ?? NULL;
+			$this->{$prefix . '_is_premium'}                = $update->is_premium ?? NULL;
+			$this->{$prefix . '_has_colors'}                = $update->has_colors ?? NULL;
+			$this->{$prefix . '_total_count'}               = $update->total_count ?? NULL;
+			$this->{$prefix . '_remaining_count'}           = $update->remaining_count ?? NULL;
+			$this->{$prefix . '_personal_total_count'}      = $update->personal_total_count ?? NULL;
+			$this->{$prefix . '_personal_remaining_count'}  = $update->personal_remaining_count ?? NULL;
+			$this->{$prefix . '_background'}                = $update->background ?? NULL;
+			if ( isset( $update->background ) ) $this->GiftBackground( $update->background, $prefix . '_background' );
+			$this->{$prefix . '_unique_gift_variant_count'} = $update->unique_gift_variant_count ?? NULL;
+			$this->{$prefix . '_publisher_chat'}            = $update->publisher_chat ?? NULL;
 			if ( isset( $update->publisher_chat ) ) $this->Chat( $update->publisher_chat, $prefix . '_publisher_chat' );
 		}
 
@@ -1069,17 +1204,25 @@
 			$this->{$prefix . '_rarity_per_mille'} = $update->rarity_per_mille ?? NULL;
 		}
 
+		public function UniqueGiftColors () {}
+
 		public function UniqueGift ( object $update, string $prefix ) {
-			$this->{$prefix . '_base_name'}      = $update->base_name ?? NULL;
-			$this->{$prefix . '_name'}           = $update->name ?? NULL;
-			$this->{$prefix . '_number'}         = $update->number ?? NULL;
-			$this->{$prefix . '_model'}          = $update->model ?? NULL;
+			$this->{$prefix . '_gift_id'}            = $update->gift_id ?? NULL;
+			$this->{$prefix . '_base_name'}          = $update->base_name ?? NULL;
+			$this->{$prefix . '_name'}               = $update->name ?? NULL;
+			$this->{$prefix . '_number'}             = $update->number ?? NULL;
+			$this->{$prefix . '_model'}              = $update->model ?? NULL;
 			if ( isset( $update->model ) ) $this->UniqueGiftModel( $update->model, $prefix . '_model' );
-			$this->{$prefix . '_symbol'}         = $update->symbol ?? NULL;
+			$this->{$prefix . '_symbol'}             = $update->symbol ?? NULL;
 			if ( isset( $update->symbol ) ) $this->UniqueGiftSymbol( $update->symbol, $prefix . '_symbol' );
-			$this->{$prefix . '_backdrop'}       = $update->backdrop ?? NULL;
+			$this->{$prefix . '_backdrop'}           = $update->backdrop ?? NULL;
 			if ( isset( $update->backdrop ) ) $this->UniqueGiftBackdrop( $update->backdrop, $prefix . '_backdrop' );
-			$this->{$prefix . '_publisher_chat'} = $update->publisher_chat ?? NULL;
+			$this->{$prefix . '_is_premium'}         = $update->is_premium ?? NULL;
+			$this->{$prefix . '_is_burned'}          = $update->is_burned ?? NULL;
+			$this->{$prefix . '_is_from_blockchain'} = $update->is_from_blockchain ?? NULL;
+			$this->{$prefix . '_colors'}             = $update->colors ?? NULL;
+			if ( isset( $update->colors ) ) $this->UniqueGiftColors( $update->colors, $prefix . '_colors' );
+			$this->{$prefix . '_publisher_chat'}     = $update->publisher_chat ?? NULL;
 			if ( isset( $update->publisher_chat ) ) $this->Chat( $update->publisher_chat, $prefix . '_publisher_chat' );
 		}
 
@@ -1089,23 +1232,27 @@
 			$this->{$prefix . '_owned_gift_id'}              = $update->owned_gift_id ?? NULL;
 			$this->{$prefix . '_convert_star_count'}         = $update->convert_star_count ?? NULL;
 			$this->{$prefix . '_prepaid_upgrade_star_count'} = $update->prepaid_upgrade_star_count ?? NULL;
+			$this->{$prefix . '_is_upgrade_separate'}        = $update->is_upgrade_separate ?? NULL;
 			$this->{$prefix . '_can_be_upgraded'}            = $update->can_be_upgraded ?? NULL;
-			$this->{$prefix . '_text'}                       = $update->prepaid_upgrade_statextr_count ?? NULL;
+			$this->{$prefix . '_text'}                       = $update->text ?? NULL;
 			$this->{$prefix . '_entities'}                   = $update->entities ?? NULL;
 			if ( isset( $update->entities ) ) $this->MessageEntity( $update->entities, $prefix . '_entities' );
 			$this->{$prefix . '_is_private'}                 = $update->is_private ?? NULL;
+			$this->{$prefix . '_unique_gift_number'}         = $update->unique_gift_number ?? NULL;
 		}
 
 		public function UniqueGiftInfo ( object $update, string $prefix ) {
-			$this->{$prefix . '_gift'}                   = $update->gift ?? NULL;
+			$this->{$prefix . '_gift'}                 = $update->gift ?? NULL;
 			if ( isset( $update->gift ) ) $this->UniqueGift( $update->gift, $prefix . '_gift' );
-			$this->{$prefix . '_origin'}                 = $update->origin ?? NULL;
-			$this->{$prefix . '_last_resale_star_count'} = $update->last_resale_star_count ?? NULL;
-			$this->{$prefix . '_owned_gift_id'}          = $update->owned_gift_id ?? NULL;
-			$this->{$prefix . '_transfer_star_count'}    = $update->transfer_star_count ?? NULL;
-			$this->{$prefix . '_next_transfer_date'}     = $update->next_transfer_date ?? NULL;
+			$this->{$prefix . '_origin'}               = $update->origin ?? NULL;
+			$this->{$prefix . '_last_resale_currency'} = $update->last_resale_currency ?? NULL;
+			$this->{$prefix . '_last_resale_amount'}   = $update->last_resale_amount ?? NULL;
+			$this->{$prefix . '_owned_gift_id'}        = $update->owned_gift_id ?? NULL;
+			$this->{$prefix . '_transfer_star_count'}  = $update->transfer_star_count ?? NULL;
+			$this->{$prefix . '_next_transfer_date'}   = $update->next_transfer_date ?? NULL;
 		}
 
+		public function OwnedGiftRegular () {}
 		public function OwnedGift () {}
 		public function OwnedGifts () {}
 		public function AcceptedGiftTypes () {}
@@ -1117,10 +1264,20 @@
 
 		public function BotCommand () {}
 		public function BotCommandScope () {}
+		public function BotCommandScopeDefault () {}
+		public function BotCommandScopeAllPrivateChats () {}
+		public function BotCommandScopeAllGroupChats () {}
+		public function BotCommandScopeAllChatAdministrators () {}
+		public function BotCommandScopeChat () {}
+		public function BotCommandScopeChatAdministrators () {}
+		public function BotCommandScopeChatMember () {}
 		public function BotName () {}
 		public function BotDescription () {}
 		public function BotShortDescription () {}
 		public function MenuButton () {}
+		public function MenuButtonCommands () {}
+		public function MenuButtonWebApp () {}
+		public function MenuButtonDefault () {}
 	
 		public function ChatBoostSource ( object $update, string $prefix ) {
 			$this->{$prefix . '_source'}              = $update->source ?? NULL;
@@ -1130,6 +1287,10 @@
 			$this->{$prefix . '_prize_star_count'}    = $update->prize_star_count ?? NULL;
 			$this->{$prefix . '_is_unclaimed'}        = $update->is_unclaimed ?? NULL;
 		}
+
+		public function ChatBoostSourcePremium () {}
+		public function ChatBoostSourceGiftCode () {}
+		public function ChatBoostSourceGiveaway () {}
 
 		public function ChatBoost ( object $update, string $prefix ) {
 			$this->{$prefix . '_boost_id'}        = $update->boost_id ?? NULL;
@@ -1154,6 +1315,16 @@
 			$this->{$prefix . 'remove_date'} = $update->remove_date ?? NULL;
 			$this->{$prefix . 'source'}      = $update->source ?? NULL;
 			if ( isset( $update->source ) ) $this->ChatBoostSource( $update->source, $prefix ? $prefix . '_source' : 'source' );
+		}
+
+		public function ChatOwnerLeft ( object $update, string $prefix ) {
+			$this->{$prefix . '_new_owner'} = $update->new_owner ?? NULL;
+			if ( isset( $update->new_owner ) ) $this->User( $update->new_owner, $prefix ? $prefix . '_new_owner' : 'new_owner' );
+		}
+
+		public function ChatOwnerChanged ( object $update, string $prefix ) {
+			$this->{$prefix . '_new_owner'} = $update->new_owner ?? NULL;
+			if ( isset( $update->new_owner ) ) $this->User( $update->new_owner, $prefix ? $prefix . '_new_owner' : 'new_owner' );
 		}
 
 		public function UserChatBoosts () {}
@@ -1195,10 +1366,21 @@
 
 		public function ResponseParameters () {}
 		public function InputMedia () {}
+		public function InputMediaPhoto () {}
+		public function InputMediaVideo () {}
+		public function InputMediaAnimation () {}
+		public function InputMediaAudio () {}
+		public function InputMediaDocument () {}
 		public function InputFile () {}
 		public function InputPaidMedia () {}
+		public function InputPaidMediaPhoto () {}
+		public function InputPaidMediaVideo () {}
 		public function InputProfilePhoto () {}
+		public function InputProfilePhotoStatic () {}
+		public function InputProfilePhotoAnimated () {}
 		public function InputStoryContent () {}
+		public function InputStoryContentPhoto () {}
+		public function InputStoryContentVideo () {}
 
 		public function Sticker ( object $update, string $prefix ) {
 			$this->{$prefix . '_file_id'}           = $update->file_id ?? NULL;
@@ -1259,6 +1441,7 @@
 
 		public function SentWebAppMessage () {}
 		public function PreparedInlineMessage () {}
+		public function PreparedKeyboardButton () {}
 		public function LabeledPrice () {}
 
 		public function Invoice ( object $update, string $prefix ) {

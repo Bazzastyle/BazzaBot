@@ -52,10 +52,11 @@
      *                              in the chat to receive these updates.
      * @param ChatBoostUpdated|NULL $chat_boost A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
      * @param ChatBoostRemoved|NULL $removed_chat_boost A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
+     * @param ManagedBotUpdated|NULL $managed_bot A new bot was created to be managed by the bot, or token or owner of a managed bot was changed
      *
      * @return array $args
      */
-    public function Update ( int $update_id, ?array $message = NULL, ?array $edited_message = NULL, ?array $channel_post = NULL, ?array $edited_channel_post = NULL, ?array $business_connection = NULL, ?array $business_message = NULL, ?array $edited_business_message = NULL, ?array $deleted_business_messages = NULL, ?array $message_reaction = NULL, ?array $message_reaction_count = NULL, ?array $inline_query = NULL, ?array $chosen_inline_result = NULL, ?array $callback_query = NULL, ?array $shipping_query = NULL, ?array $pre_checkout_query = NULL, ?array $purchased_paid_media = NULL, ?array $poll = NULL, ?array $poll_answer = NULL, ?array $my_chat_member = NULL, ?array $chat_member = NULL, ?array $chat_join_request = NULL, ?array $chat_boost = NULL, ?array $removed_chat_boost = NULL ) : array {
+    public function Update ( int $update_id, ?array $message = NULL, ?array $edited_message = NULL, ?array $channel_post = NULL, ?array $edited_channel_post = NULL, ?array $business_connection = NULL, ?array $business_message = NULL, ?array $edited_business_message = NULL, ?array $deleted_business_messages = NULL, ?array $message_reaction = NULL, ?array $message_reaction_count = NULL, ?array $inline_query = NULL, ?array $chosen_inline_result = NULL, ?array $callback_query = NULL, ?array $shipping_query = NULL, ?array $pre_checkout_query = NULL, ?array $purchased_paid_media = NULL, ?array $poll = NULL, ?array $poll_answer = NULL, ?array $my_chat_member = NULL, ?array $chat_member = NULL, ?array $chat_join_request = NULL, ?array $chat_boost = NULL, ?array $removed_chat_boost = NULL, ?array $managed_bot = NULL ) : array {
       $args = [ 'update_id' => $update_id ]; 
       if ( $message !== NULL ) $args['message'] = $message;
       if ( $edited_message !== NULL ) $args['edited_message'] = $edited_message;
@@ -80,6 +81,7 @@
       if ( $chat_join_request !== NULL ) $args['chat_join_request'] = $chat_join_request;
       if ( $chat_boost !== NULL ) $args['chat_boost'] = $chat_boost;
       if ( $removed_chat_boost !== NULL ) $args['removed_chat_boost'] = $removed_chat_boost;
+      if ( $managed_bot !== NULL ) $args['managed_bot'] = $managed_bot;
       return $args;
     }
 
@@ -136,10 +138,11 @@
      * @param bool|NULL $has_main_web_app True, if the bot has a main Web App. Returned only in getMe.
      * @param bool|NULL $has_topics_enabled True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      * @param bool|NULL $allows_users_to_create_topics True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
+     * @param bool|NULL $can_manage_bots True, if other bots can be created to be controlled by the bot. Returned only in getMe.
      *
      * @return array $args
      */
-    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL ) : array {
+    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL, ?bool $can_manage_bots = NULL ) : array {
       $args = [ 'id' => $id, 'is_bot' => $is_bot, 'first_name' => $first_name ]; 
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -153,6 +156,7 @@
       if ( $has_main_web_app !== NULL ) $args['has_main_web_app'] = $has_main_web_app;
       if ( $has_topics_enabled !== NULL ) $args['has_topics_enabled'] = $has_topics_enabled;
       if ( $allows_users_to_create_topics !== NULL ) $args['allows_users_to_create_topics'] = $allows_users_to_create_topics;
+      if ( $can_manage_bots !== NULL ) $args['can_manage_bots'] = $can_manage_bots;
       return $args;
     }
 
@@ -351,6 +355,7 @@
      * @param TextQuote|NULL $quote For replies that quote part of the original message, the quoted part of the message
      * @param Story|NULL $reply_to_story For replies to a story, the original story
      * @param int|NULL $reply_to_checklist_task_id Identifier of the specific checklist task that is being replied to
+     * @param string|NULL $reply_to_poll_option_id Persistent identifier of the specific poll option that is being replied to
      * @param User|NULL $via_bot Bot through which the message was sent
      * @param int|NULL $edit_date Date the message was last edited in Unix time
      * @param bool|NULL $has_protected_content True, if the message can't be forwarded
@@ -450,7 +455,10 @@
      * @param Giveaway|NULL $giveaway The message is a scheduled giveaway message
      * @param GiveawayWinners|NULL $giveaway_winners A giveaway with public winners was completed
      * @param GiveawayCompleted|NULL $giveaway_completed Service message: a giveaway without public winners was completed
+     * @param ManagedBotCreated|NULL $managed_bot_created Service message: user created a bot that will be managed by the current bot
      * @param PaidMessagePriceChanged|NULL $paid_message_price_changed Service message: the price for paid messages has changed in the chat
+     * @param PollOptionAdded|NULL $poll_option_added Service message: answer option was added to a poll
+     * @param PollOptionDeleted|NULL $poll_option_deleted Service message: answer option was deleted from a poll
      * @param SuggestedPostApproved|NULL $suggested_post_approved Service message: a suggested post was approved
      * @param SuggestedPostApprovalFailed|NULL $suggested_post_approval_failed Service message: approval of a suggested post has failed
      * @param SuggestedPostDeclined|NULL $suggested_post_declined Service message: a suggested post was declined
@@ -465,7 +473,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $paid_message_price_changed = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?string $reply_to_poll_option_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $managed_bot_created = NULL, ?array $paid_message_price_changed = NULL, ?array $poll_option_added = NULL, ?array $poll_option_deleted = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
@@ -483,6 +491,7 @@
       if ( $quote !== NULL ) $args['quote'] = $quote;
       if ( $reply_to_story !== NULL ) $args['reply_to_story'] = $reply_to_story;
       if ( $reply_to_checklist_task_id !== NULL ) $args['reply_to_checklist_task_id'] = $reply_to_checklist_task_id;
+      if ( $reply_to_poll_option_id !== NULL ) $args['reply_to_poll_option_id'] = $reply_to_poll_option_id;
       if ( $via_bot !== NULL ) $args['via_bot'] = $via_bot;
       if ( $edit_date !== NULL ) $args['edit_date'] = $edit_date;
       if ( $has_protected_content !== NULL ) $args['has_protected_content'] = $has_protected_content;
@@ -558,7 +567,10 @@
       if ( $giveaway !== NULL ) $args['giveaway'] = $giveaway;
       if ( $giveaway_winners !== NULL ) $args['giveaway_winners'] = $giveaway_winners;
       if ( $giveaway_completed !== NULL ) $args['giveaway_completed'] = $giveaway_completed;
+      if ( $managed_bot_created !== NULL ) $args['managed_bot_created'] = $managed_bot_created;
       if ( $paid_message_price_changed !== NULL ) $args['paid_message_price_changed'] = $paid_message_price_changed;
+      if ( $poll_option_added !== NULL ) $args['poll_option_added'] = $poll_option_added;
+      if ( $poll_option_deleted !== NULL ) $args['poll_option_deleted'] = $poll_option_deleted;
       if ( $suggested_post_approved !== NULL ) $args['suggested_post_approved'] = $suggested_post_approved;
       if ( $suggested_post_approval_failed !== NULL ) $args['suggested_post_approval_failed'] = $suggested_post_approval_failed;
       if ( $suggested_post_declined !== NULL ) $args['suggested_post_declined'] = $suggested_post_declined;
@@ -661,7 +673,7 @@
      *
      * @param string $text Text of the quoted part of a message that is replied to by the given message
      * @param MessageEntity[]|NULL $entities Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough,
-     *                              spoiler, and custom_emoji entities are kept in quotes.
+     *                              spoiler, custom_emoji, and date_time entities are kept in quotes.
      * @param int $position Approximate quote position in the original message in UTF-16 code units as specified by the sender
      * @param bool|NULL $is_manual True, if the quote was chosen manually by the message sender. Otherwise, the quote was added
      *                              automatically by the server.
@@ -754,16 +766,17 @@
      *                              a business account.
      * @param string|NULL $quote Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote
      *                              must be an exact substring of the message to be replied to, including bold, italic, underline,
-     *                              strikethrough, spoiler, and custom_emoji entities. The message will fail to send if the quote isn't
-     *                              found in the original message.
+     *                              strikethrough, spoiler, custom_emoji, and date_time entities. The message will fail to send if the
+     *                              quote isn't found in the original message.
      * @param string|NULL $quote_parse_mode Mode for parsing entities in the quote. See formatting options for more details.
      * @param MessageEntity[]|NULL $quote_entities A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
      * @param int|NULL $quote_position Position of the quote in the original message in UTF-16 code units
      * @param int|NULL $checklist_task_id Identifier of the specific checklist task to be replied to
+     * @param string|NULL $poll_option_id Persistent identifier of the specific poll option to be replied to
      *
      * @return array $args
      */
-    public function ReplyParameters ( int $message_id, int|string|null $chat_id = NULL, ?bool $allow_sending_without_reply = NULL, ?string $quote = NULL, ?string $quote_parse_mode = NULL, ?array $quote_entities = NULL, ?int $quote_position = NULL, ?int $checklist_task_id = NULL ) : array {
+    public function ReplyParameters ( int $message_id, int|string|null $chat_id = NULL, ?bool $allow_sending_without_reply = NULL, ?string $quote = NULL, ?string $quote_parse_mode = NULL, ?array $quote_entities = NULL, ?int $quote_position = NULL, ?int $checklist_task_id = NULL, ?string $poll_option_id = NULL ) : array {
       $args = [ 'message_id' => $message_id ]; 
       if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
       if ( $allow_sending_without_reply !== NULL ) $args['allow_sending_without_reply'] = $allow_sending_without_reply;
@@ -772,6 +785,7 @@
       if ( $quote_entities !== NULL ) $args['quote_entities'] = $quote_entities;
       if ( $quote_position !== NULL ) $args['quote_position'] = $quote_position;
       if ( $checklist_task_id !== NULL ) $args['checklist_task_id'] = $checklist_task_id;
+      if ( $poll_option_id !== NULL ) $args['poll_option_id'] = $poll_option_id;
       return $args;
     }
 
@@ -1194,16 +1208,24 @@
      * 
      * @see https://core.telegram.org/bots/api#polloption
      *
+     * @param string $persistent_id Unique identifier of the option, persistent on option addition and deletion
      * @param string $text Option text, 1-100 characters
      * @param MessageEntity[]|NULL $text_entities Special entities that appear in the option text. Currently, only custom emoji entities are allowed
      *                              in poll option texts
-     * @param int $voter_count Number of users that voted for this option
+     * @param int $voter_count Number of users who voted for this option; may be 0 if unknown
+     * @param User|NULL $added_by_user User who added the option; omitted if the option wasn't added by a user after poll creation
+     * @param Chat|NULL $added_by_chat Chat that added the option; omitted if the option wasn't added by a chat after poll creation
+     * @param int|NULL $addition_date Point in time (Unix timestamp) when the option was added; omitted if the option existed in the
+     *                              original poll
      *
      * @return array $args
      */
-    public function PollOption ( string $text, int $voter_count, ?array $text_entities = NULL ) : array {
-      $args = [ 'text' => $text, 'voter_count' => $voter_count ]; 
+    public function PollOption ( string $persistent_id, string $text, int $voter_count, ?array $text_entities = NULL, ?array $added_by_user = NULL, ?array $added_by_chat = NULL, ?int $addition_date = NULL ) : array {
+      $args = [ 'persistent_id' => $persistent_id, 'text' => $text, 'voter_count' => $voter_count ]; 
       if ( $text_entities !== NULL ) $args['text_entities'] = $text_entities;
+      if ( $added_by_user !== NULL ) $args['added_by_user'] = $added_by_user;
+      if ( $added_by_chat !== NULL ) $args['added_by_chat'] = $added_by_chat;
+      if ( $addition_date !== NULL ) $args['addition_date'] = $addition_date;
       return $args;
     }
 
@@ -1236,11 +1258,12 @@
      * @param Chat|NULL $voter_chat The chat that changed the answer to the poll, if the voter is anonymous
      * @param User|NULL $user The user that changed the answer to the poll, if the voter isn't anonymous
      * @param int[] $option_ids 0-based identifiers of chosen answer options. May be empty if the vote was retracted.
+     * @param string[] $option_persistent_ids Persistent identifiers of the chosen answer options. May be empty if the vote was retracted.
      *
      * @return array $args
      */
-    public function PollAnswer ( string $poll_id, array $option_ids, ?array $voter_chat = NULL, ?array $user = NULL ) : array {
-      $args = [ 'poll_id' => $poll_id, 'option_ids' => $option_ids ]; 
+    public function PollAnswer ( string $poll_id, array $option_ids, array $option_persistent_ids, ?array $voter_chat = NULL, ?array $user = NULL ) : array {
+      $args = [ 'poll_id' => $poll_id, 'option_ids' => $option_ids, 'option_persistent_ids' => $option_persistent_ids ]; 
       if ( $voter_chat !== NULL ) $args['voter_chat'] = $voter_chat;
       if ( $user !== NULL ) $args['user'] = $user;
       return $args;
@@ -1261,24 +1284,29 @@
      * @param bool $is_anonymous True, if the poll is anonymous
      * @param string $type Poll type, currently can be “regular” or “quiz”
      * @param bool $allows_multiple_answers True, if the poll allows multiple answers
-     * @param int|NULL $correct_option_id 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which
-     *                              are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
+     * @param bool $allows_revoting True, if the poll allows to change the chosen answer options
+     * @param int[]|NULL $correct_option_ids Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode
+     *                              which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.
      * @param string|NULL $explanation Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style
      *                              poll, 0-200 characters
      * @param MessageEntity[]|NULL $explanation_entities Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
      * @param int|NULL $open_period Amount of time in seconds the poll will be active after creation
      * @param int|NULL $close_date Point in time (Unix timestamp) when the poll will be automatically closed
+     * @param string|NULL $description Description of the poll; for polls inside the Message object only
+     * @param MessageEntity[]|NULL $description_entities Special entities like usernames, URLs, bot commands, etc. that appear in the description
      *
      * @return array $args
      */
-    public function Poll ( string $id, string $question, array $options, int $total_voter_count, bool $is_closed, bool $is_anonymous, string $type, bool $allows_multiple_answers, ?array $question_entities = NULL, ?int $correct_option_id = NULL, ?string $explanation = NULL, ?array $explanation_entities = NULL, ?int $open_period = NULL, ?int $close_date = NULL ) : array {
-      $args = [ 'id' => $id, 'question' => $question, 'options' => $options, 'total_voter_count' => $total_voter_count, 'is_closed' => $is_closed, 'is_anonymous' => $is_anonymous, 'type' => $type, 'allows_multiple_answers' => $allows_multiple_answers ]; 
+    public function Poll ( string $id, string $question, array $options, int $total_voter_count, bool $is_closed, bool $is_anonymous, string $type, bool $allows_multiple_answers, bool $allows_revoting, ?array $question_entities = NULL, ?array $correct_option_ids = NULL, ?string $explanation = NULL, ?array $explanation_entities = NULL, ?int $open_period = NULL, ?int $close_date = NULL, ?string $description = NULL, ?array $description_entities = NULL ) : array {
+      $args = [ 'id' => $id, 'question' => $question, 'options' => $options, 'total_voter_count' => $total_voter_count, 'is_closed' => $is_closed, 'is_anonymous' => $is_anonymous, 'type' => $type, 'allows_multiple_answers' => $allows_multiple_answers, 'allows_revoting' => $allows_revoting ]; 
       if ( $question_entities !== NULL ) $args['question_entities'] = $question_entities;
-      if ( $correct_option_id !== NULL ) $args['correct_option_id'] = $correct_option_id;
+      if ( $correct_option_ids !== NULL ) $args['correct_option_ids'] = $correct_option_ids;
       if ( $explanation !== NULL ) $args['explanation'] = $explanation;
       if ( $explanation_entities !== NULL ) $args['explanation_entities'] = $explanation_entities;
       if ( $open_period !== NULL ) $args['open_period'] = $open_period;
       if ( $close_date !== NULL ) $args['close_date'] = $close_date;
+      if ( $description !== NULL ) $args['description'] = $description;
+      if ( $description_entities !== NULL ) $args['description_entities'] = $description_entities;
       return $args;
     }
 
@@ -1336,7 +1364,8 @@
      * @param string $text Text of the task; 1-100 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the text. See formatting options for more details.
      * @param MessageEntity[]|NULL $text_entities List of special entities that appear in the text, which can be specified instead of parse_mode.
-     *                              Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed.
+     *                              Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time
+     *                              entities are allowed.
      *
      * @return array $args
      */
@@ -1355,7 +1384,8 @@
      * @param string $title Title of the checklist; 1-255 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the title. See formatting options for more details.
      * @param MessageEntity[]|NULL $title_entities List of special entities that appear in the title, which can be specified instead of parse_mode.
-     *                              Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are allowed.
+     *                              Currently, only bold, italic, underline, strikethrough, spoiler, custom_emoji, and date_time
+     *                              entities are allowed.
      * @param InputChecklistTask[] $tasks List of 1-30 tasks in the checklist
      * @param bool|NULL $others_can_add_tasks Pass True if other users can add tasks to the checklist
      * @param bool|NULL $others_can_mark_tasks_as_done Pass True if other users can mark tasks as done or not done in the checklist
@@ -1500,6 +1530,74 @@
      */
     public function MessageAutoDeleteTimerChanged ( int $message_auto_delete_time ) : array {
       return [ 'message_auto_delete_time' => $message_auto_delete_time ];
+    }
+
+    /**
+     * This object contains information about the bot that was created to be managed by the current bot.
+     * 
+     * @see https://core.telegram.org/bots/api#managedbotcreated
+     *
+     * @param User $bot Information about the bot. The bot's token can be fetched using the method getManagedBotToken.
+     *
+     * @return array $args
+     */
+    public function ManagedBotCreated ( array $bot ) : array {
+      return [ 'bot' => $bot ];
+    }
+
+    /**
+     * This object contains information about the creation, token update, or owner update of a bot that is
+     * managed by the current bot.
+     * 
+     * @see https://core.telegram.org/bots/api#managedbotupdated
+     *
+     * @param User $user User that created the bot
+     * @param User $bot Information about the bot. Token of the bot can be fetched using the method getManagedBotToken.
+     *
+     * @return array $args
+     */
+    public function ManagedBotUpdated ( array $user, array $bot ) : array {
+      return [ 'user' => $user, 'bot' => $bot ];
+    }
+
+    /**
+     * Describes a service message about an option added to a poll.
+     * 
+     * @see https://core.telegram.org/bots/api#polloptionadded
+     *
+     * @param MaybeInaccessibleMessage|NULL $poll_message Message containing the poll to which the option was added, if known. Note that the Message object in
+     *                              this field will not contain the reply_to_message field even if it itself is a reply.
+     * @param string $option_persistent_id Unique identifier of the added option
+     * @param string $option_text Option text
+     * @param MessageEntity[]|NULL $option_text_entities Special entities that appear in the option_text
+     *
+     * @return array $args
+     */
+    public function PollOptionAdded ( string $option_persistent_id, string $option_text, ?array $poll_message = NULL, ?array $option_text_entities = NULL ) : array {
+      $args = [ 'option_persistent_id' => $option_persistent_id, 'option_text' => $option_text ]; 
+      if ( $poll_message !== NULL ) $args['poll_message'] = $poll_message;
+      if ( $option_text_entities !== NULL ) $args['option_text_entities'] = $option_text_entities;
+      return $args;
+    }
+
+    /**
+     * Describes a service message about an option deleted from a poll.
+     * 
+     * @see https://core.telegram.org/bots/api#polloptiondeleted
+     *
+     * @param MaybeInaccessibleMessage|NULL $poll_message Message containing the poll from which the option was deleted, if known. Note that the Message
+     *                              object in this field will not contain the reply_to_message field even if it itself is a reply.
+     * @param string $option_persistent_id Unique identifier of the deleted option
+     * @param string $option_text Option text
+     * @param MessageEntity[]|NULL $option_text_entities Special entities that appear in the option_text
+     *
+     * @return array $args
+     */
+    public function PollOptionDeleted ( string $option_persistent_id, string $option_text, ?array $poll_message = NULL, ?array $option_text_entities = NULL ) : array {
+      $args = [ 'option_persistent_id' => $option_persistent_id, 'option_text' => $option_text ]; 
+      if ( $poll_message !== NULL ) $args['poll_message'] = $poll_message;
+      if ( $option_text_entities !== NULL ) $args['option_text_entities'] = $option_text_entities;
+      return $args;
     }
 
     /**
@@ -2343,6 +2441,9 @@
      *                              will be sent to the bot in a “users_shared” service message. Available in private chats only.
      * @param KeyboardButtonRequestChat|NULL $request_chat If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
      *                              its identifier to the bot in a “chat_shared” service message. Available in private chats only.
+     * @param KeyboardButtonRequestManagedBot|NULL $request_managed_bot If specified, pressing the button will ask the user to create and share a bot that will be managed
+     *                              by the current bot. Available for bots that enabled management of other bots in the @BotFather Mini
+     *                              App. Available in private chats only.
      * @param bool|NULL $request_contact If True, the user's phone number will be sent as a contact when the button is pressed. Available in
      *                              private chats only.
      * @param bool|NULL $request_location If True, the user's current location will be sent when the button is pressed. Available in private
@@ -2354,12 +2455,13 @@
      *
      * @return array $args
      */
-    public function KeyboardButton ( string $text, ?string $icon_custom_emoji_id = NULL, ?string $style = NULL, ?array $request_users = NULL, ?array $request_chat = NULL, ?bool $request_contact = NULL, ?bool $request_location = NULL, ?array $request_poll = NULL, ?array $web_app = NULL ) : array {
+    public function KeyboardButton ( string $text, ?string $icon_custom_emoji_id = NULL, ?string $style = NULL, ?array $request_users = NULL, ?array $request_chat = NULL, ?array $request_managed_bot = NULL, ?bool $request_contact = NULL, ?bool $request_location = NULL, ?array $request_poll = NULL, ?array $web_app = NULL ) : array {
       $args = [ 'text' => $text ]; 
       if ( $icon_custom_emoji_id !== NULL ) $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
       if ( $style !== NULL ) $args['style'] = $style;
       if ( $request_users !== NULL ) $args['request_users'] = $request_users;
       if ( $request_chat !== NULL ) $args['request_chat'] = $request_chat;
+      if ( $request_managed_bot !== NULL ) $args['request_managed_bot'] = $request_managed_bot;
       if ( $request_contact !== NULL ) $args['request_contact'] = $request_contact;
       if ( $request_location !== NULL ) $args['request_location'] = $request_location;
       if ( $request_poll !== NULL ) $args['request_poll'] = $request_poll;
@@ -2437,6 +2539,25 @@
       if ( $request_title !== NULL ) $args['request_title'] = $request_title;
       if ( $request_username !== NULL ) $args['request_username'] = $request_username;
       if ( $request_photo !== NULL ) $args['request_photo'] = $request_photo;
+      return $args;
+    }
+
+    /**
+     * This object defines the parameters for the creation of a managed bot. Information about the created
+     * bot will be shared with the bot using the update managed_bot and a Message with the field managed_bot_created.
+     * 
+     * @see https://core.telegram.org/bots/api#keyboardbuttonrequestmanagedbot
+     *
+     * @param int $request_id Signed 32-bit identifier of the request. Must be unique within the message
+     * @param string|NULL $suggested_name Suggested name for the bot
+     * @param string|NULL $suggested_username Suggested username for the bot
+     *
+     * @return array $args
+     */
+    public function KeyboardButtonRequestManagedBot ( int $request_id, ?string $suggested_name = NULL, ?string $suggested_username = NULL ) : array {
+      $args = [ 'request_id' => $request_id ]; 
+      if ( $suggested_name !== NULL ) $args['suggested_name'] = $suggested_name;
+      if ( $suggested_username !== NULL ) $args['suggested_username'] = $suggested_username;
       return $args;
     }
 
@@ -4268,6 +4389,49 @@
     }
 
     /**
+     * Describes an inline message sent by a Web App on behalf of a user.
+     * 
+     * @see https://core.telegram.org/bots/api#sentwebappmessage
+     *
+     * @param string|NULL $inline_message_id Identifier of the sent inline message. Available only if there is an inline keyboard attached to the
+     *                              message.
+     *
+     * @return array $args
+     */
+    public function SentWebAppMessage ( ?string $inline_message_id = NULL ) : array {
+      $args = []; 
+      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      return $args;
+    }
+
+    /**
+     * Describes an inline message to be sent by a user of a Mini App.
+     * 
+     * @see https://core.telegram.org/bots/api#preparedinlinemessage
+     *
+     * @param string $id Unique identifier of the prepared message
+     * @param int $expiration_date Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used
+     *
+     * @return array $args
+     */
+    public function PreparedInlineMessage ( string $id, int $expiration_date ) : array {
+      return [ 'id' => $id, 'expiration_date' => $expiration_date ];
+    }
+
+    /**
+     * Describes a keyboard button to be used by a user of a Mini App.
+     * 
+     * @see https://core.telegram.org/bots/api#preparedkeyboardbutton
+     *
+     * @param string $id Unique identifier of the keyboard button
+     *
+     * @return array $args
+     */
+    public function PreparedKeyboardButton ( string $id ) : array {
+      return [ 'id' => $id ];
+    }
+
+    /**
      * Describes why a request was unsuccessful.
      * 
      * @see https://core.telegram.org/bots/api#responseparameters
@@ -5694,36 +5858,6 @@
       if ( $location !== NULL ) $args['location'] = $location;
       if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
       return $args;
-    }
-
-    /**
-     * Describes an inline message sent by a Web App on behalf of a user.
-     * 
-     * @see https://core.telegram.org/bots/api#sentwebappmessage
-     *
-     * @param string|NULL $inline_message_id Identifier of the sent inline message. Available only if there is an inline keyboard attached to the
-     *                              message.
-     *
-     * @return array $args
-     */
-    public function SentWebAppMessage ( ?string $inline_message_id = NULL ) : array {
-      $args = []; 
-      if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
-      return $args;
-    }
-
-    /**
-     * Describes an inline message to be sent by a user of a Mini App.
-     * 
-     * @see https://core.telegram.org/bots/api#preparedinlinemessage
-     *
-     * @param string $id Unique identifier of the prepared message
-     * @param int $expiration_date Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used
-     *
-     * @return array $args
-     */
-    public function PreparedInlineMessage ( string $id, int $expiration_date ) : array {
-      return [ 'id' => $id, 'expiration_date' => $expiration_date ];
     }
 
     /**

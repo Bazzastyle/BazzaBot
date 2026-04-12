@@ -1064,18 +1064,29 @@
      * @param InputPollOption[] $options A JSON-serialized list of 2-12 answer options
      * @param bool|NULL $is_anonymous True, if the poll needs to be anonymous, defaults to True
      * @param string|NULL $type Poll type, “quiz” or “regular”, defaults to “regular”
-     * @param bool|NULL $allows_multiple_answers True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
-     * @param int|NULL $correct_option_id 0-based identifier of the correct answer option, required for polls in quiz mode
+     * @param bool|NULL $allows_multiple_answers Pass True, if the poll allows multiple answers, defaults to False
+     * @param bool|NULL $allows_revoting Pass True, if the poll allows to change chosen answer options, defaults to False for quizzes and to
+     *                              True for regular polls
+     * @param bool|NULL $shuffle_options Pass True, if the poll options must be shown in random order
+     * @param bool|NULL $allow_adding_options Pass True, if answer options can be added to the poll after creation; not supported for anonymous
+     *                              polls and quizzes
+     * @param bool|NULL $hide_results_until_closes Pass True, if poll results must be shown only after the poll closes
+     * @param int[]|NULL $correct_option_ids A JSON-serialized list of monotonically increasing 0-based identifiers of the correct answer
+     *                              options, required for polls in quiz mode
      * @param string|NULL $explanation Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style
      *                              poll, 0-200 characters with at most 2 line feeds after entities parsing
      * @param string|NULL $explanation_parse_mode Mode for parsing entities in the explanation. See formatting options for more details.
      * @param MessageEntity[]|NULL $explanation_entities A JSON-serialized list of special entities that appear in the poll explanation. It can be specified
      *                              instead of explanation_parse_mode
-     * @param int|NULL $open_period Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with
-     *                              close_date.
+     * @param int|NULL $open_period Amount of time in seconds the poll will be active after creation, 5-2628000. Can't be used together
+     *                              with close_date.
      * @param int|NULL $close_date Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no
-     *                              more than 600 seconds in the future. Can't be used together with open_period.
+     *                              more than 2628000 seconds in the future. Can't be used together with open_period.
      * @param bool|NULL $is_closed Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
+     * @param string|NULL $description Description of the poll to be sent, 0-1024 characters after entities parsing
+     * @param string|NULL $description_parse_mode Mode for parsing entities in the poll description. See formatting options for more details.
+     * @param MessageEntity[]|NULL $description_entities A JSON-serialized list of special entities that appear in the poll description, which can be
+     *                              specified instead of description_parse_mode
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
@@ -1087,7 +1098,7 @@
      *
      * @return stdClass
      */
-    public function sendPoll ( int|string $chat_id, string $question, array $options, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $question_parse_mode = NULL, ?array $question_entities = NULL, ?bool $is_anonymous = NULL, ?string $type = NULL, ?bool $allows_multiple_answers = NULL, ?int $correct_option_id = NULL, ?string $explanation = NULL, ?string $explanation_parse_mode = NULL, ?array $explanation_entities = NULL, ?int $open_period = NULL, ?int $close_date = NULL, ?bool $is_closed = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+    public function sendPoll ( int|string $chat_id, string $question, array $options, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?string $question_parse_mode = NULL, ?array $question_entities = NULL, ?bool $is_anonymous = NULL, ?string $type = NULL, ?bool $allows_multiple_answers = NULL, ?bool $allows_revoting = NULL, ?bool $shuffle_options = NULL, ?bool $allow_adding_options = NULL, ?bool $hide_results_until_closes = NULL, ?array $correct_option_ids = NULL, ?string $explanation = NULL, ?string $explanation_parse_mode = NULL, ?array $explanation_entities = NULL, ?int $open_period = NULL, ?int $close_date = NULL, ?bool $is_closed = NULL, ?string $description = NULL, ?string $description_parse_mode = NULL, ?array $description_entities = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
       $args = [ 'chat_id' => $chat_id, 'question' => $question, 'options' => json_encode( $options ) ]; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
@@ -1096,13 +1107,20 @@
       if ( $is_anonymous !== NULL ) $args['is_anonymous'] = $is_anonymous;
       if ( $type !== NULL ) $args['type'] = $type;
       if ( $allows_multiple_answers !== NULL ) $args['allows_multiple_answers'] = $allows_multiple_answers;
-      if ( $correct_option_id !== NULL ) $args['correct_option_id'] = $correct_option_id;
+      if ( $allows_revoting !== NULL ) $args['allows_revoting'] = $allows_revoting;
+      if ( $shuffle_options !== NULL ) $args['shuffle_options'] = $shuffle_options;
+      if ( $allow_adding_options !== NULL ) $args['allow_adding_options'] = $allow_adding_options;
+      if ( $hide_results_until_closes !== NULL ) $args['hide_results_until_closes'] = $hide_results_until_closes;
+      if ( $correct_option_ids !== NULL ) $args['correct_option_ids'] = json_encode( $correct_option_ids );
       if ( $explanation !== NULL ) $args['explanation'] = $explanation;
       if ( $explanation_parse_mode !== NULL ) $args['explanation_parse_mode'] = $explanation_parse_mode;
       if ( $explanation_entities !== NULL ) $args['explanation_entities'] = json_encode( $explanation_entities );
       if ( $open_period !== NULL ) $args['open_period'] = $open_period;
       if ( $close_date !== NULL ) $args['close_date'] = $close_date;
       if ( $is_closed !== NULL ) $args['is_closed'] = $is_closed;
+      if ( $description !== NULL ) $args['description'] = $description;
+      if ( $description_parse_mode !== NULL ) $args['description_parse_mode'] = $description_parse_mode;
+      if ( $description_entities !== NULL ) $args['description_entities'] = json_encode( $description_entities );
       if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
       if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
       if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
@@ -2223,6 +2241,33 @@
     }
 
     /**
+     * Use this method to get the token of a managed bot. Returns the token as String on success.
+     * 
+     * @see https://core.telegram.org/bots/api#getmanagedbottoken
+     *
+     * @param int $user_id User identifier of the managed bot whose token will be returned
+     *
+     * @return stdClass
+     */
+    public function getManagedBotToken ( int $user_id ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'user_id' => $user_id ] );
+    }
+
+    /**
+     * Use this method to revoke the current token of a managed bot and generate a new one. Returns the new
+     * token as String on success.
+     * 
+     * @see https://core.telegram.org/bots/api#replacemanagedbottoken
+     *
+     * @param int $user_id User identifier of the managed bot whose token will be replaced
+     *
+     * @return stdClass
+     */
+    public function replaceManagedBotToken ( int $user_id ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'user_id' => $user_id ] );
+    }
+
+    /**
      * Use this method to change the list of the bot's commands. See this manual for more details about bot
      * commands. Returns True on success.
      * 
@@ -2511,11 +2556,11 @@
      *                              the receiver
      * @param string|NULL $text Text that will be shown along with the gift; 0-128 characters
      * @param string|NULL $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Entities other than
-     *                              “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and
-     *                              “custom_emoji” are ignored.
+     *                              “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”,
+     *                              and “date_time” are ignored.
      * @param MessageEntity[]|NULL $text_entities A JSON-serialized list of special entities that appear in the gift text. It can be specified instead
      *                              of text_parse_mode. Entities other than “bold”, “italic”, “underline”,
-     *                              “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     *                              “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
      *
      * @return stdClass
      */
@@ -2542,11 +2587,11 @@
      *                              1500 for 6 months, and 2500 for 12 months
      * @param string|NULL $text Text that will be shown along with the service message about the subscription; 0-128 characters
      * @param string|NULL $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Entities other than
-     *                              “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and
-     *                              “custom_emoji” are ignored.
+     *                              “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”,
+     *                              and “date_time” are ignored.
      * @param MessageEntity[]|NULL $text_entities A JSON-serialized list of special entities that appear in the gift text. It can be specified instead
      *                              of text_parse_mode. Entities other than “bold”, “italic”, “underline”,
-     *                              “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     *                              “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
      *
      * @return stdClass
      */
@@ -3051,6 +3096,61 @@
      */
     public function deleteStory ( string $business_connection_id, int $story_id ) : stdClass {
       return $this->Request( __FUNCTION__, [ 'business_connection_id' => $business_connection_id, 'story_id' => $story_id ] );
+    }
+
+    /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding message
+     * on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage
+     * object is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#answerwebappquery
+     *
+     * @param string $web_app_query_id Unique identifier for the query to be answered
+     * @param InlineQueryResult $result A JSON-serialized object describing the message to be sent
+     *
+     * @return stdClass
+     */
+    public function answerWebAppQuery ( string $web_app_query_id, array $result ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'web_app_query_id' => $web_app_query_id, 'result' => json_encode( $result ) ] );
+    }
+
+    /**
+     * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
+     * 
+     * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
+     *
+     * @param int $user_id Unique identifier of the target user that can use the prepared message
+     * @param InlineQueryResult $result A JSON-serialized object describing the message to be sent
+     * @param bool|NULL $allow_user_chats Pass True if the message can be sent to private chats with users
+     * @param bool|NULL $allow_bot_chats Pass True if the message can be sent to private chats with bots
+     * @param bool|NULL $allow_group_chats Pass True if the message can be sent to group and supergroup chats
+     * @param bool|NULL $allow_channel_chats Pass True if the message can be sent to channel chats
+     *
+     * @return stdClass
+     */
+    public function savePreparedInlineMessage ( int $user_id, array $result, ?bool $allow_user_chats = NULL, ?bool $allow_bot_chats = NULL, ?bool $allow_group_chats = NULL, ?bool $allow_channel_chats = NULL ) : stdClass {
+      $args = [ 'user_id' => $user_id, 'result' => json_encode( $result ) ]; 
+      if ( $allow_user_chats !== NULL ) $args['allow_user_chats'] = $allow_user_chats;
+      if ( $allow_bot_chats !== NULL ) $args['allow_bot_chats'] = $allow_bot_chats;
+      if ( $allow_group_chats !== NULL ) $args['allow_group_chats'] = $allow_group_chats;
+      if ( $allow_channel_chats !== NULL ) $args['allow_channel_chats'] = $allow_channel_chats;
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Stores a keyboard button that can be used by a user within a Mini App. Returns a
+     * PreparedKeyboardButton object.
+     * 
+     * @see https://core.telegram.org/bots/api#savepreparedkeyboardbutton
+     *
+     * @param int $user_id Unique identifier of the target user that can use the button
+     * @param KeyboardButton $button A JSON-serialized object describing the button to be saved. The button must be of the type
+     *                              request_users, request_chat, or request_managed_bot
+     *
+     * @return stdClass
+     */
+    public function savePreparedKeyboardButton ( int $user_id, array $button ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'user_id' => $user_id, 'button' => json_encode( $button ) ] );
     }
 
     /**
@@ -3696,45 +3796,6 @@
       if ( $is_personal !== NULL ) $args['is_personal'] = $is_personal;
       if ( $next_offset !== NULL ) $args['next_offset'] = $next_offset;
       if ( $button !== NULL ) $args['button'] = json_encode( $button );
-      return $this->Request( __FUNCTION__, $args );
-    }
-
-    /**
-     * Use this method to set the result of an interaction with a Web App and send a corresponding message
-     * on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage
-     * object is returned.
-     * 
-     * @see https://core.telegram.org/bots/api#answerwebappquery
-     *
-     * @param string $web_app_query_id Unique identifier for the query to be answered
-     * @param InlineQueryResult $result A JSON-serialized object describing the message to be sent
-     *
-     * @return stdClass
-     */
-    public function answerWebAppQuery ( string $web_app_query_id, array $result ) : stdClass {
-      return $this->Request( __FUNCTION__, [ 'web_app_query_id' => $web_app_query_id, 'result' => json_encode( $result ) ] );
-    }
-
-    /**
-     * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
-     * 
-     * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
-     *
-     * @param int $user_id Unique identifier of the target user that can use the prepared message
-     * @param InlineQueryResult $result A JSON-serialized object describing the message to be sent
-     * @param bool|NULL $allow_user_chats Pass True if the message can be sent to private chats with users
-     * @param bool|NULL $allow_bot_chats Pass True if the message can be sent to private chats with bots
-     * @param bool|NULL $allow_group_chats Pass True if the message can be sent to group and supergroup chats
-     * @param bool|NULL $allow_channel_chats Pass True if the message can be sent to channel chats
-     *
-     * @return stdClass
-     */
-    public function savePreparedInlineMessage ( int $user_id, array $result, ?bool $allow_user_chats = NULL, ?bool $allow_bot_chats = NULL, ?bool $allow_group_chats = NULL, ?bool $allow_channel_chats = NULL ) : stdClass {
-      $args = [ 'user_id' => $user_id, 'result' => json_encode( $result ) ]; 
-      if ( $allow_user_chats !== NULL ) $args['allow_user_chats'] = $allow_user_chats;
-      if ( $allow_bot_chats !== NULL ) $args['allow_bot_chats'] = $allow_bot_chats;
-      if ( $allow_group_chats !== NULL ) $args['allow_group_chats'] = $allow_group_chats;
-      if ( $allow_channel_chats !== NULL ) $args['allow_channel_chats'] = $allow_channel_chats;
       return $this->Request( __FUNCTION__, $args );
     }
 
