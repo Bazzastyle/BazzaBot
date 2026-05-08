@@ -6,8 +6,8 @@
 
 	trait Types {
     /**
-     * This object represents an incoming update.At most one of the optional parameters can be present in
-     * any given update.
+     * This object represents an incoming update.At most one of the optional fields can be present in any
+     * given update.
      * 
      * @see https://core.telegram.org/bots/api#update
      *
@@ -27,6 +27,8 @@
      * @param Message|NULL $business_message New message from a connected business account
      * @param Message|NULL $edited_business_message New version of a message from a connected business account
      * @param BusinessMessagesDeleted|NULL $deleted_business_messages Messages were deleted from a connected business account
+     * @param Message|NULL $guest_message New guest message. The bot can use the field Message.guest_query_id and the method answerGuestQuery
+     *                              to send a message in response.
      * @param MessageReactionUpdated|NULL $message_reaction A reaction to a message was changed by a user. The bot must be an administrator in the chat and must
      *                              explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The
      *                              update isn't received for reactions set by bots.
@@ -56,7 +58,7 @@
      *
      * @return array $args
      */
-    public function Update ( int $update_id, ?array $message = NULL, ?array $edited_message = NULL, ?array $channel_post = NULL, ?array $edited_channel_post = NULL, ?array $business_connection = NULL, ?array $business_message = NULL, ?array $edited_business_message = NULL, ?array $deleted_business_messages = NULL, ?array $message_reaction = NULL, ?array $message_reaction_count = NULL, ?array $inline_query = NULL, ?array $chosen_inline_result = NULL, ?array $callback_query = NULL, ?array $shipping_query = NULL, ?array $pre_checkout_query = NULL, ?array $purchased_paid_media = NULL, ?array $poll = NULL, ?array $poll_answer = NULL, ?array $my_chat_member = NULL, ?array $chat_member = NULL, ?array $chat_join_request = NULL, ?array $chat_boost = NULL, ?array $removed_chat_boost = NULL, ?array $managed_bot = NULL ) : array {
+    public function Update ( int $update_id, ?array $message = NULL, ?array $edited_message = NULL, ?array $channel_post = NULL, ?array $edited_channel_post = NULL, ?array $business_connection = NULL, ?array $business_message = NULL, ?array $edited_business_message = NULL, ?array $deleted_business_messages = NULL, ?array $guest_message = NULL, ?array $message_reaction = NULL, ?array $message_reaction_count = NULL, ?array $inline_query = NULL, ?array $chosen_inline_result = NULL, ?array $callback_query = NULL, ?array $shipping_query = NULL, ?array $pre_checkout_query = NULL, ?array $purchased_paid_media = NULL, ?array $poll = NULL, ?array $poll_answer = NULL, ?array $my_chat_member = NULL, ?array $chat_member = NULL, ?array $chat_join_request = NULL, ?array $chat_boost = NULL, ?array $removed_chat_boost = NULL, ?array $managed_bot = NULL ) : array {
       $args = [ 'update_id' => $update_id ]; 
       if ( $message !== NULL ) $args['message'] = $message;
       if ( $edited_message !== NULL ) $args['edited_message'] = $edited_message;
@@ -66,6 +68,7 @@
       if ( $business_message !== NULL ) $args['business_message'] = $business_message;
       if ( $edited_business_message !== NULL ) $args['edited_business_message'] = $edited_business_message;
       if ( $deleted_business_messages !== NULL ) $args['deleted_business_messages'] = $deleted_business_messages;
+      if ( $guest_message !== NULL ) $args['guest_message'] = $guest_message;
       if ( $message_reaction !== NULL ) $args['message_reaction'] = $message_reaction;
       if ( $message_reaction_count !== NULL ) $args['message_reaction_count'] = $message_reaction_count;
       if ( $inline_query !== NULL ) $args['inline_query'] = $inline_query;
@@ -132,9 +135,9 @@
      * @param bool|NULL $added_to_attachment_menu True, if this user added the bot to the attachment menu
      * @param bool|NULL $can_join_groups True, if the bot can be invited to groups. Returned only in getMe.
      * @param bool|NULL $can_read_all_group_messages True, if privacy mode is disabled for the bot. Returned only in getMe.
+     * @param bool|NULL $supports_guest_queries True, if the bot supports guest queries from chats it is not a member of. Returned only in getMe.
      * @param bool|NULL $supports_inline_queries True, if the bot supports inline queries. Returned only in getMe.
-     * @param bool|NULL $can_connect_to_business True, if the bot can be connected to a Telegram Business account to receive its messages. Returned
-     *                              only in getMe.
+     * @param bool|NULL $can_connect_to_business True, if the bot can be connected to a user account to manage it. Returned only in getMe.
      * @param bool|NULL $has_main_web_app True, if the bot has a main Web App. Returned only in getMe.
      * @param bool|NULL $has_topics_enabled True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      * @param bool|NULL $allows_users_to_create_topics True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
@@ -142,7 +145,7 @@
      *
      * @return array $args
      */
-    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL, ?bool $can_manage_bots = NULL ) : array {
+    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_guest_queries = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL, ?bool $can_manage_bots = NULL ) : array {
       $args = [ 'id' => $id, 'is_bot' => $is_bot, 'first_name' => $first_name ]; 
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -151,6 +154,7 @@
       if ( $added_to_attachment_menu !== NULL ) $args['added_to_attachment_menu'] = $added_to_attachment_menu;
       if ( $can_join_groups !== NULL ) $args['can_join_groups'] = $can_join_groups;
       if ( $can_read_all_group_messages !== NULL ) $args['can_read_all_group_messages'] = $can_read_all_group_messages;
+      if ( $supports_guest_queries !== NULL ) $args['supports_guest_queries'] = $supports_guest_queries;
       if ( $supports_inline_queries !== NULL ) $args['supports_inline_queries'] = $supports_inline_queries;
       if ( $can_connect_to_business !== NULL ) $args['can_connect_to_business'] = $can_connect_to_business;
       if ( $has_main_web_app !== NULL ) $args['has_main_web_app'] = $has_main_web_app;
@@ -342,6 +346,9 @@
      *                              outgoing messages sent on behalf of the connected business account.
      * @param string|NULL $sender_tag Tag or custom title of the sender of the message; for supergroups only
      * @param int $date Date the message was sent in Unix time. It is always a positive number, representing a valid date.
+     * @param string|NULL $guest_query_id The unique identifier for the guest query. Use this identifier with the method answerGuestQuery to
+     *                              send a response message. If non-empty, the message belongs to the chat where the guest bot was
+     *                              summoned, which may not coincide with other existing bot chats sharing the same identifier.
      * @param string|NULL $business_connection_id Unique identifier of the business connection from which the message was received. If non-empty, the
      *                              message belongs to a chat of the corresponding business account that is independent from any
      *                              potential bot chat which might share the same identifier.
@@ -357,6 +364,8 @@
      * @param int|NULL $reply_to_checklist_task_id Identifier of the specific checklist task that is being replied to
      * @param string|NULL $reply_to_poll_option_id Persistent identifier of the specific poll option that is being replied to
      * @param User|NULL $via_bot Bot through which the message was sent
+     * @param User|NULL $guest_bot_caller_user For a message sent by a guest bot, this is the user whose original message triggered the bot's response
+     * @param Chat|NULL $guest_bot_caller_chat For a message sent by a guest bot, this is the chat whose original message triggered the bot's response
      * @param int|NULL $edit_date Date the message was last edited in Unix time
      * @param bool|NULL $has_protected_content True, if the message can't be forwarded
      * @param bool|NULL $is_from_offline True, if the message was sent by an implicit action, for example, as an away or a greeting business
@@ -377,6 +386,8 @@
      *                              field is set, the document field will also be set
      * @param Audio|NULL $audio Message is an audio file, information about the file
      * @param Document|NULL $document Message is a general file, information about the file
+     * @param LivePhoto|NULL $live_photo Message is a live photo, information about the live photo. For backward compatibility, when this
+     *                              field is set, the photo field will also be set
      * @param PaidMediaInfo|NULL $paid_media Message contains paid media; information about the paid media
      * @param PhotoSize[]|NULL $photo Message is a photo, available sizes of the photo
      * @param Sticker|NULL $sticker Message is a sticker, information about the sticker
@@ -473,7 +484,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?string $reply_to_poll_option_id = NULL, ?array $via_bot = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $managed_bot_created = NULL, ?array $paid_message_price_changed = NULL, ?array $poll_option_added = NULL, ?array $poll_option_deleted = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $guest_query_id = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?string $reply_to_poll_option_id = NULL, ?array $via_bot = NULL, ?array $guest_bot_caller_user = NULL, ?array $guest_bot_caller_chat = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $live_photo = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $managed_bot_created = NULL, ?array $paid_message_price_changed = NULL, ?array $poll_option_added = NULL, ?array $poll_option_deleted = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
@@ -482,6 +493,7 @@
       if ( $sender_boost_count !== NULL ) $args['sender_boost_count'] = $sender_boost_count;
       if ( $sender_business_bot !== NULL ) $args['sender_business_bot'] = $sender_business_bot;
       if ( $sender_tag !== NULL ) $args['sender_tag'] = $sender_tag;
+      if ( $guest_query_id !== NULL ) $args['guest_query_id'] = $guest_query_id;
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $forward_origin !== NULL ) $args['forward_origin'] = $forward_origin;
       if ( $is_topic_message !== NULL ) $args['is_topic_message'] = $is_topic_message;
@@ -493,6 +505,8 @@
       if ( $reply_to_checklist_task_id !== NULL ) $args['reply_to_checklist_task_id'] = $reply_to_checklist_task_id;
       if ( $reply_to_poll_option_id !== NULL ) $args['reply_to_poll_option_id'] = $reply_to_poll_option_id;
       if ( $via_bot !== NULL ) $args['via_bot'] = $via_bot;
+      if ( $guest_bot_caller_user !== NULL ) $args['guest_bot_caller_user'] = $guest_bot_caller_user;
+      if ( $guest_bot_caller_chat !== NULL ) $args['guest_bot_caller_chat'] = $guest_bot_caller_chat;
       if ( $edit_date !== NULL ) $args['edit_date'] = $edit_date;
       if ( $has_protected_content !== NULL ) $args['has_protected_content'] = $has_protected_content;
       if ( $is_from_offline !== NULL ) $args['is_from_offline'] = $is_from_offline;
@@ -508,6 +522,7 @@
       if ( $animation !== NULL ) $args['animation'] = $animation;
       if ( $audio !== NULL ) $args['audio'] = $audio;
       if ( $document !== NULL ) $args['document'] = $document;
+      if ( $live_photo !== NULL ) $args['live_photo'] = $live_photo;
       if ( $paid_media !== NULL ) $args['paid_media'] = $paid_media;
       if ( $photo !== NULL ) $args['photo'] = $photo;
       if ( $sticker !== NULL ) $args['sticker'] = $sticker;
@@ -701,6 +716,7 @@
      * @param Animation|NULL $animation Message is an animation, information about the animation
      * @param Audio|NULL $audio Message is an audio file, information about the file
      * @param Document|NULL $document Message is a general file, information about the file
+     * @param LivePhoto|NULL $live_photo Message is a live photo, information about the live photo
      * @param PaidMediaInfo|NULL $paid_media Message contains paid media; information about the paid media
      * @param PhotoSize[]|NULL $photo Message is a photo, available sizes of the photo
      * @param Sticker|NULL $sticker Message is a sticker, information about the sticker
@@ -722,7 +738,7 @@
      *
      * @return array $args
      */
-    public function ExternalReplyInfo ( array $origin, ?array $chat = NULL, ?int $message_id = NULL, ?array $link_preview_options = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $invoice = NULL, ?array $location = NULL, ?array $poll = NULL, ?array $venue = NULL ) : array {
+    public function ExternalReplyInfo ( array $origin, ?array $chat = NULL, ?int $message_id = NULL, ?array $link_preview_options = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $live_photo = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $invoice = NULL, ?array $location = NULL, ?array $poll = NULL, ?array $venue = NULL ) : array {
       $args = [ 'origin' => $origin ]; 
       if ( $chat !== NULL ) $args['chat'] = $chat;
       if ( $message_id !== NULL ) $args['message_id'] = $message_id;
@@ -730,6 +746,7 @@
       if ( $animation !== NULL ) $args['animation'] = $animation;
       if ( $audio !== NULL ) $args['audio'] = $audio;
       if ( $document !== NULL ) $args['document'] = $document;
+      if ( $live_photo !== NULL ) $args['live_photo'] = $live_photo;
       if ( $paid_media !== NULL ) $args['paid_media'] = $paid_media;
       if ( $photo !== NULL ) $args['photo'] = $photo;
       if ( $sticker !== NULL ) $args['sticker'] = $sticker;
@@ -759,8 +776,8 @@
      * @param int $message_id Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it
      *                              is specified
      * @param int|string|NULL $chat_id If the message to be replied to is from a different chat, unique identifier for the chat or username
-     *                              of the channel (in the format @channelusername). Not supported for messages sent on behalf of a
-     *                              business account and messages from channel direct messages chats.
+     *                              of the bot, supergroup or channel in the format @username. Not supported for messages sent on behalf
+     *                              of a business account and messages from channel direct messages chats.
      * @param bool|NULL $allow_sending_without_reply Pass True if the message should be sent even if the specified message to be replied to is not found.
      *                              Always False for replies in another chat or forum topic. Always True for messages sent on behalf of
      *                              a business account.
@@ -975,6 +992,33 @@
     }
 
     /**
+     * This object represents a live photo.
+     * 
+     * @see https://core.telegram.org/bots/api#livephoto
+     *
+     * @param PhotoSize[]|NULL $photo Available sizes of the corresponding static photo
+     * @param string $file_id Identifier for the video file which can be used to download or reuse the file
+     * @param string $file_unique_id Unique identifier for the video file which is supposed to be the same over time and for different
+     *                              bots. Can't be used to download or reuse the file.
+     * @param int $width Video width as defined by the sender
+     * @param int $height Video height as defined by the sender
+     * @param int $duration Duration of the video in seconds as defined by the sender
+     * @param string|NULL $mime_type MIME type of the file as defined by the sender
+     * @param int|NULL $file_size File size in bytes. It can be bigger than 2^31 and some programming languages may have
+     *                              difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed
+     *                              64-bit integer or double-precision float type are safe for storing this value.
+     *
+     * @return array $args
+     */
+    public function LivePhoto ( string $file_id, string $file_unique_id, int $width, int $height, int $duration, ?array $photo = NULL, ?string $mime_type = NULL, ?int $file_size = NULL ) : array {
+      $args = [ 'file_id' => $file_id, 'file_unique_id' => $file_unique_id, 'width' => $width, 'height' => $height, 'duration' => $duration ]; 
+      if ( $photo !== NULL ) $args['photo'] = $photo;
+      if ( $mime_type !== NULL ) $args['mime_type'] = $mime_type;
+      if ( $file_size !== NULL ) $args['file_size'] = $file_size;
+      return $args;
+    }
+
+    /**
      * This object represents a story.
      * 
      * @see https://core.telegram.org/bots/api#story
@@ -1118,6 +1162,34 @@
     }
 
     /**
+     * The paid media is a live photo.
+     * 
+     * @see https://core.telegram.org/bots/api#paidmedialivephoto
+     *
+     * @param string $type Type of the paid media, always “live_photo”
+     * @param LivePhoto $live_photo The photo
+     *
+     * @return array $args
+     */
+    public function PaidMediaLivePhoto ( string $type = 'live_photo', array $live_photo ) : array {
+      return [ 'type' => $type, 'live_photo' => $live_photo ];
+    }
+
+    /**
+     * The paid media is a photo.
+     * 
+     * @see https://core.telegram.org/bots/api#paidmediaphoto
+     *
+     * @param string $type Type of the paid media, always “photo”
+     * @param PhotoSize[] $photo The photo
+     *
+     * @return array $args
+     */
+    public function PaidMediaPhoto ( string $type = 'photo', array $photo ) : array {
+      return [ 'type' => $type, 'photo' => $photo ];
+    }
+
+    /**
      * The paid media isn't available before the payment.
      * 
      * @see https://core.telegram.org/bots/api#paidmediapreview
@@ -1135,20 +1207,6 @@
       if ( $height !== NULL ) $args['height'] = $height;
       if ( $duration !== NULL ) $args['duration'] = $duration;
       return $args;
-    }
-
-    /**
-     * The paid media is a photo.
-     * 
-     * @see https://core.telegram.org/bots/api#paidmediaphoto
-     *
-     * @param string $type Type of the paid media, always “photo”
-     * @param PhotoSize[] $photo The photo
-     *
-     * @return array $args
-     */
-    public function PaidMediaPhoto ( string $type = 'photo', array $photo ) : array {
-      return [ 'type' => $type, 'photo' => $photo ];
     }
 
     /**
@@ -1204,6 +1262,62 @@
     }
 
     /**
+     * At most one of the optional fields can be present in any given object.
+     * 
+     * @see https://core.telegram.org/bots/api#pollmedia
+     *
+     * @param Animation|NULL $animation Media is an animation, information about the animation
+     * @param Audio|NULL $audio Media is an audio file, information about the file; currently, can't be received in a poll option
+     * @param Document|NULL $document Media is a general file, information about the file; currently, can't be received in a poll option
+     * @param LivePhoto|NULL $live_photo Media is a live photo, information about the live photo
+     * @param Location|NULL $location Media is a shared location, information about the location
+     * @param PhotoSize[]|NULL $photo Media is a photo, available sizes of the photo
+     * @param Sticker|NULL $sticker Media is a sticker, information about the sticker; currently, for poll options only
+     * @param Venue|NULL $venue Media is a venue, information about the venue
+     * @param Video|NULL $video Media is a video, information about the video
+     *
+     * @return array $args
+     */
+    public function PollMedia ( ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $live_photo = NULL, ?array $location = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $venue = NULL, ?array $video = NULL ) : array {
+      $args = []; 
+      if ( $animation !== NULL ) $args['animation'] = $animation;
+      if ( $audio !== NULL ) $args['audio'] = $audio;
+      if ( $document !== NULL ) $args['document'] = $document;
+      if ( $live_photo !== NULL ) $args['live_photo'] = $live_photo;
+      if ( $location !== NULL ) $args['location'] = $location;
+      if ( $photo !== NULL ) $args['photo'] = $photo;
+      if ( $sticker !== NULL ) $args['sticker'] = $sticker;
+      if ( $venue !== NULL ) $args['venue'] = $venue;
+      if ( $video !== NULL ) $args['video'] = $video;
+      return $args;
+    }
+
+    /**
+     * This object represents the content of a poll description or a quiz explanation to be sent. It should
+     * be one of
+     * 
+     * @see https://core.telegram.org/bots/api#inputpollmedia
+     *
+     *
+     * @return array $args
+     */
+    public function InputPollMedia ( ) : array {
+      return [];
+    }
+
+    /**
+     * This object represents the content of a poll option to be sent. It should be one of
+     * 
+     * @see https://core.telegram.org/bots/api#inputpolloptionmedia
+     *
+     *
+     * @return array $args
+     */
+    public function InputPollOptionMedia ( ) : array {
+      return [];
+    }
+
+    /**
      * This object contains information about one answer option in a poll.
      * 
      * @see https://core.telegram.org/bots/api#polloption
@@ -1212,6 +1326,7 @@
      * @param string $text Option text, 1-100 characters
      * @param MessageEntity[]|NULL $text_entities Special entities that appear in the option text. Currently, only custom emoji entities are allowed
      *                              in poll option texts
+     * @param PollMedia|NULL $media Media added to the poll option
      * @param int $voter_count Number of users who voted for this option; may be 0 if unknown
      * @param User|NULL $added_by_user User who added the option; omitted if the option wasn't added by a user after poll creation
      * @param Chat|NULL $added_by_chat Chat that added the option; omitted if the option wasn't added by a chat after poll creation
@@ -1220,9 +1335,10 @@
      *
      * @return array $args
      */
-    public function PollOption ( string $persistent_id, string $text, int $voter_count, ?array $text_entities = NULL, ?array $added_by_user = NULL, ?array $added_by_chat = NULL, ?int $addition_date = NULL ) : array {
+    public function PollOption ( string $persistent_id, string $text, int $voter_count, ?array $text_entities = NULL, ?array $media = NULL, ?array $added_by_user = NULL, ?array $added_by_chat = NULL, ?int $addition_date = NULL ) : array {
       $args = [ 'persistent_id' => $persistent_id, 'text' => $text, 'voter_count' => $voter_count ]; 
       if ( $text_entities !== NULL ) $args['text_entities'] = $text_entities;
+      if ( $media !== NULL ) $args['media'] = $media;
       if ( $added_by_user !== NULL ) $args['added_by_user'] = $added_by_user;
       if ( $added_by_chat !== NULL ) $args['added_by_chat'] = $added_by_chat;
       if ( $addition_date !== NULL ) $args['addition_date'] = $addition_date;
@@ -1239,13 +1355,15 @@
      *                              custom emoji entities are allowed
      * @param MessageEntity[]|NULL $text_entities A JSON-serialized list of special entities that appear in the poll option text. It can be specified
      *                              instead of text_parse_mode
+     * @param InputPollOptionMedia|NULL $media Media added to the poll option
      *
      * @return array $args
      */
-    public function InputPollOption ( string $text, ?string $text_parse_mode = NULL, ?array $text_entities = NULL ) : array {
+    public function InputPollOption ( string $text, ?string $text_parse_mode = NULL, ?array $text_entities = NULL, ?array $media = NULL ) : array {
       $args = [ 'text' => $text ]; 
       if ( $text_parse_mode !== NULL ) $args['text_parse_mode'] = $text_parse_mode;
       if ( $text_entities !== NULL ) $args['text_entities'] = $text_entities;
+      if ( $media !== NULL ) $args['media'] = $media;
       return $args;
     }
 
@@ -1285,28 +1403,37 @@
      * @param string $type Poll type, currently can be “regular” or “quiz”
      * @param bool $allows_multiple_answers True, if the poll allows multiple answers
      * @param bool $allows_revoting True, if the poll allows to change the chosen answer options
+     * @param bool $members_only True if voting is limited to users who have been members of the chat where the poll was originally
+     *                              sent for more than 24 hours
+     * @param string[]|NULL $country_codes A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can
+     *                              vote in the poll. If omitted, then users from any country can participate in the poll.
      * @param int[]|NULL $correct_option_ids Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode
      *                              which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.
      * @param string|NULL $explanation Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style
      *                              poll, 0-200 characters
      * @param MessageEntity[]|NULL $explanation_entities Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
+     * @param PollMedia|NULL $explanation_media Media added to the quiz explanation
      * @param int|NULL $open_period Amount of time in seconds the poll will be active after creation
      * @param int|NULL $close_date Point in time (Unix timestamp) when the poll will be automatically closed
      * @param string|NULL $description Description of the poll; for polls inside the Message object only
      * @param MessageEntity[]|NULL $description_entities Special entities like usernames, URLs, bot commands, etc. that appear in the description
+     * @param PollMedia|NULL $media Media added to the poll description; for polls inside the Message object only
      *
      * @return array $args
      */
-    public function Poll ( string $id, string $question, array $options, int $total_voter_count, bool $is_closed, bool $is_anonymous, string $type, bool $allows_multiple_answers, bool $allows_revoting, ?array $question_entities = NULL, ?array $correct_option_ids = NULL, ?string $explanation = NULL, ?array $explanation_entities = NULL, ?int $open_period = NULL, ?int $close_date = NULL, ?string $description = NULL, ?array $description_entities = NULL ) : array {
-      $args = [ 'id' => $id, 'question' => $question, 'options' => $options, 'total_voter_count' => $total_voter_count, 'is_closed' => $is_closed, 'is_anonymous' => $is_anonymous, 'type' => $type, 'allows_multiple_answers' => $allows_multiple_answers, 'allows_revoting' => $allows_revoting ]; 
+    public function Poll ( string $id, string $question, array $options, int $total_voter_count, bool $is_closed, bool $is_anonymous, string $type, bool $allows_multiple_answers, bool $allows_revoting, bool $members_only, ?array $question_entities = NULL, ?array $country_codes = NULL, ?array $correct_option_ids = NULL, ?string $explanation = NULL, ?array $explanation_entities = NULL, ?array $explanation_media = NULL, ?int $open_period = NULL, ?int $close_date = NULL, ?string $description = NULL, ?array $description_entities = NULL, ?array $media = NULL ) : array {
+      $args = [ 'id' => $id, 'question' => $question, 'options' => $options, 'total_voter_count' => $total_voter_count, 'is_closed' => $is_closed, 'is_anonymous' => $is_anonymous, 'type' => $type, 'allows_multiple_answers' => $allows_multiple_answers, 'allows_revoting' => $allows_revoting, 'members_only' => $members_only ]; 
       if ( $question_entities !== NULL ) $args['question_entities'] = $question_entities;
+      if ( $country_codes !== NULL ) $args['country_codes'] = $country_codes;
       if ( $correct_option_ids !== NULL ) $args['correct_option_ids'] = $correct_option_ids;
       if ( $explanation !== NULL ) $args['explanation'] = $explanation;
       if ( $explanation_entities !== NULL ) $args['explanation_entities'] = $explanation_entities;
+      if ( $explanation_media !== NULL ) $args['explanation_media'] = $explanation_media;
       if ( $open_period !== NULL ) $args['open_period'] = $open_period;
       if ( $close_date !== NULL ) $args['close_date'] = $close_date;
       if ( $description !== NULL ) $args['description'] = $description;
       if ( $description_entities !== NULL ) $args['description_entities'] = $description_entities;
+      if ( $media !== NULL ) $args['media'] = $media;
       return $args;
     }
 
@@ -2391,7 +2518,7 @@
 
     /**
      * This object represents a custom keyboard with reply options (see Introduction to bots for details
-     * and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
+     * and examples). Not supported in channels and for messages sent on behalf of a business account.
      * 
      * @see https://core.telegram.org/bots/api#replykeyboardmarkup
      *
@@ -2584,7 +2711,7 @@
      * and display the default letter-keyboard. By default, custom keyboards are displayed until a new
      * keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately
      * after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for
-     * messages sent on behalf of a Telegram Business account.
+     * messages sent on behalf of a business account.
      * 
      * @see https://core.telegram.org/bots/api#replykeyboardremove
      *
@@ -2635,21 +2762,21 @@
      * @param WebAppInfo|NULL $web_app Description of the Web App that will be launched when the user presses the button. The Web App will
      *                              be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
      *                              Available only in private chats between a user and the bot. Not supported for messages sent on
-     *                              behalf of a Telegram Business account.
+     *                              behalf of a business account.
      * @param LoginUrl|NULL $login_url An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the Telegram
      *                              Login Widget.
      * @param string|NULL $switch_inline_query If set, pressing the button will prompt the user to select one of their chats, open that chat and
      *                              insert the bot's username and the specified inline query in the input field. May be empty, in which
      *                              case just the bot's username will be inserted. Not supported for messages sent in channel direct
-     *                              messages chats and on behalf of a Telegram Business account.
+     *                              messages chats and on behalf of a business account.
      * @param string|NULL $switch_inline_query_current_chat If set, pressing the button will insert the bot's username and the specified inline query in the
      *                              current chat's input field. May be empty, in which case only the bot's username will be
      *                              inserted.This offers a quick way for the user to open your bot in inline mode in the same chat -
      *                              good for selecting something from multiple options. Not supported in channels and for messages sent
-     *                              in channel direct messages chats and on behalf of a Telegram Business account.
+     *                              in channel direct messages chats and on behalf of a business account.
      * @param SwitchInlineQueryChosenChat|NULL $switch_inline_query_chosen_chat If set, pressing the button will prompt the user to select one of their chats of the specified type,
      *                              open that chat and insert the bot's username and the specified inline query in the input field. Not
-     *                              supported for messages sent in channel direct messages chats and on behalf of a Telegram Business account.
+     *                              supported for messages sent in channel direct messages chats and on behalf of a business account.
      * @param CopyTextButton|NULL $copy_text Description of the button that copies the specified text to the clipboard.
      * @param CallbackGame|NULL $callback_game Description of the game that will be launched when the user presses the button.NOTE: This type of
      *                              button must always be the first button in the first row.
@@ -2777,7 +2904,7 @@
      * Upon receiving a message with this object, Telegram clients will display a reply interface to the
      * user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely
      * useful if you want to create user-friendly step-by-step interfaces without having to sacrifice
-     * privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
+     * privacy mode. Not supported in channels and for messages sent on behalf of a user account.
      * 
      * @see https://core.telegram.org/bots/api#forcereply
      *
@@ -3037,6 +3164,7 @@
      * @param bool $can_send_polls True, if the user is allowed to send polls and checklists
      * @param bool $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
+     * @param bool $can_react_to_messages True, if the user is allowed to react to messages
      * @param bool $can_edit_tag True, if the user is allowed to edit their own tag
      * @param bool $can_change_info True, if the user is allowed to change the chat title, photo and other settings
      * @param bool $can_invite_users True, if the user is allowed to invite new users to the chat
@@ -3046,8 +3174,8 @@
      *
      * @return array $args
      */
-    public function ChatMemberRestricted ( string $status = 'restricted', array $user, bool $is_member, bool $can_send_messages, bool $can_send_audios, bool $can_send_documents, bool $can_send_photos, bool $can_send_videos, bool $can_send_video_notes, bool $can_send_voice_notes, bool $can_send_polls, bool $can_send_other_messages, bool $can_add_web_page_previews, bool $can_edit_tag, bool $can_change_info, bool $can_invite_users, bool $can_pin_messages, bool $can_manage_topics, int $until_date, ?string $tag = NULL ) : array {
-      $args = [ 'status' => $status, 'user' => $user, 'is_member' => $is_member, 'can_send_messages' => $can_send_messages, 'can_send_audios' => $can_send_audios, 'can_send_documents' => $can_send_documents, 'can_send_photos' => $can_send_photos, 'can_send_videos' => $can_send_videos, 'can_send_video_notes' => $can_send_video_notes, 'can_send_voice_notes' => $can_send_voice_notes, 'can_send_polls' => $can_send_polls, 'can_send_other_messages' => $can_send_other_messages, 'can_add_web_page_previews' => $can_add_web_page_previews, 'can_edit_tag' => $can_edit_tag, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_pin_messages' => $can_pin_messages, 'can_manage_topics' => $can_manage_topics, 'until_date' => $until_date ]; 
+    public function ChatMemberRestricted ( string $status = 'restricted', array $user, bool $is_member, bool $can_send_messages, bool $can_send_audios, bool $can_send_documents, bool $can_send_photos, bool $can_send_videos, bool $can_send_video_notes, bool $can_send_voice_notes, bool $can_send_polls, bool $can_send_other_messages, bool $can_add_web_page_previews, bool $can_react_to_messages, bool $can_edit_tag, bool $can_change_info, bool $can_invite_users, bool $can_pin_messages, bool $can_manage_topics, int $until_date, ?string $tag = NULL ) : array {
+      $args = [ 'status' => $status, 'user' => $user, 'is_member' => $is_member, 'can_send_messages' => $can_send_messages, 'can_send_audios' => $can_send_audios, 'can_send_documents' => $can_send_documents, 'can_send_photos' => $can_send_photos, 'can_send_videos' => $can_send_videos, 'can_send_video_notes' => $can_send_video_notes, 'can_send_voice_notes' => $can_send_voice_notes, 'can_send_polls' => $can_send_polls, 'can_send_other_messages' => $can_send_other_messages, 'can_add_web_page_previews' => $can_add_web_page_previews, 'can_react_to_messages' => $can_react_to_messages, 'can_edit_tag' => $can_edit_tag, 'can_change_info' => $can_change_info, 'can_invite_users' => $can_invite_users, 'can_pin_messages' => $can_pin_messages, 'can_manage_topics' => $can_manage_topics, 'until_date' => $until_date ]; 
       if ( $tag !== NULL ) $args['tag'] = $tag;
       return $args;
     }
@@ -3122,7 +3250,8 @@
      * @param bool|NULL $can_send_polls True, if the user is allowed to send polls and checklists
      * @param bool|NULL $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
      * @param bool|NULL $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
-     * @param bool|NULL $can_edit_tag True, if the user is allowed to edit their own tag
+     * @param bool|NULL $can_react_to_messages True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages.
+     * @param bool|NULL $can_edit_tag True, if the user is allowed to edit their own tag. If omitted, defaults to the value of can_pin_messages.
      * @param bool|NULL $can_change_info True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
      * @param bool|NULL $can_invite_users True, if the user is allowed to invite new users to the chat
      * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages. Ignored in public supergroups
@@ -3130,7 +3259,7 @@
      *
      * @return array $args
      */
-    public function ChatPermissions ( ?bool $can_send_messages = NULL, ?bool $can_send_audios = NULL, ?bool $can_send_documents = NULL, ?bool $can_send_photos = NULL, ?bool $can_send_videos = NULL, ?bool $can_send_video_notes = NULL, ?bool $can_send_voice_notes = NULL, ?bool $can_send_polls = NULL, ?bool $can_send_other_messages = NULL, ?bool $can_add_web_page_previews = NULL, ?bool $can_edit_tag = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL ) : array {
+    public function ChatPermissions ( ?bool $can_send_messages = NULL, ?bool $can_send_audios = NULL, ?bool $can_send_documents = NULL, ?bool $can_send_photos = NULL, ?bool $can_send_videos = NULL, ?bool $can_send_video_notes = NULL, ?bool $can_send_voice_notes = NULL, ?bool $can_send_polls = NULL, ?bool $can_send_other_messages = NULL, ?bool $can_add_web_page_previews = NULL, ?bool $can_react_to_messages = NULL, ?bool $can_edit_tag = NULL, ?bool $can_change_info = NULL, ?bool $can_invite_users = NULL, ?bool $can_pin_messages = NULL, ?bool $can_manage_topics = NULL ) : array {
       $args = []; 
       if ( $can_send_messages !== NULL ) $args['can_send_messages'] = $can_send_messages;
       if ( $can_send_audios !== NULL ) $args['can_send_audios'] = $can_send_audios;
@@ -3142,6 +3271,7 @@
       if ( $can_send_polls !== NULL ) $args['can_send_polls'] = $can_send_polls;
       if ( $can_send_other_messages !== NULL ) $args['can_send_other_messages'] = $can_send_other_messages;
       if ( $can_add_web_page_previews !== NULL ) $args['can_add_web_page_previews'] = $can_add_web_page_previews;
+      if ( $can_react_to_messages !== NULL ) $args['can_react_to_messages'] = $can_react_to_messages;
       if ( $can_edit_tag !== NULL ) $args['can_edit_tag'] = $can_edit_tag;
       if ( $can_change_info !== NULL ) $args['can_change_info'] = $can_change_info;
       if ( $can_invite_users !== NULL ) $args['can_invite_users'] = $can_invite_users;
@@ -3898,6 +4028,22 @@
     }
 
     /**
+     * This object describes the access settings of a bot.
+     * 
+     * @see https://core.telegram.org/bots/api#botaccesssettings
+     *
+     * @param bool $is_access_restricted True, if only selected users can access the bot. The bot's owner can always access it.
+     * @param User[]|NULL $added_users The list of other users who have access to the bot if the access is restricted
+     *
+     * @return array $args
+     */
+    public function BotAccessSettings ( bool $is_access_restricted, ?array $added_users = NULL ) : array {
+      $args = [ 'is_access_restricted' => $is_access_restricted ]; 
+      if ( $added_users !== NULL ) $args['added_users'] = $added_users;
+      return $args;
+    }
+
+    /**
      * This object describes the types of gifts that can be gifted to a user or a chat.
      * 
      * @see https://core.telegram.org/bots/api#acceptedgifttypes
@@ -4017,8 +4163,8 @@
      * @see https://core.telegram.org/bots/api#botcommandscopechat
      *
      * @param string $type Scope type, must be chat
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
-     *                              @supergroupusername). Channel direct messages chats and channel chats aren't supported.
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username.
+     *                              Channel direct messages chats and channel chats aren't supported.
      *
      * @return array $args
      */
@@ -4032,8 +4178,8 @@
      * @see https://core.telegram.org/bots/api#botcommandscopechatadministrators
      *
      * @param string $type Scope type, must be chat_administrators
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
-     *                              @supergroupusername). Channel direct messages chats and channel chats aren't supported.
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username.
+     *                              Channel direct messages chats and channel chats aren't supported.
      *
      * @return array $args
      */
@@ -4047,8 +4193,8 @@
      * @see https://core.telegram.org/bots/api#botcommandscopechatmember
      *
      * @param string $type Scope type, must be chat_member
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
-     *                              @supergroupusername). Channel direct messages chats and channel chats aren't supported.
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username.
+     *                              Channel direct messages chats and channel chats aren't supported.
      * @param int $user_id Unique identifier of the target user
      *
      * @return array $args
@@ -4270,7 +4416,7 @@
      * 
      * @see https://core.telegram.org/bots/api#chatownerleft
      *
-     * @param User|NULL $new_owner The user which will be the new owner of the chat if the previous owner does not return to the chat
+     * @param User|NULL $new_owner The user who will become the new owner of the chat if the previous owner does not return to the chat
      *
      * @return array $args
      */
@@ -4405,6 +4551,19 @@
     }
 
     /**
+     * Describes an inline message sent by a guest bot.
+     * 
+     * @see https://core.telegram.org/bots/api#sentguestmessage
+     *
+     * @param string $inline_message_id Identifier of the sent inline message
+     *
+     * @return array $args
+     */
+    public function SentGuestMessage ( string $inline_message_id ) : array {
+      return [ 'inline_message_id' => $inline_message_id ];
+    }
+
+    /**
      * Describes an inline message to be sent by a user of a Mini App.
      * 
      * @see https://core.telegram.org/bots/api#preparedinlinemessage
@@ -4461,84 +4620,6 @@
      */
     public function InputMedia ( ) : array {
       return [];
-    }
-
-    /**
-     * Represents a photo to be sent.
-     * 
-     * @see https://core.telegram.org/bots/api#inputmediaphoto
-     *
-     * @param string $type Type of the result, must be photo
-     * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
-     *                              Sending Files »
-     * @param string|NULL $caption Caption of the photo to be sent, 0-1024 characters after entities parsing
-     * @param string|NULL $parse_mode Mode for parsing entities in the photo caption. See formatting options for more details.
-     * @param MessageEntity[]|NULL $caption_entities List of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media
-     * @param bool|NULL $has_spoiler Pass True if the photo needs to be covered with a spoiler animation
-     *
-     * @return array $args
-     */
-    public function InputMediaPhoto ( string $type, string $media, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL ) : array {
-      $args = [ 'type' => $type, 'media' => $media ]; 
-      if ( $caption !== NULL ) $args['caption'] = $caption;
-      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
-      if ( $caption_entities !== NULL ) $args['caption_entities'] = $caption_entities;
-      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
-      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
-      return $args;
-    }
-
-    /**
-     * Represents a video to be sent.
-     * 
-     * @see https://core.telegram.org/bots/api#inputmediavideo
-     *
-     * @param string $type Type of the result, must be video
-     * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
-     *                              Sending Files »
-     * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
-     *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
-     *                              width and height should not exceed 320. Ignored if the file is not uploaded using
-     *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
-     *                              <file_attach_name>. More information on Sending Files »
-     * @param string|NULL $cover Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram
-     *                              servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass
-     *                              “attach://<file_attach_name>” to upload a new one using multipart/form-data under
-     *                              <file_attach_name> name. More information on Sending Files »
-     * @param int|NULL $start_timestamp Start timestamp for the video in the message
-     * @param string|NULL $caption Caption of the video to be sent, 0-1024 characters after entities parsing
-     * @param string|NULL $parse_mode Mode for parsing entities in the video caption. See formatting options for more details.
-     * @param MessageEntity[]|NULL $caption_entities List of special entities that appear in the caption, which can be specified instead of parse_mode
-     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media
-     * @param int|NULL $width Video width
-     * @param int|NULL $height Video height
-     * @param int|NULL $duration Video duration in seconds
-     * @param bool|NULL $supports_streaming Pass True if the uploaded video is suitable for streaming
-     * @param bool|NULL $has_spoiler Pass True if the video needs to be covered with a spoiler animation
-     *
-     * @return array $args
-     */
-    public function InputMediaVideo ( string $type, string $media, ?string $thumbnail = NULL, ?string $cover = NULL, ?int $start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?int $width = NULL, ?int $height = NULL, ?int $duration = NULL, ?bool $supports_streaming = NULL, ?bool $has_spoiler = NULL ) : array {
-      $args = [ 'type' => $type, 'media' => $media ]; 
-      if ( $thumbnail !== NULL ) $args['thumbnail'] = $thumbnail;
-      if ( $cover !== NULL ) $args['cover'] = $cover;
-      if ( $start_timestamp !== NULL ) $args['start_timestamp'] = $start_timestamp;
-      if ( $caption !== NULL ) $args['caption'] = $caption;
-      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
-      if ( $caption_entities !== NULL ) $args['caption_entities'] = $caption_entities;
-      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
-      if ( $width !== NULL ) $args['width'] = $width;
-      if ( $height !== NULL ) $args['height'] = $height;
-      if ( $duration !== NULL ) $args['duration'] = $duration;
-      if ( $supports_streaming !== NULL ) $args['supports_streaming'] = $supports_streaming;
-      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
-      return $args;
     }
 
     /**
@@ -4654,6 +4735,181 @@
     }
 
     /**
+     * Represents a live photo to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmedialivephoto
+     *
+     * @param string $type Type of the result, must be live_photo
+     * @param string $media Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers
+     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
+     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
+     *                              live photos by a URL is currently unsupported.
+     * @param string $photo The static photo to send. Pass a file_id to send a file that exists on the Telegram servers
+     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
+     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
+     *                              live photos by a URL is currently unsupported.
+     * @param string|NULL $caption Caption of the live photo to be sent, 0-1024 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the live photo caption. See formatting options for more details.
+     * @param MessageEntity[]|NULL $caption_entities List of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media
+     * @param bool|NULL $has_spoiler Pass True if the live photo needs to be covered with a spoiler animation
+     *
+     * @return array $args
+     */
+    public function InputMediaLivePhoto ( string $type, string $media, string $photo, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL ) : array {
+      $args = [ 'type' => $type, 'media' => $media, 'photo' => $photo ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $caption_entities !== NULL ) $args['caption_entities'] = $caption_entities;
+      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
+      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
+      return $args;
+    }
+
+    /**
+     * Represents a location to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmedialocation
+     *
+     * @param string $type Type of the result, must be location
+     * @param float $latitude Latitude of the location
+     * @param float $longitude Longitude of the location
+     * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
+     *
+     * @return array $args
+     */
+    public function InputMediaLocation ( string $type, array $latitude, array $longitude, ?array $horizontal_accuracy = NULL ) : array {
+      $args = [ 'type' => $type, 'latitude' => $latitude, 'longitude' => $longitude ]; 
+      if ( $horizontal_accuracy !== NULL ) $args['horizontal_accuracy'] = $horizontal_accuracy;
+      return $args;
+    }
+
+    /**
+     * Represents a photo to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmediaphoto
+     *
+     * @param string $type Type of the result, must be photo
+     * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
+     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              Sending Files »
+     * @param string|NULL $caption Caption of the photo to be sent, 0-1024 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the photo caption. See formatting options for more details.
+     * @param MessageEntity[]|NULL $caption_entities List of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media
+     * @param bool|NULL $has_spoiler Pass True if the photo needs to be covered with a spoiler animation
+     *
+     * @return array $args
+     */
+    public function InputMediaPhoto ( string $type, string $media, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_spoiler = NULL ) : array {
+      $args = [ 'type' => $type, 'media' => $media ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $caption_entities !== NULL ) $args['caption_entities'] = $caption_entities;
+      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
+      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
+      return $args;
+    }
+
+    /**
+     * Represents a sticker file to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmediasticker
+     *
+     * @param string $type Type of the result, must be sticker
+     * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
+     *                              an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass
+     *                              “attach://<file_attach_name>” to upload a new .WEBP, .TGS, or .WEBM sticker using
+     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files »
+     * @param string|NULL $emoji Emoji associated with the sticker; only for just uploaded stickers
+     *
+     * @return array $args
+     */
+    public function InputMediaSticker ( string $type, string $media, ?string $emoji = NULL ) : array {
+      $args = [ 'type' => $type, 'media' => $media ]; 
+      if ( $emoji !== NULL ) $args['emoji'] = $emoji;
+      return $args;
+    }
+
+    /**
+     * Represents a venue to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmediavenue
+     *
+     * @param string $type Type of the result, must be venue
+     * @param float $latitude Latitude of the location
+     * @param float $longitude Longitude of the location
+     * @param string $title Name of the venue
+     * @param string $address Address of the venue
+     * @param string|NULL $foursquare_id Foursquare identifier of the venue
+     * @param string|NULL $foursquare_type Foursquare type of the venue, if known. (For example, “arts_entertainment/default”,
+     *                              “arts_entertainment/aquarium” or “food/icecream”.)
+     * @param string|NULL $google_place_id Google Places identifier of the venue
+     * @param string|NULL $google_place_type Google Places type of the venue. (See supported types.)
+     *
+     * @return array $args
+     */
+    public function InputMediaVenue ( string $type, array $latitude, array $longitude, string $title, string $address, ?string $foursquare_id = NULL, ?string $foursquare_type = NULL, ?string $google_place_id = NULL, ?string $google_place_type = NULL ) : array {
+      $args = [ 'type' => $type, 'latitude' => $latitude, 'longitude' => $longitude, 'title' => $title, 'address' => $address ]; 
+      if ( $foursquare_id !== NULL ) $args['foursquare_id'] = $foursquare_id;
+      if ( $foursquare_type !== NULL ) $args['foursquare_type'] = $foursquare_type;
+      if ( $google_place_id !== NULL ) $args['google_place_id'] = $google_place_id;
+      if ( $google_place_type !== NULL ) $args['google_place_type'] = $google_place_type;
+      return $args;
+    }
+
+    /**
+     * Represents a video to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmediavideo
+     *
+     * @param string $type Type of the result, must be video
+     * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
+     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              Sending Files »
+     * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
+     *                              width and height should not exceed 320. Ignored if the file is not uploaded using
+     *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
+     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              <file_attach_name>. More information on Sending Files »
+     * @param string|NULL $cover Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram
+     *                              servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass
+     *                              “attach://<file_attach_name>” to upload a new one using multipart/form-data under
+     *                              <file_attach_name> name. More information on Sending Files »
+     * @param int|NULL $start_timestamp Start timestamp for the video in the message
+     * @param string|NULL $caption Caption of the video to be sent, 0-1024 characters after entities parsing
+     * @param string|NULL $parse_mode Mode for parsing entities in the video caption. See formatting options for more details.
+     * @param MessageEntity[]|NULL $caption_entities List of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media
+     * @param int|NULL $width Video width
+     * @param int|NULL $height Video height
+     * @param int|NULL $duration Video duration in seconds
+     * @param bool|NULL $supports_streaming Pass True if the uploaded video is suitable for streaming
+     * @param bool|NULL $has_spoiler Pass True if the video needs to be covered with a spoiler animation
+     *
+     * @return array $args
+     */
+    public function InputMediaVideo ( string $type, string $media, ?string $thumbnail = NULL, ?string $cover = NULL, ?int $start_timestamp = NULL, ?string $caption = NULL, ?string $parse_mode = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?int $width = NULL, ?int $height = NULL, ?int $duration = NULL, ?bool $supports_streaming = NULL, ?bool $has_spoiler = NULL ) : array {
+      $args = [ 'type' => $type, 'media' => $media ]; 
+      if ( $thumbnail !== NULL ) $args['thumbnail'] = $thumbnail;
+      if ( $cover !== NULL ) $args['cover'] = $cover;
+      if ( $start_timestamp !== NULL ) $args['start_timestamp'] = $start_timestamp;
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
+      if ( $caption_entities !== NULL ) $args['caption_entities'] = $caption_entities;
+      if ( $show_caption_above_media !== NULL ) $args['show_caption_above_media'] = $show_caption_above_media;
+      if ( $width !== NULL ) $args['width'] = $width;
+      if ( $height !== NULL ) $args['height'] = $height;
+      if ( $duration !== NULL ) $args['duration'] = $duration;
+      if ( $supports_streaming !== NULL ) $args['supports_streaming'] = $supports_streaming;
+      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
+      return $args;
+    }
+
+    /**
      * This object represents the contents of a file to be uploaded. Must be posted using
      * multipart/form-data in the usual way that files are uploaded via the browser.
      * 
@@ -4676,6 +4932,27 @@
      */
     public function InputPaidMedia ( ) : array {
       return [];
+    }
+
+    /**
+     * The paid media to send is a live photo.
+     * 
+     * @see https://core.telegram.org/bots/api#inputpaidmedialivephoto
+     *
+     * @param string $type Type of the media, must be live_photo
+     * @param string $media Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers
+     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
+     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
+     *                              live photos by a URL is currently unsupported.
+     * @param string $photo The static photo to send. Pass a file_id to send a file that exists on the Telegram servers
+     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
+     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
+     *                              live photos by a URL is currently unsupported.
+     *
+     * @return array $args
+     */
+    public function InputPaidMediaLivePhoto ( string $type, string $media, string $photo ) : array {
+      return [ 'type' => $type, 'media' => $media, 'photo' => $photo ];
     }
 
     /**

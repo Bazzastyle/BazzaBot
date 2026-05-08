@@ -1,3 +1,16 @@
+[![API](https://img.shields.io/badge/Telegram%20Bot%20API-10.0%09--%20May%208,%202026-28a8ea.svg?logo=telegram)](https://core.telegram.org/bots/api)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/bazzastyle/bazzabot.svg?label=composer&logo=composer)](https://packagist.org/packages/bazzastyle/bazzabot)
+![PHP](https://img.shields.io/packagist/dependency-v/bazzastyle/bazzabot/php?logo=php)
+![License](https://img.shields.io/github/license/bazzastyle/bazzabot)
+
+[![Packagist Downloads](https://img.shields.io/packagist/dm/bazzastyle/bazzabot)](https://packagist.org/packages/bazzastyle/bazzabot)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/bazzastyle/bazzabot)](https://packagist.org/packages/bazzastyle/bazzabot)
+[![GitHub Issues](https://img.shields.io/github/issues/bazzastyle/bazzabot)](https://github.com/bazzastyle/bazzabot/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/bazzastyle/bazzabot)](https://github.com/bazzastyle/bazzabot/pulls)
+
+[![Maintainability](https://qlty.sh/gh/nutgram/projects/nutgram/maintainability.svg)](https://qlty.sh/gh/nutgram/projects/nutgram/maintainability)
+[![Test Coverage](https://qlty.sh/gh/nutgram/projects/nutgram/coverage.svg)](https://qlty.sh/gh/nutgram/projects/nutgram/coverage)
+
 # BazzaBot fork [TuriBot](https://github.com/davtur19/TuriBot/tree/async)
 > BazzaBot is a simple way to communicate with Telegram APIs in PHP
 
