@@ -11,6 +11,7 @@
 			'business_message',
 			'edited_business_message',
 			'deleted_business_messages',
+			'guest_message',
 			'message_reaction',
 			'message_reaction_count',
 			'inline_query',
@@ -44,7 +45,7 @@
 				$this->update_id = $update->update_id ?? null;
 				$update = $update->{$this->update_type};
 
-				if ( in_array( $this->update_type, [ 'message', 'edited_message', 'channel_post', 'edited_channel_post', 'business_message', 'edited_business_message' ] ) ) $this->Message( $update );
+				if ( in_array( $this->update_type, [ 'message', 'edited_message', 'channel_post', 'edited_channel_post', 'business_message', 'edited_business_message', 'guest_message' ] ) ) $this->Message( $update );
 				elseif ( $this->update_type === 'business_connection' ) $this->BusinessConnection( $update );
 				elseif ( $this->update_type === 'deleted_business_messages' ) $this->BusinessMessagesDeleted( $update );
 				elseif ( $this->update_type === 'message_reaction' ) $this->MessageReactionUpdated( $update );
@@ -77,6 +78,7 @@
 			$this->{$prefix . '_added_to_attachment_menu'}      = $update->added_to_attachment_menu ?? NULL;
 			$this->{$prefix . '_can_join_groups'}               = $update->can_join_groups ?? NULL;
 			$this->{$prefix . '_can_read_all_group_messages'}   = $update->can_read_all_group_messages ?? NULL;
+			$this->{$prefix . '_supports_guest_queries'}        = $update->supports_guest_queries ?? NULL;
 			$this->{$prefix . '_supports_inline_queries'}       = $update->supports_inline_queries ?? NULL;
 			$this->{$prefix . '_can_connect_to_business'}       = $update->can_connect_to_business ?? NULL;
 			$this->{$prefix . '_has_main_web_app'}              = $update->has_main_web_app ?? NULL;
@@ -111,6 +113,7 @@
 			$this->{$prefix . 'sender_business_bot'}               = $update->sender_business_bot ?? NULL;
 			if ( isset( $update->sender_business_bot ) ) $this->User( $update->sender_business_bot, ! empty( $prefix ) ? $prefix . 'sender_business_bot' : 'sender_business_bot' );
 			$this->{$prefix . 'sender_tag'}                        = $update->sender_tag ?? NULL;
+			$this->{$prefix . 'guest_query_id'}                    = $update->guest_query_id ?? NULL;
 			$this->{$prefix . 'date'}                              = $update->date ?? NULL;
 			$this->{$prefix . 'business_connection_id'}            = $update->business_connection_id ?? NULL;
 			$this->{$prefix . 'chat'}                              = $update->chat ?? NULL;
@@ -132,6 +135,10 @@
 			$this->{$prefix . 'reply_to_poll_option_id'}           = $update->reply_to_poll_option_id ?? NULL;
 			$this->{$prefix . 'via_bot'}                           = $update->via_bot ?? NULL;
 			if ( isset( $update->via_bot ) ) $this->User( $update->via_bot, ! empty( $prefix ) ? $prefix . 'via_bot' : 'via_bot' );
+			$this->{$prefix . 'guest_bot_caller_user'}             = $update->guest_bot_caller_user ?? NULL;
+			if ( isset( $update->guest_bot_caller_user ) ) $this->User( $update->guest_bot_caller_user, ! empty( $prefix ) ? $prefix . 'guest_bot_caller_user' : 'guest_bot_caller_user' );
+			$this->{$prefix . 'guest_bot_caller_chat'}             = $update->guest_bot_caller_chat ?? NULL;
+			if ( isset( $update->guest_bot_caller_chat ) ) $this->Chat( $update->guest_bot_caller_chat, ! empty( $prefix ) ? $prefix . 'guest_bot_caller_chat' : 'guest_bot_caller_chat' );
 			$this->{$prefix . 'edit_date'}                         = $update->edit_date ?? NULL;
 			$this->{$prefix . 'has_protected_content'}             = $update->has_protected_content ?? NULL;
 			$this->{$prefix . 'is_from_offline'}                   = $update->is_from_offline ?? NULL;
@@ -153,6 +160,8 @@
 			if ( isset( $update->audio ) ) $this->Audio( $update->audio, ! empty( $prefix ) ? $prefix . 'audio' : 'audio' );
 			$this->{$prefix . 'document'}                          = $update->document ?? NULL;
 			if ( isset( $update->document ) ) $this->Document( $update->document, ! empty( $prefix ) ? $prefix . 'document' : 'document' );
+			$this->{$prefix . 'live_photo'}                        = $update->live_photo ?? NULL;
+			if ( isset( $update->live_photo ) ) $this->LivePhoto( $update->live_photo, ! empty( $prefix ) ? $prefix . 'live_photo' : 'live_photo' );
 			$this->{$prefix . 'paid_media'}                        = $update->paid_media ?? NULL;
 			if ( isset( $update->paid_media ) ) $this->PaidMediaInfo( $update->paid_media, ! empty( $prefix ) ? $prefix . 'paid_media' : 'paid_media' );
 			$this->{$prefix . 'photo'}                             = $update->photo ?? NULL;
@@ -333,6 +342,8 @@
 			if ( isset( $update->audio ) ) $this->Audio( $update->audio, $prefix . '_audio' );
 			$this->{$prefix . '_document'}             = $update->document ?? NULL;
 			if ( isset( $update->document ) ) $this->Document( $update->document, $prefix . '_document' );
+			$this->{$prefix . '_live_photo'}           = $update->live_photo ?? NULL;
+			if ( isset( $update->live_photo ) ) $this->LivePhoto( $update->live_photo, $prefix . '_live_photo' );
 			$this->{$prefix . '_paid_media'}           = $update->paid_media ?? NULL;
 			if ( isset( $update->paid_media ) ) $this->PaidMediaInfo( $update->paid_media, $prefix . '_paid_media' );
 			$this->{$prefix . '_photo'}                = $update->photo ?? NULL;
@@ -443,6 +454,18 @@
 			$this->{$prefix . '_file_size'}      = $update->file_size ?? NULL;
 		}
 
+		public function LivePhoto ( object $update, string $prefix ) {
+			$this->{$prefix . '_photo'}          = $update->photo ?? NULL;
+			if ( isset( $update->photo ) ) $this->PhotoSize( $update->photo, $prefix . '_photo' );
+			$this->{$prefix . '_file_id'}        = $update->file_id ?? NULL;
+			$this->{$prefix . '_file_unique_id'} = $update->file_unique_id ?? NULL;
+			$this->{$prefix . '_width'}          = $update->width ?? NULL;
+			$this->{$prefix . '_height'}         = $update->height ?? NULL;
+			$this->{$prefix . '_duration'}       = $update->duration ?? NULL;
+			$this->{$prefix . '_mime_type'}      = $update->mime_type ?? NULL;
+			$this->{$prefix . '_file_size'}      = $update->file_size ?? NULL;
+		}
+
 		public function Story ( object $update, string $prefix ) {
 			$this->{$prefix . '_chat'} = $update->chat ?? NULL;
 			if ( isset( $update->chat ) ) $this->Chat( $update->chat, $prefix . '_chat' );
@@ -513,6 +536,7 @@
 			if ( isset( $update->video ) ) $this->Video( $update->video, $prefix . '_video' );
 		}
 
+		public function PaidMediaLivePhoto () {}
 		public function PaidMediaPreview () {}
 		public function PaidMediaPhoto () {}
 		public function PaidMediaVideo () {}
@@ -530,12 +554,38 @@
 			$this->{$prefix . '_value'} = $update->value ?? NULL;
 		}
 
+		public function PollMedia ( object|array $update, string $prefix ) {
+			$this->{$prefix . '_animation'}  = $update->animation ?? NULL;
+			if ( isset( $update->animation ) ) $this->Animation( $update->animation, $prefix . '_animation' );
+			$this->{$prefix . '_audio'}      = $update->audio ?? NULL;
+			if ( isset( $update->audio ) ) $this->Audio( $update->audio, $prefix . '_audio' );
+			$this->{$prefix . '_document'}   = $update->document ?? NULL;
+			if ( isset( $update->document ) ) $this->Document( $update->document, $prefix . '_document' );
+			$this->{$prefix . '_live_photo'} = $update->live_photo ?? NULL;
+			if ( isset( $update->live_photo ) ) $this->LivePhoto( $update->live_photo, $prefix . '_live_photo' );
+			$this->{$prefix . '_location'}   = $update->location ?? NULL;
+			if ( isset( $update->location ) ) $this->Location( $update->location, $prefix . '_location' );
+			$this->{$prefix . '_photo'}      = $update->photo ?? NULL;
+			if ( isset( $update->photo ) ) $this->PhotoSize( $update->photo, $prefix . '_photo' );
+			$this->{$prefix . '_sticker'}    = $update->sticker ?? NULL;
+			if ( isset( $update->sticker ) ) $this->Sticker( $update->sticker, $prefix . '_sticker' );
+			$this->{$prefix . '_venue'}      = $update->venue ?? NULL;
+			if ( isset( $update->venue ) ) $this->Venue( $update->venue, $prefix . '_venue' );
+			$this->{$prefix . '_video'}      = $update->video ?? NULL;
+			if ( isset( $update->video ) ) $this->Video( $update->video, $prefix . '_video' );
+		}
+
+		public function InputPollMedia () {}
+		public function InputPollOptionMedia () {}
+
 		public function PollOption ( object|array $update, string $prefix ) {
 			if ( is_array( $update ) ) $update = (object) $update;
 			$this->{$prefix . '_persistent_id'} = $update->persistent_id ?? NULL;
 			$this->{$prefix . '_text'}          = $update->text ?? NULL;
 			$this->{$prefix . '_text_entities'} = $update->text_entities ?? NULL;
 			if ( isset( $update->text_entities ) ) $this->MessageEntity( $update->text_entities, $prefix . '_text_entities' );
+			$this->{$prefix . '_media'}         = $update->media ?? NULL;
+			if ( isset( $update->media ) ) $this->PollMedia( $update->media, $prefix . '_media' );
 			$this->{$prefix . '_voter_count'}   = $update->voter_count ?? NULL;
 			$this->{$prefix . '_added_by_user'} = $update->added_by_user ?? NULL;
 			if ( isset( $update->added_by_user ) ) $this->User( $update->added_by_user, $prefix . '_added_by_user' );
@@ -569,15 +619,21 @@
 			$this->{$prefix . 'type'}                    = $update->type ?? NULL;
 			$this->{$prefix . 'allows_multiple_answers'} = $update->allows_multiple_answers ?? NULL;
 			$this->{$prefix . 'allows_revoting'}         = $update->allows_revoting ?? NULL;
+			$this->{$prefix . 'members_only'}            = $update->members_only ?? NULL;
+			$this->{$prefix . 'country_codes'}           = $update->country_codes ?? NULL;
 			$this->{$prefix . 'correct_option_ids'}      = $update->correct_option_ids ?? NULL;
 			$this->{$prefix . 'explanation'}             = $update->explanation ?? NULL;
 			$this->{$prefix . 'explanation_entities'}    = $update->explanation_entities ?? NULL;
 			if ( isset( $update->explanation_entities ) ) $this->MessageEntity( $update->explanation_entities, $prefix . 'explanation_entities' );
+			$this->{$prefix . 'explanation_media'}       = $update->explanation_media ?? NULL;
+			if ( isset( $update->explanation_media ) ) $this->PollMedia( $update->explanation_media, $prefix . 'explanation_media' );
 			$this->{$prefix . 'open_period'}             = $update->open_period ?? NULL;
 			$this->{$prefix . 'close_date'}              = $update->close_date ?? NULL;
 			$this->{$prefix . 'description'}             = $update->description ?? NULL;
 			$this->{$prefix . 'description_entities'}    = $update->description_entities ?? NULL;
 			if ( isset( $update->description_entities ) ) $this->MessageEntity( $update->description_entities, $prefix . 'description_entities' );
+			$this->{$prefix . 'media'}                   = $update->media ?? NULL;
+			if ( isset( $update->media ) ) $this->PollMedia( $update->media, $prefix . 'media' );
 		}
 
 		public function ChecklistTask ( object $update, string $prefix ) {
@@ -1086,6 +1142,7 @@
 		}
 
 		public function ChatPermissions () {}
+		public function BotAccessSettings () {}
 		public function Birthdate () {}
 		public function BusinessIntro () {}
 		public function BusinessLocation () {}
@@ -1366,13 +1423,18 @@
 
 		public function ResponseParameters () {}
 		public function InputMedia () {}
-		public function InputMediaPhoto () {}
-		public function InputMediaVideo () {}
 		public function InputMediaAnimation () {}
 		public function InputMediaAudio () {}
 		public function InputMediaDocument () {}
+		public function InputMediaLivePhoto () {}
+		public function InputMediaLocation () {}
+		public function InputMediaPhoto () {}
+		public function InputMediaSticker () {}
+		public function InputMediaVenue () {}
+		public function InputMediaVideo () {}
 		public function InputFile () {}
 		public function InputPaidMedia () {}
+		public function InputPaidMediaLivePhoto () {}
 		public function InputPaidMediaPhoto () {}
 		public function InputPaidMediaVideo () {}
 		public function InputProfilePhoto () {}
@@ -1440,6 +1502,7 @@
 		}
 
 		public function SentWebAppMessage () {}
+		public function SentGuestMessage () {}
 		public function PreparedInlineMessage () {}
 		public function PreparedKeyboardButton () {}
 		public function LabeledPrice () {}

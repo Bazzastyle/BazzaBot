@@ -27,6 +27,7 @@ $env = [
 			"business_message",
 			"edited_business_message",
 			"deleted_business_messages",
+			"guest_message",
 			"message_reaction",
 			"message_reaction_count",
 			"inline_query",
@@ -42,7 +43,7 @@ $env = [
 			"chat_join_request",
 			"chat_boost",
 			"removed_chat_boost",
-			'managed_bot',
+			"managed_bot"
 		],
 	],
 

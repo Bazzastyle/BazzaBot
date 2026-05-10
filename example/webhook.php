@@ -46,7 +46,7 @@
 
 		set_exception_handler( 'UsernameBot\Globals::errorLog' );
 
-		if ( isset( $update->message ) || isset( $update->edited_message ) ) require_once __DIR__ . '/update/message.php';
+		if ( isset( $update->message ) || isset( $update->edited_message ) || isset( $update->guest_message ) ) require_once __DIR__ . '/update/message.php';
 		elseif ( isset( $update->channel_post ) || isset( $update->edited_channel_post ) ) require_once __DIR__ . '/update/channel.php';
 		elseif ( isset( $update->business_message ) || isset( $update->edited_business_message ) || isset( $update->business_connection ) || isset( $update->deleted_business_messages ) ) require_once __DIR__ . '/update/business.php';
 		elseif ( isset( $update->message_reaction ) || isset( $update->message_reaction_count ) ) require_once __DIR__ . '/update/reaction.php';
