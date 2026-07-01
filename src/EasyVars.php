@@ -85,6 +85,7 @@
 			$this->{$prefix . '_has_topics_enabled'}            = $update->has_topics_enabled ?? NULL;
 			$this->{$prefix . '_allows_users_to_create_topics'} = $update->allows_users_to_create_topics ?? NULL;
 			$this->{$prefix . '_can_manage_bots'}               = $update->can_manage_bots ?? NULL;
+			$this->{$prefix . '_supports_join_request_queries'} = $update->supports_join_request_queries ?? NULL;
 		}
 
 		public function Chat ( object $update, string $prefix ) {
@@ -154,6 +155,8 @@
 			$this->{$prefix . 'suggested_post_info'}              = $update->suggested_post_info ?? NULL;
 			if ( isset( $update->suggested_post_info ) ) $this->SuggestedPostInfo( $update->suggested_post_info, ! empty( $prefix ) ? $prefix . 'suggested_post_info' : 'suggested_post_info' );
 			$this->{$prefix . 'effect_id'}                         = $update->effect_id ?? NULL;
+			$this->{$prefix . 'rich_message'}                      = $update->rich_message ?? NULL;
+			if ( isset( $update->rich_message ) ) $this->RichMessage( $update->rich_message, ! empty( $prefix ) ? $prefix . 'rich_message' : 'rich_message' );
 			$this->{$prefix . 'animation'}                         = $update->animation ?? NULL;
 			if ( isset( $update->animation ) ) $this->Animation( $update->animation, ! empty( $prefix ) ? $prefix . 'animation' : 'animation' );
 			$this->{$prefix . 'audio'}                             = $update->audio ?? NULL;
@@ -553,6 +556,8 @@
 			$this->{$prefix . '_emoji'} = $update->emoji ?? NULL;
 			$this->{$prefix . '_value'} = $update->value ?? NULL;
 		}
+
+		public function Link () {}
 
 		public function PollMedia ( object|array $update, string $prefix ) {
 			$this->{$prefix . '_animation'}  = $update->animation ?? NULL;
@@ -1139,6 +1144,7 @@
 			$this->{$prefix . 'bio'}          = $update->bio ?? NULL;
 			$this->{$prefix . 'invite_link'}  = $update->invite_link ?? NULL;
 			if ( isset( $update->invite_link ) ) $this->ChatInviteLink( $update->invite_link, $prefix ? $prefix . '_invite_link' : 'invite_link' );
+			$this->{$prefix . 'query_id'}  = $update->query_id ?? NULL;
 		}
 
 		public function ChatPermissions () {}
@@ -1426,6 +1432,7 @@
 		public function InputMediaAnimation () {}
 		public function InputMediaAudio () {}
 		public function InputMediaDocument () {}
+		public function InputMediaLink () {}
 		public function InputMediaLivePhoto () {}
 		public function InputMediaLocation () {}
 		public function InputMediaPhoto () {}
@@ -1476,6 +1483,64 @@
 
 		public function InputSticker () {}
 
+		public function RichMessage ( object $update, string $prefix ) {
+			$this->{$prefix . '_blocks'} = $update->blocks ?? NULL;
+			$this->{$prefix . '_is_rtl'} = $update->is_rtl ?? NULL;
+		}
+
+		public function InputRichMessage () {}
+		public function RichText () {}
+		public function RichTextBold () {}
+		public function RichTextItalic () {}
+		public function RichTextUnderline () {}
+		public function RichTextStrikethrough () {}
+		public function RichTextSpoiler () {}
+		public function RichTextDateTime () {}
+		public function RichTextTextMention () {}
+		public function RichTextSubscript () {}
+		public function RichTextSuperscript () {}
+		public function RichTextMarked () {}
+		public function RichTextCode () {}
+		public function RichTextCustomEmoji () {}
+		public function RichTextMathematicalExpression () {}
+		public function RichTextUrl () {}
+		public function RichTextEmailAddress () {}
+		public function RichTextPhoneNumber () {}
+		public function RichTextBankCardNumber () {}
+		public function RichTextMention () {}
+		public function RichTextHashtag () {}
+		public function RichTextCashtag () {}
+		public function RichTextBotCommand () {}
+		public function RichTextAnchor () {}
+		public function RichTextAnchorLink () {}
+		public function RichTextReference () {}
+		public function RichTextReferenceLink () {}
+		public function RichBlockCaption () {}
+		public function RichBlockTableCell () {}
+		public function RichBlockListItem () {}
+		public function RichBlock () {}
+		public function RichBlockParagraph () {}
+		public function RichBlockSectionHeading () {}
+		public function RichBlockPreformatted () {}
+		public function RichBlockFooter () {}
+		public function RichBlockDivider () {}
+		public function RichBlockMathematicalExpression () {}
+		public function RichBlockAnchor () {}
+		public function RichBlockList () {}
+		public function RichBlockBlockQuotation () {}
+		public function RichBlockPullQuotation () {}
+		public function RichBlockCollage () {}
+		public function RichBlockSlideshow () {}
+		public function RichBlockTable () {}
+		public function RichBlockDetails () {}
+		public function RichBlockMap () {}
+		public function RichBlockAnimation () {}
+		public function RichBlockAudio () {}
+		public function RichBlockPhoto () {}
+		public function RichBlockVideo () {}
+		public function RichBlockVoiceNote () {}
+		public function RichBlockThinking () {}
+
 		public function InlineQuery ( object $update, string $prefix = '' ) {
 			$this->{$prefix . 'id'}        = $update->id ?? NULL;
 			$this->{$prefix . 'from'}      = $update->from ?? NULL;
@@ -1490,6 +1555,11 @@
 		public function InlineQueryResultsButton () {}
 		public function InlineQueryResult () {}
 		public function InputMessageContent () {}
+		public function InputTextMessageContent () {}
+		public function InputRichMessageContent () {}
+		public function InputLocationMessageContent () {}
+		public function InputContactMessageContent () {}
+		public function InputInvoiceMessageContent () {}
 
 		public function ChosenInlineResult ( object $update, string $prefix = '' ) {
 			$this->{$prefix . 'result_id'}         = $update->result_id ?? NULL;

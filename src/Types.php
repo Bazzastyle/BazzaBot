@@ -39,11 +39,11 @@
      * @param ChosenInlineResult|NULL $chosen_inline_result The result of an inline query that was chosen by a user and sent to their chat partner. Please see
      *                              our documentation on the feedback collecting for details on how to enable these updates for your bot.
      * @param CallbackQuery|NULL $callback_query New incoming callback query
-     * @param ShippingQuery|NULL $shipping_query New incoming shipping query. Only for invoices with flexible price
-     * @param PreCheckoutQuery|NULL $pre_checkout_query New incoming pre-checkout query. Contains full information about checkout
+     * @param ShippingQuery|NULL $shipping_query New incoming shipping query. Only for invoices with flexible price.
+     * @param PreCheckoutQuery|NULL $pre_checkout_query New incoming pre-checkout query. Contains full information about checkout.
      * @param PaidMediaPurchased|NULL $purchased_paid_media A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
      * @param Poll|NULL $poll New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by
-     *                              the bot
+     *                              the bot.
      * @param PollAnswer|NULL $poll_answer A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were
      *                              sent by the bot itself.
      * @param ChatMemberUpdated|NULL $my_chat_member The bot's chat member status was updated in a chat. For private chats, this update is received only
@@ -103,7 +103,8 @@
      * @param int|NULL $last_synchronization_error_date Unix time of the most recent error that happened when trying to synchronize available updates with
      *                              Telegram datacenters
      * @param int|NULL $max_connections The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
-     * @param string[]|NULL $allowed_updates A list of update types the bot is subscribed to. Defaults to all update types except chat_member
+     * @param string[]|NULL $allowed_updates A list of update types the bot is subscribed to. Defaults to all update types except chat_member,
+     *                              message_reaction, and message_reaction_count.
      *
      * @return array $args
      */
@@ -142,10 +143,12 @@
      * @param bool|NULL $has_topics_enabled True, if the bot has forum topic mode enabled in private chats. Returned only in getMe.
      * @param bool|NULL $allows_users_to_create_topics True, if the bot allows users to create and delete topics in private chats. Returned only in getMe.
      * @param bool|NULL $can_manage_bots True, if other bots can be created to be controlled by the bot. Returned only in getMe.
+     * @param bool|NULL $supports_join_request_queries True, if the bot supports join request queries and can be assigned to process them. Returned only in
+     *                              getMe.
      *
      * @return array $args
      */
-    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_guest_queries = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL, ?bool $can_manage_bots = NULL ) : array {
+    public function User ( int $id, bool $is_bot, string $first_name, ?string $last_name = NULL, ?string $username = NULL, ?string $language_code = NULL, ?bool $is_premium = NULL, ?bool $added_to_attachment_menu = NULL, ?bool $can_join_groups = NULL, ?bool $can_read_all_group_messages = NULL, ?bool $supports_guest_queries = NULL, ?bool $supports_inline_queries = NULL, ?bool $can_connect_to_business = NULL, ?bool $has_main_web_app = NULL, ?bool $has_topics_enabled = NULL, ?bool $allows_users_to_create_topics = NULL, ?bool $can_manage_bots = NULL, ?bool $supports_join_request_queries = NULL ) : array {
       $args = [ 'id' => $id, 'is_bot' => $is_bot, 'first_name' => $first_name ]; 
       if ( $last_name !== NULL ) $args['last_name'] = $last_name;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -161,6 +164,7 @@
       if ( $has_topics_enabled !== NULL ) $args['has_topics_enabled'] = $has_topics_enabled;
       if ( $allows_users_to_create_topics !== NULL ) $args['allows_users_to_create_topics'] = $allows_users_to_create_topics;
       if ( $can_manage_bots !== NULL ) $args['can_manage_bots'] = $can_manage_bots;
+      if ( $supports_join_request_queries !== NULL ) $args['supports_join_request_queries'] = $supports_join_request_queries;
       return $args;
     }
 
@@ -268,11 +272,12 @@
      * @param Audio|NULL $first_profile_audio For private chats, the first audio added to the profile of the user
      * @param UniqueGiftColors|NULL $unique_gift_colors The color scheme based on a unique gift that must be used for the chat's name, message replies and
      *                              link previews
-     * @param int|NULL $paid_message_star_count The number of Telegram Stars a general user have to pay to send a message to the chat
+     * @param int|NULL $paid_message_star_count The number of Telegram Stars a general user has to pay to send a message to the chat
+     * @param User|NULL $guard_bot The bot that processes join request queries in the chat. The field is only available to chat administrators.
      *
      * @return array $args
      */
-    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL, ?array $rating = NULL, ?array $first_profile_audio = NULL, ?array $unique_gift_colors = NULL, ?int $paid_message_star_count = NULL ) : array {
+    public function ChatFullInfo ( int $id, string $type, int $accent_color_id, int $max_reaction_count, array $accepted_gift_types, ?string $title = NULL, ?string $username = NULL, ?string $first_name = NULL, ?string $last_name = NULL, ?bool $is_forum = NULL, ?bool $is_direct_messages = NULL, ?array $photo = NULL, ?array $active_usernames = NULL, ?array $birthdate = NULL, ?array $business_intro = NULL, ?array $business_location = NULL, ?array $business_opening_hours = NULL, ?array $personal_chat = NULL, ?array $parent_chat = NULL, ?array $available_reactions = NULL, ?string $background_custom_emoji_id = NULL, ?int $profile_accent_color_id = NULL, ?string $profile_background_custom_emoji_id = NULL, ?string $emoji_status_custom_emoji_id = NULL, ?int $emoji_status_expiration_date = NULL, ?string $bio = NULL, ?bool $has_private_forwards = NULL, ?bool $has_restricted_voice_and_video_messages = NULL, ?bool $join_to_send_messages = NULL, ?bool $join_by_request = NULL, ?string $description = NULL, ?string $invite_link = NULL, ?array $pinned_message = NULL, ?array $permissions = NULL, ?bool $can_send_paid_media = NULL, ?int $slow_mode_delay = NULL, ?int $unrestrict_boost_count = NULL, ?int $message_auto_delete_time = NULL, ?bool $has_aggressive_anti_spam_enabled = NULL, ?bool $has_hidden_members = NULL, ?bool $has_protected_content = NULL, ?bool $has_visible_history = NULL, ?string $sticker_set_name = NULL, ?bool $can_set_sticker_set = NULL, ?string $custom_emoji_sticker_set_name = NULL, ?int $linked_chat_id = NULL, ?array $location = NULL, ?array $rating = NULL, ?array $first_profile_audio = NULL, ?array $unique_gift_colors = NULL, ?int $paid_message_star_count = NULL, ?array $guard_bot = NULL ) : array {
       $args = [ 'id' => $id, 'type' => $type, 'accent_color_id' => $accent_color_id, 'max_reaction_count' => $max_reaction_count, 'accepted_gift_types' => $accepted_gift_types ]; 
       if ( $title !== NULL ) $args['title'] = $title;
       if ( $username !== NULL ) $args['username'] = $username;
@@ -320,6 +325,7 @@
       if ( $first_profile_audio !== NULL ) $args['first_profile_audio'] = $first_profile_audio;
       if ( $unique_gift_colors !== NULL ) $args['unique_gift_colors'] = $unique_gift_colors;
       if ( $paid_message_star_count !== NULL ) $args['paid_message_star_count'] = $paid_message_star_count;
+      if ( $guard_bot !== NULL ) $args['guard_bot'] = $guard_bot;
       return $args;
     }
 
@@ -331,12 +337,12 @@
      * @param int $message_id Unique message identifier inside this chat. In specific instances (e.g., message containing a video
      *                              sent to a big chat), the server might automatically schedule a message instead of sending it
      *                              immediately. In such cases, this field will be 0 and the relevant message will be unusable until it
-     *                              is actually sent
+     *                              is actually sent.
      * @param int|NULL $message_thread_id Unique identifier of a message thread or forum topic to which the message belongs; for supergroups
      *                              and private chats only
      * @param DirectMessagesTopic|NULL $direct_messages_topic Information about the direct messages chat topic that contains the message
      * @param User|NULL $from Sender of the message; may be empty for messages sent to channels. For backward compatibility, if
-     *                              the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats
+     *                              the message was sent on behalf of a chat, the field contains a fake sender user in non-channel chats.
      * @param Chat|NULL $sender_chat Sender of the message when sent on behalf of a chat. For example, the supergroup itself for messages
      *                              sent by its anonymous administrators or a linked channel for messages automatically forwarded to the
      *                              channel's discussion group. For backward compatibility, if the message was sent on behalf of a chat,
@@ -382,12 +388,13 @@
      * @param SuggestedPostInfo|NULL $suggested_post_info Information about suggested post parameters if the message is a suggested post in a channel direct
      *                              messages chat. If the message is an approved or declined suggested post, then it can't be edited.
      * @param string|NULL $effect_id Unique identifier of the message effect added to the message
+     * @param RichMessage|NULL $rich_message Message is a rich formatted message
      * @param Animation|NULL $animation Message is an animation, information about the animation. For backward compatibility, when this
-     *                              field is set, the document field will also be set
+     *                              field is set, the document field will also be set.
      * @param Audio|NULL $audio Message is an audio file, information about the file
      * @param Document|NULL $document Message is a general file, information about the file
      * @param LivePhoto|NULL $live_photo Message is a live photo, information about the live photo. For backward compatibility, when this
-     *                              field is set, the photo field will also be set
+     *                              field is set, the photo field will also be set.
      * @param PaidMediaInfo|NULL $paid_media Message contains paid media; information about the paid media
      * @param PhotoSize[]|NULL $photo Message is a photo, available sizes of the photo
      * @param Sticker|NULL $sticker Message is a sticker, information about the sticker
@@ -406,7 +413,7 @@
      * @param Game|NULL $game Message is a game, information about the game. More about games »
      * @param Poll|NULL $poll Message is a native poll, information about the poll
      * @param Venue|NULL $venue Message is a venue, information about the venue. For backward compatibility, when this field is set,
-     *                              the location field will also be set
+     *                              the location field will also be set.
      * @param Location|NULL $location Message is a shared location, information about the location
      * @param User[]|NULL $new_chat_members New members that were added to the group or supergroup and information about them (the bot itself
      *                              may be one of these members)
@@ -484,7 +491,7 @@
      *
      * @return array $args
      */
-    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $guest_query_id = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?string $reply_to_poll_option_id = NULL, ?array $via_bot = NULL, ?array $guest_bot_caller_user = NULL, ?array $guest_bot_caller_chat = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $live_photo = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $managed_bot_created = NULL, ?array $paid_message_price_changed = NULL, ?array $poll_option_added = NULL, ?array $poll_option_deleted = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
+    public function Message ( int $message_id, int $date, array $chat, ?int $message_thread_id = NULL, ?array $direct_messages_topic = NULL, ?array $from = NULL, ?array $sender_chat = NULL, ?int $sender_boost_count = NULL, ?array $sender_business_bot = NULL, ?string $sender_tag = NULL, ?string $guest_query_id = NULL, ?string $business_connection_id = NULL, ?array $forward_origin = NULL, ?bool $is_topic_message = NULL, ?bool $is_automatic_forward = NULL, ?array $reply_to_message = NULL, ?array $external_reply = NULL, ?array $quote = NULL, ?array $reply_to_story = NULL, ?int $reply_to_checklist_task_id = NULL, ?string $reply_to_poll_option_id = NULL, ?array $via_bot = NULL, ?array $guest_bot_caller_user = NULL, ?array $guest_bot_caller_chat = NULL, ?int $edit_date = NULL, ?bool $has_protected_content = NULL, ?bool $is_from_offline = NULL, ?bool $is_paid_post = NULL, ?string $media_group_id = NULL, ?string $author_signature = NULL, ?int $paid_star_count = NULL, ?string $text = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $suggested_post_info = NULL, ?string $effect_id = NULL, ?array $rich_message = NULL, ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $live_photo = NULL, ?array $paid_media = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $story = NULL, ?array $video = NULL, ?array $video_note = NULL, ?array $voice = NULL, ?string $caption = NULL, ?array $caption_entities = NULL, ?bool $show_caption_above_media = NULL, ?bool $has_media_spoiler = NULL, ?array $checklist = NULL, ?array $contact = NULL, ?array $dice = NULL, ?array $game = NULL, ?array $poll = NULL, ?array $venue = NULL, ?array $location = NULL, ?array $new_chat_members = NULL, ?array $left_chat_member = NULL, ?array $chat_owner_left = NULL, ?array $chat_owner_changed = NULL, ?string $new_chat_title = NULL, ?array $new_chat_photo = NULL, ?bool $delete_chat_photo = NULL, ?bool $group_chat_created = NULL, ?bool $supergroup_chat_created = NULL, ?bool $channel_chat_created = NULL, ?array $message_auto_delete_timer_changed = NULL, ?int $migrate_to_chat_id = NULL, ?int $migrate_from_chat_id = NULL, ?array $pinned_message = NULL, ?array $invoice = NULL, ?array $successful_payment = NULL, ?array $refunded_payment = NULL, ?array $users_shared = NULL, ?array $chat_shared = NULL, ?array $gift = NULL, ?array $unique_gift = NULL, ?array $gift_upgrade_sent = NULL, ?string $connected_website = NULL, ?array $write_access_allowed = NULL, ?array $passport_data = NULL, ?array $proximity_alert_triggered = NULL, ?array $boost_added = NULL, ?array $chat_background_set = NULL, ?array $checklist_tasks_done = NULL, ?array $checklist_tasks_added = NULL, ?array $direct_message_price_changed = NULL, ?array $forum_topic_created = NULL, ?array $forum_topic_edited = NULL, ?array $forum_topic_closed = NULL, ?array $forum_topic_reopened = NULL, ?array $general_forum_topic_hidden = NULL, ?array $general_forum_topic_unhidden = NULL, ?array $giveaway_created = NULL, ?array $giveaway = NULL, ?array $giveaway_winners = NULL, ?array $giveaway_completed = NULL, ?array $managed_bot_created = NULL, ?array $paid_message_price_changed = NULL, ?array $poll_option_added = NULL, ?array $poll_option_deleted = NULL, ?array $suggested_post_approved = NULL, ?array $suggested_post_approval_failed = NULL, ?array $suggested_post_declined = NULL, ?array $suggested_post_paid = NULL, ?array $suggested_post_refunded = NULL, ?array $video_chat_scheduled = NULL, ?array $video_chat_started = NULL, ?array $video_chat_ended = NULL, ?array $video_chat_participants_invited = NULL, ?array $web_app_data = NULL, ?array $reply_markup = NULL ) : array {
       $args = [ 'message_id' => $message_id, 'date' => $date, 'chat' => $chat ]; 
       if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
       if ( $direct_messages_topic !== NULL ) $args['direct_messages_topic'] = $direct_messages_topic;
@@ -519,6 +526,7 @@
       if ( $link_preview_options !== NULL ) $args['link_preview_options'] = $link_preview_options;
       if ( $suggested_post_info !== NULL ) $args['suggested_post_info'] = $suggested_post_info;
       if ( $effect_id !== NULL ) $args['effect_id'] = $effect_id;
+      if ( $rich_message !== NULL ) $args['rich_message'] = $rich_message;
       if ( $animation !== NULL ) $args['animation'] = $animation;
       if ( $audio !== NULL ) $args['audio'] = $audio;
       if ( $document !== NULL ) $args['document'] = $document;
@@ -607,7 +615,7 @@
      *
      * @param int $message_id Unique message identifier. In specific instances (e.g., message containing a video sent to a big
      *                              chat), the server might automatically schedule a message instead of sending it immediately. In such
-     *                              cases, this field will be 0 and the relevant message will be unusable until it is actually sent
+     *                              cases, this field will be 0 and the relevant message will be unusable until it is actually sent.
      *
      * @return array $args
      */
@@ -656,14 +664,14 @@
      *                              message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default
      *                              block quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for
      *                              clickable text URLs), “text_mention” (for users without usernames), “custom_emoji” (for
-     *                              inline custom emoji stickers), or “date_time” (for formatted date and time)
+     *                              inline custom emoji stickers), or “date_time” (for formatted date and time).
      * @param int $offset Offset in UTF-16 code units to the start of the entity
      * @param int $length Length of the entity in UTF-16 code units
      * @param string|NULL $url For “text_link” only, URL that will be opened after user taps on the text
      * @param User|NULL $user For “text_mention” only, the mentioned user
      * @param string|NULL $language For “pre” only, the programming language of the entity text
      * @param string|NULL $custom_emoji_id For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to
-     *                              get full information about the sticker
+     *                              get full information about the sticker.
      * @param int|NULL $unix_time For “date_time” only, the Unix time associated with the entity
      * @param string|NULL $date_time_format For “date_time” only, the string that defines the formatting of the date and time. See date-time
      *                              entity formatting for more details.
@@ -1262,6 +1270,19 @@
     }
 
     /**
+     * Represents an HTTP link.
+     * 
+     * @see https://core.telegram.org/bots/api#link
+     *
+     * @param string $url URL of the link
+     *
+     * @return array $args
+     */
+    public function Link ( string $url ) : array {
+      return [ 'url' => $url ];
+    }
+
+    /**
      * At most one of the optional fields can be present in any given object.
      * 
      * @see https://core.telegram.org/bots/api#pollmedia
@@ -1269,6 +1290,7 @@
      * @param Animation|NULL $animation Media is an animation, information about the animation
      * @param Audio|NULL $audio Media is an audio file, information about the file; currently, can't be received in a poll option
      * @param Document|NULL $document Media is a general file, information about the file; currently, can't be received in a poll option
+     * @param Link|NULL $link The HTTP link attached to the poll option
      * @param LivePhoto|NULL $live_photo Media is a live photo, information about the live photo
      * @param Location|NULL $location Media is a shared location, information about the location
      * @param PhotoSize[]|NULL $photo Media is a photo, available sizes of the photo
@@ -1278,11 +1300,12 @@
      *
      * @return array $args
      */
-    public function PollMedia ( ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $live_photo = NULL, ?array $location = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $venue = NULL, ?array $video = NULL ) : array {
+    public function PollMedia ( ?array $animation = NULL, ?array $audio = NULL, ?array $document = NULL, ?array $link = NULL, ?array $live_photo = NULL, ?array $location = NULL, ?array $photo = NULL, ?array $sticker = NULL, ?array $venue = NULL, ?array $video = NULL ) : array {
       $args = []; 
       if ( $animation !== NULL ) $args['animation'] = $animation;
       if ( $audio !== NULL ) $args['audio'] = $audio;
       if ( $document !== NULL ) $args['document'] = $document;
+      if ( $link !== NULL ) $args['link'] = $link;
       if ( $live_photo !== NULL ) $args['live_photo'] = $live_photo;
       if ( $location !== NULL ) $args['location'] = $location;
       if ( $photo !== NULL ) $args['photo'] = $photo;
@@ -1352,9 +1375,9 @@
      *
      * @param string $text Option text, 1-100 characters
      * @param string|NULL $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Currently, only
-     *                              custom emoji entities are allowed
+     *                              custom emoji entities are allowed.
      * @param MessageEntity[]|NULL $text_entities A JSON-serialized list of special entities that appear in the poll option text. It can be specified
-     *                              instead of text_parse_mode
+     *                              instead of text_parse_mode.
      * @param InputPollOptionMedia|NULL $media Media added to the poll option
      *
      * @return array $args
@@ -1406,7 +1429,8 @@
      * @param bool $members_only True if voting is limited to users who have been members of the chat where the poll was originally
      *                              sent for more than 24 hours
      * @param string[]|NULL $country_codes A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can
-     *                              vote in the poll. If omitted, then users from any country can participate in the poll.
+     *                              vote in the poll. The country code “FT” is used for users with anonymous numbers. If omitted,
+     *                              then users from any country can participate in the poll.
      * @param int[]|NULL $correct_option_ids Array of 0-based identifiers of the correct answer options. Available only for polls in quiz mode
      *                              which are closed or were sent (not forwarded) by the bot or to the private chat with the bot.
      * @param string|NULL $explanation Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style
@@ -1595,7 +1619,7 @@
      * 
      * @see https://core.telegram.org/bots/api#venue
      *
-     * @param Location $location Venue location. Can't be a live location
+     * @param Location $location Venue location. Can't be a live location.
      * @param string $title Name of the venue
      * @param string $address Address of the venue
      * @param string|NULL $foursquare_id Foursquare identifier of the venue
@@ -1855,7 +1879,7 @@
      * @param BackgroundFill $fill The background fill that is combined with the pattern
      * @param int $intensity Intensity of the pattern when it is shown above the filled background; 0-100
      * @param bool|NULL $is_inverted True, if the background fill must be applied only to the pattern itself. All other pixels are black
-     *                              in this case. For dark themes only
+     *                              in this case. For dark themes only.
      * @param bool|NULL $is_moving True, if the background moves slightly when the device is tilted
      *
      * @return array $args
@@ -2017,7 +2041,7 @@
      * @see https://core.telegram.org/bots/api#usersshared
      *
      * @param int $request_id Identifier of the request
-     * @param SharedUser[] $users Information about users shared with the bot.
+     * @param SharedUser[] $users Information about users shared with the bot
      *
      * @return array $args
      */
@@ -2037,8 +2061,8 @@
      *                              significant bits, so a 64-bit integer or double-precision float type are safe for storing this
      *                              identifier. The bot may not have access to the chat and could be unable to use this identifier,
      *                              unless the chat is already known to the bot by some other means.
-     * @param string|NULL $title Title of the chat, if the title was requested by the bot.
-     * @param string|NULL $username Username of the chat, if the username was requested by the bot and available.
+     * @param string|NULL $title Title of the chat, if the title was requested by the bot
+     * @param string|NULL $username Username of the chat, if the username was requested by the bot and available
      * @param PhotoSize[]|NULL $photo Available sizes of the chat photo, if the photo was requested by the bot
      *
      * @return array $args
@@ -2218,7 +2242,7 @@
      * @param Message|NULL $suggested_post_message Message containing the suggested post. Note that the Message object in this field will not contain
      *                              the reply_to_message field even if it itself is a reply.
      * @param string $currency Currency in which the payment was made. Currently, one of “XTR” for Telegram Stars or “TON”
-     *                              for toncoins
+     *                              for toncoins.
      * @param int|NULL $amount The amount of the currency that was received by the channel in nanotoncoins; for payments in
      *                              toncoins only
      * @param StarAmount|NULL $star_amount The amount of Telegram Stars that was received by the channel; for payments in Telegram Stars only
@@ -2358,7 +2382,7 @@
      * @see https://core.telegram.org/bots/api#linkpreviewoptions
      *
      * @param bool|NULL $is_disabled True, if the link preview is disabled
-     * @param string|NULL $url URL to use for the link preview. If empty, then the first URL found in the message text will be used
+     * @param string|NULL $url URL to use for the link preview. If empty, then the first URL found in the message text will be used.
      * @param bool|NULL $prefer_small_media True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly
      *                              specified or media size change isn't supported for the preview
      * @param bool|NULL $prefer_large_media True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't
@@ -2384,7 +2408,7 @@
      * @see https://core.telegram.org/bots/api#suggestedpostprice
      *
      * @param string $currency Currency in which the post will be paid. Currently, must be one of “XTR” for Telegram Stars or
-     *                              “TON” for toncoins
+     *                              “TON” for toncoins.
      * @param int $amount The amount of the currency that will be paid for the post in the smallest units of the currency,
      *                              i.e. Telegram Stars or nanotoncoins. Currently, price in Telegram Stars must be between 5 and
      *                              100000, and price in nanotoncoins must be between 10000000 and 10000000000000.
@@ -2441,7 +2465,7 @@
      * @param int $topic_id Unique identifier of the topic. This number may have more than 32 significant bits and some
      *                              programming languages may have difficulty/silent defects in interpreting it. But it has at most 52
      *                              significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
-     * @param User|NULL $user Information about the user that created the topic. Currently, it is always present
+     * @param User|NULL $user Information about the user that created the topic. Currently, it is always present.
      *
      * @return array $args
      */
@@ -2558,7 +2582,7 @@
      * @see https://core.telegram.org/bots/api#keyboardbutton
      *
      * @param string $text Text of the button. If none of the fields other than text, icon_custom_emoji_id, and style are used,
-     *                              it will be sent as a message when the button is pressed
+     *                              it will be sent as a message when the button is pressed.
      * @param string|NULL $icon_custom_emoji_id Unique identifier of the custom emoji shown before the text of the button. Can only be used by bots
      *                              that purchased additional usernames on Fragment or in the messages directly sent by the bot to
      *                              private, group and supergroup chats if the owner of the bot has a Telegram Premium subscription.
@@ -2604,7 +2628,7 @@
      * @see https://core.telegram.org/bots/api#keyboardbuttonrequestusers
      *
      * @param int $request_id Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must
-     *                              be unique within the message
+     *                              be unique within the message.
      * @param bool|NULL $user_is_bot Pass True to request bots, pass False to request regular users. If not specified, no additional
      *                              restrictions are applied.
      * @param bool|NULL $user_is_premium Pass True to request premium users, pass False to request non-premium users. If not specified, no
@@ -2635,8 +2659,8 @@
      * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
      *
      * @param int $request_id Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must
-     *                              be unique within the message
-     * @param bool $chat_is_channel Pass True to request a channel chat, pass False to request a group or a supergroup chat.
+     *                              be unique within the message.
+     * @param bool $chat_is_channel Pass True to request a channel chat, pass False to request a group or a supergroup chat
      * @param bool|NULL $chat_is_forum Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified,
      *                              no additional restrictions are applied.
      * @param bool|NULL $chat_has_username Pass True to request a supergroup or a channel with a username, pass False to request a chat without
@@ -2675,7 +2699,7 @@
      * 
      * @see https://core.telegram.org/bots/api#keyboardbuttonrequestmanagedbot
      *
-     * @param int $request_id Signed 32-bit identifier of the request. Must be unique within the message
+     * @param int $request_id Signed 32-bit identifier of the request. Must be unique within the message.
      * @param string|NULL $suggested_name Suggested name for the bot
      * @param string|NULL $suggested_username Suggested username for the bot
      *
@@ -2777,7 +2801,7 @@
      * @param SwitchInlineQueryChosenChat|NULL $switch_inline_query_chosen_chat If set, pressing the button will prompt the user to select one of their chats of the specified type,
      *                              open that chat and insert the bot's username and the specified inline query in the input field. Not
      *                              supported for messages sent in channel direct messages chats and on behalf of a business account.
-     * @param CopyTextButton|NULL $copy_text Description of the button that copies the specified text to the clipboard.
+     * @param CopyTextButton|NULL $copy_text Description of the button that copies the specified text to the clipboard
      * @param CallbackGame|NULL $callback_game Description of the game that will be launched when the user presses the button.NOTE: This type of
      *                              button must always be the first button in the first row.
      * @param bool|NULL $pay Specify True, to send a Pay button. Substrings “⭐” and “XTR” in the buttons's text will be
@@ -2817,11 +2841,11 @@
      *                              about the user will be opened. The data added is the same as described in Receiving authorization
      *                              data.NOTE: You must always check the hash of the received data to verify the authentication and the
      *                              integrity of the data as described in Checking authorization.
-     * @param string|NULL $forward_text New text of the button in forwarded messages.
+     * @param string|NULL $forward_text New text of the button in forwarded messages
      * @param string|NULL $bot_username Username of a bot, which will be used for user authorization. See Setting up a bot for more details.
      *                              If not specified, the current bot's username will be assumed. The url's domain must be the same as
      *                              the domain linked with the bot. See Linking your domain to the bot for more details.
-     * @param bool|NULL $request_write_access Pass True to request the permission for your bot to send messages to the user.
+     * @param bool|NULL $request_write_access Pass True to request the permission for your bot to send messages to the user
      *
      * @return array $args
      */
@@ -2840,7 +2864,7 @@
      * @see https://core.telegram.org/bots/api#switchinlinequerychosenchat
      *
      * @param string|NULL $query The default inline query to be inserted in the input field. If left empty, only the bot's username
-     *                              will be inserted
+     *                              will be inserted.
      * @param bool|NULL $allow_user_chats True, if private chats with users can be chosen
      * @param bool|NULL $allow_bot_chats True, if private chats with bots can be chosen
      * @param bool|NULL $allow_group_chats True, if group and supergroup chats can be chosen
@@ -2882,7 +2906,7 @@
      * @param string $id Unique identifier for this query
      * @param User $from Sender
      * @param MaybeInaccessibleMessage|NULL $message Message sent by the bot with the callback button that originated the query
-     * @param string|NULL $inline_message_id Identifier of the message sent via the bot in inline mode, that originated the query.
+     * @param string|NULL $inline_message_id Identifier of the message sent via the bot in inline mode, that originated the query
      * @param string $chat_instance Global identifier, uniquely corresponding to the chat to which the message with the callback button
      *                              was sent. Useful for high scores in games.
      * @param string|NULL $data Data associated with the callback button. Be aware that the message originated the query can contain
@@ -3030,7 +3054,7 @@
      * @param int $date Date the change was done in Unix time
      * @param ChatMember $old_chat_member Previous information about the chat member
      * @param ChatMember $new_chat_member New information about the chat member
-     * @param ChatInviteLink|NULL $invite_link Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+     * @param ChatInviteLink|NULL $invite_link Chat invite link, which was used by the user to join the chat; for joining by invite link events only
      * @param bool|NULL $via_join_request True, if the user joined the chat after sending a direct join request without using an invite link
      *                              and being approved by an administrator
      * @param bool|NULL $via_chat_folder_invite_link True, if the user joined the chat via a chat folder invite link
@@ -3153,8 +3177,8 @@
      * @param string|NULL $tag Tag of the member
      * @param User $user Information about the user
      * @param bool $is_member True, if the user is a member of the chat at the moment of the request
-     * @param bool $can_send_messages True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices,
-     *                              locations and venues
+     * @param bool $can_send_messages True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway
+     *                              winners, invoices, locations and venues
      * @param bool $can_send_audios True, if the user is allowed to send audios
      * @param bool $can_send_documents True, if the user is allowed to send documents
      * @param bool $can_send_photos True, if the user is allowed to send photos
@@ -3170,7 +3194,7 @@
      * @param bool $can_invite_users True, if the user is allowed to invite new users to the chat
      * @param bool $can_pin_messages True, if the user is allowed to pin messages
      * @param bool $can_manage_topics True, if the user is allowed to create forum topics
-     * @param int $until_date Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
+     * @param int $until_date Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever.
      *
      * @return array $args
      */
@@ -3201,7 +3225,7 @@
      *
      * @param string $status The member's status in the chat, always “kicked”
      * @param User $user Information about the user
-     * @param int $until_date Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
+     * @param int $until_date Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever.
      *
      * @return array $args
      */
@@ -3222,15 +3246,19 @@
      *                              float type are safe for storing this identifier. The bot can use this identifier for 5 minutes to
      *                              send messages until the join request is processed, assuming no other administrator contacted the user.
      * @param int $date Date the request was sent in Unix time
-     * @param string|NULL $bio Bio of the user.
+     * @param string|NULL $bio Bio of the user
      * @param ChatInviteLink|NULL $invite_link Chat invite link that was used by the user to send the join request
+     * @param string|NULL $query_id Identifier of the join request query; for bots assigned to process join request only. If present,
+     *                              then the bot must call sendChatJoinRequestWebApp or directly call answerChatJoinRequestQuery within
+     *                              10 seconds.
      *
      * @return array $args
      */
-    public function ChatJoinRequest ( array $chat, array $from, int $user_chat_id, int $date, ?string $bio = NULL, ?array $invite_link = NULL ) : array {
+    public function ChatJoinRequest ( array $chat, array $from, int $user_chat_id, int $date, ?string $bio = NULL, ?array $invite_link = NULL, ?string $query_id = NULL ) : array {
       $args = [ 'chat' => $chat, 'from' => $from, 'user_chat_id' => $user_chat_id, 'date' => $date ]; 
       if ( $bio !== NULL ) $args['bio'] = $bio;
       if ( $invite_link !== NULL ) $args['invite_link'] = $invite_link;
+      if ( $query_id !== NULL ) $args['query_id'] = $query_id;
       return $args;
     }
 
@@ -3239,8 +3267,8 @@
      * 
      * @see https://core.telegram.org/bots/api#chatpermissions
      *
-     * @param bool|NULL $can_send_messages True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices,
-     *                              locations and venues
+     * @param bool|NULL $can_send_messages True, if the user is allowed to send text messages, rich messages, contacts, giveaways, giveaway
+     *                              winners, invoices, locations and venues
      * @param bool|NULL $can_send_audios True, if the user is allowed to send audios
      * @param bool|NULL $can_send_documents True, if the user is allowed to send documents
      * @param bool|NULL $can_send_photos True, if the user is allowed to send photos
@@ -3252,10 +3280,10 @@
      * @param bool|NULL $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
      * @param bool|NULL $can_react_to_messages True, if the user is allowed to react to messages. If omitted, defaults to the value of can_send_messages.
      * @param bool|NULL $can_edit_tag True, if the user is allowed to edit their own tag. If omitted, defaults to the value of can_pin_messages.
-     * @param bool|NULL $can_change_info True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
+     * @param bool|NULL $can_change_info True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups.
      * @param bool|NULL $can_invite_users True, if the user is allowed to invite new users to the chat
-     * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages. Ignored in public supergroups
-     * @param bool|NULL $can_manage_topics True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages
+     * @param bool|NULL $can_pin_messages True, if the user is allowed to pin messages. Ignored in public supergroups.
+     * @param bool|NULL $can_manage_topics True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages.
      *
      * @return array $args
      */
@@ -3565,7 +3593,7 @@
      *                              "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓",
      *                              "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡",
      *                              "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊",
-     *                              "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
+     *                              "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡".
      *
      * @return array $args
      */
@@ -3829,7 +3857,7 @@
      *
      * @param string $gift_id Identifier of the regular gift from which the gift was upgraded
      * @param string $base_name Human-readable name of the regular gift from which this unique gift was upgraded
-     * @param string $name Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas
+     * @param string $name Unique name of the gift. This name can be used in https://t.me/nft/... links and story areas.
      * @param int $number Unique number of the upgraded gift among gifts upgraded from the same regular gift
      * @param UniqueGiftModel $model Model of the gift
      * @param UniqueGiftSymbol $symbol Symbol of the gift
@@ -3870,7 +3898,7 @@
      * @param MessageEntity[]|NULL $entities Special entities that appear in the text
      * @param bool|NULL $is_private True, if the sender and gift text are shown only to the gift receiver; otherwise, everyone will be
      *                              able to see them
-     * @param int|NULL $unique_gift_number Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     * @param int|NULL $unique_gift_number Unique number reserved for this gift when upgraded. See the number field in UniqueGift.
      *
      * @return array $args
      */
@@ -3897,7 +3925,7 @@
      * @param string $origin Origin of the gift. Currently, either “upgrade” for gifts upgraded from regular gifts,
      *                              “transfer” for gifts transferred from other users or channels, “resale” for gifts bought
      *                              from other users, “gifted_upgrade” for upgrades purchased after the gift was sent, or
-     *                              “offer” for gifts bought or sold through gift purchase offers
+     *                              “offer” for gifts bought or sold through gift purchase offers.
      * @param string|NULL $last_resale_currency For gifts bought from other users, the currency in which the payment for the gift was done.
      *                              Currently, one of “XTR” for Telegram Stars or “TON” for toncoins.
      * @param int|NULL $last_resale_amount For gifts bought from other users, the price paid for the gift in either Telegram Stars or nanotoncoins
@@ -3906,7 +3934,7 @@
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
      *                              the gift
      * @param int|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
-     *                              can be transferred now
+     *                              can be transferred now.
      *
      * @return array $args
      */
@@ -3956,7 +3984,7 @@
      * @param int|NULL $prepaid_upgrade_star_count Number of Telegram Stars that were paid for the ability to upgrade the gift
      * @param bool|NULL $is_upgrade_separate True, if the gift's upgrade was purchased after the gift was sent; for gifts received on behalf of
      *                              business accounts only
-     * @param int|NULL $unique_gift_number Unique number reserved for this gift when upgraded. See the number field in UniqueGift
+     * @param int|NULL $unique_gift_number Unique number reserved for this gift when upgraded. See the number field in UniqueGift.
      *
      * @return array $args
      */
@@ -3995,7 +4023,7 @@
      * @param int|NULL $transfer_star_count Number of Telegram Stars that must be paid to transfer the gift; omitted if the bot cannot transfer
      *                              the gift
      * @param int|NULL $next_transfer_date Point in time (Unix timestamp) when the gift can be transferred. If it is in the past, then the gift
-     *                              can be transferred now
+     *                              can be transferred now.
      *
      * @return array $args
      */
@@ -4017,7 +4045,7 @@
      *
      * @param int $total_count The total number of gifts owned by the user or the chat
      * @param OwnedGift[] $gifts The list of gifts
-     * @param string|NULL $next_offset Offset for the next request. If empty, then there are no more results
+     * @param string|NULL $next_offset Offset for the next request. If empty, then there are no more results.
      *
      * @return array $args
      */
@@ -4083,7 +4111,7 @@
      * @see https://core.telegram.org/bots/api#botcommand
      *
      * @param string $command Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
-     * @param string $description Description of the command; 1-256 characters.
+     * @param string $description Description of the command; 1-256 characters
      *
      * @return array $args
      */
@@ -4569,7 +4597,7 @@
      * @see https://core.telegram.org/bots/api#preparedinlinemessage
      *
      * @param string $id Unique identifier of the prepared message
-     * @param int $expiration_date Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used
+     * @param int $expiration_date Expiration date of the prepared message, in Unix time. Expired prepared messages can no longer be used.
      *
      * @return array $args
      */
@@ -4627,16 +4655,16 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediaanimation
      *
-     * @param string $type Type of the result, must be animation
+     * @param string $type Type of the media, must be animation
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $caption Caption of the animation to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the animation caption. See formatting options for more details.
@@ -4668,16 +4696,16 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediaaudio
      *
-     * @param string $type Type of the result, must be audio
+     * @param string $type Type of the media, must be audio
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $caption Caption of the audio to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the audio caption. See formatting options for more details.
@@ -4705,16 +4733,16 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediadocument
      *
-     * @param string $type Type of the result, must be document
+     * @param string $type Type of the media, must be document
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $caption Caption of the document to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the document caption. See formatting options for more details.
@@ -4735,19 +4763,33 @@
     }
 
     /**
+     * Represents an HTTP link to be sent.
+     * 
+     * @see https://core.telegram.org/bots/api#inputmedialink
+     *
+     * @param string $type Type of the media, must be link
+     * @param string $url HTTP URL of the link
+     *
+     * @return array $args
+     */
+    public function InputMediaLink ( string $type, string $url ) : array {
+      return [ 'type' => $type, 'url' => $url ];
+    }
+
+    /**
      * Represents a live photo to be sent.
      * 
      * @see https://core.telegram.org/bots/api#inputmedialivephoto
      *
-     * @param string $type Type of the result, must be live_photo
+     * @param string $type Type of the media, must be live_photo
      * @param string $media Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers
-     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
-     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
-     *                              live photos by a URL is currently unsupported.
+     *                              (recommended) or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data
+     *                              under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is
+     *                              currently unsupported.
      * @param string $photo The static photo to send. Pass a file_id to send a file that exists on the Telegram servers
-     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
-     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
-     *                              live photos by a URL is currently unsupported.
+     *                              (recommended) or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data
+     *                              under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is
+     *                              currently unsupported.
      * @param string|NULL $caption Caption of the live photo to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the live photo caption. See formatting options for more details.
      * @param MessageEntity[]|NULL $caption_entities List of special entities that appear in the caption, which can be specified instead of parse_mode
@@ -4771,7 +4813,7 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmedialocation
      *
-     * @param string $type Type of the result, must be location
+     * @param string $type Type of the media, must be location
      * @param float $latitude Latitude of the location
      * @param float $longitude Longitude of the location
      * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
@@ -4789,10 +4831,10 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediaphoto
      *
-     * @param string $type Type of the result, must be photo
+     * @param string $type Type of the media, must be photo
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      * @param string|NULL $caption Caption of the photo to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the photo caption. See formatting options for more details.
@@ -4817,10 +4859,10 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediasticker
      *
-     * @param string $type Type of the result, must be sticker
+     * @param string $type Type of the media, must be sticker
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
      *                              an HTTP URL for Telegram to get a .WEBP sticker from the Internet, or pass
-     *                              “attach://<file_attach_name>” to upload a new .WEBP, .TGS, or .WEBM sticker using
+     *                              "attach://<file_attach_name>" to upload a new .WEBP, .TGS, or .WEBM sticker using
      *                              multipart/form-data under <file_attach_name> name. More information on Sending Files »
      * @param string|NULL $emoji Emoji associated with the sticker; only for just uploaded stickers
      *
@@ -4837,7 +4879,7 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediavenue
      *
-     * @param string $type Type of the result, must be venue
+     * @param string $type Type of the media, must be venue
      * @param float $latitude Latitude of the location
      * @param float $longitude Longitude of the location
      * @param string $title Name of the venue
@@ -4864,21 +4906,21 @@
      * 
      * @see https://core.telegram.org/bots/api#inputmediavideo
      *
-     * @param string $type Type of the result, must be video
+     * @param string $type Type of the media, must be video
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $cover Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram
      *                              servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass
-     *                              “attach://<file_attach_name>” to upload a new one using multipart/form-data under
-     *                              <file_attach_name> name. More information on Sending Files »
+     *                              "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name>
+     *                              name. More information on Sending Files »
      * @param int|NULL $start_timestamp Start timestamp for the video in the message
      * @param string|NULL $caption Caption of the video to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the video caption. See formatting options for more details.
@@ -4941,13 +4983,13 @@
      *
      * @param string $type Type of the media, must be live_photo
      * @param string $media Video of the live photo to send. Pass a file_id to send a file that exists on the Telegram servers
-     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
-     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
-     *                              live photos by a URL is currently unsupported.
+     *                              (recommended) or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data
+     *                              under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is
+     *                              currently unsupported.
      * @param string $photo The static photo to send. Pass a file_id to send a file that exists on the Telegram servers
-     *                              (recommended) or pass “attach://<file_attach_name>” to upload a new one using
-     *                              multipart/form-data under <file_attach_name> name. More information on Sending Files ». Sending
-     *                              live photos by a URL is currently unsupported.
+     *                              (recommended) or pass "attach://<file_attach_name>" to upload a new one using multipart/form-data
+     *                              under <file_attach_name> name. More information on Sending Files ». Sending live photos by a URL is
+     *                              currently unsupported.
      *
      * @return array $args
      */
@@ -4962,8 +5004,8 @@
      *
      * @param string $type Type of the media, must be photo
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      *
      * @return array $args
@@ -4979,19 +5021,19 @@
      *
      * @param string $type Type of the media, must be video
      * @param string $media File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass
-     *                              an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>”
-     *                              to upload a new one using multipart/form-data under <file_attach_name> name. More information on
+     *                              an HTTP URL for Telegram to get a file from the Internet, or pass "attach://<file_attach_name>" to
+     *                              upload a new one using multipart/form-data under <file_attach_name> name. More information on
      *                              Sending Files »
      * @param string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $cover Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram
      *                              servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass
-     *                              “attach://<file_attach_name>” to upload a new one using multipart/form-data under
-     *                              <file_attach_name> name. More information on Sending Files »
+     *                              "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name>
+     *                              name. More information on Sending Files »
      * @param int|NULL $start_timestamp Start timestamp for the video in the message
      * @param int|NULL $width Video width
      * @param int|NULL $height Video height
@@ -5031,8 +5073,8 @@
      *
      * @param string $type Type of the profile photo, must be static
      * @param string $photo The static profile photo. Profile photos can't be reused and can only be uploaded as a new file, so
-     *                              you can pass “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data
-     *                              under <file_attach_name>. More information on Sending Files »
+     *                              you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under
+     *                              <file_attach_name>. More information on Sending Files »
      *
      * @return array $args
      */
@@ -5047,8 +5089,8 @@
      *
      * @param string $type Type of the profile photo, must be animated
      * @param string $animation The animated profile photo. Profile photos can't be reused and can only be uploaded as a new file,
-     *                              so you can pass “attach://<file_attach_name>” if the photo was uploaded using
-     *                              multipart/form-data under <file_attach_name>. More information on Sending Files »
+     *                              so you can pass "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data
+     *                              under <file_attach_name>. More information on Sending Files »
      * @param float|NULL $main_frame_timestamp Timestamp in seconds of the frame that will be used as the static profile photo. Defaults to 0.0.
      *
      * @return array $args
@@ -5079,7 +5121,7 @@
      * @param string $type Type of the content, must be photo
      * @param string $photo The photo to post as a story. The photo must be of the size 1080x1920 and must not exceed 10 MB. The
      *                              photo can't be reused and can only be uploaded as a new file, so you can pass
-     *                              “attach://<file_attach_name>” if the photo was uploaded using multipart/form-data under
+     *                              "attach://<file_attach_name>" if the photo was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      *
      * @return array $args
@@ -5097,7 +5139,7 @@
      * @param string $video The video to post as a story. The video must be of the size 720x1280, streamable, encoded with H.265
      *                              codec, with key frames added each second in the MPEG4 format, and must not exceed 30 MB. The video
      *                              can't be reused and can only be uploaded as a new file, so you can pass
-     *                              “attach://<file_attach_name>” if the video was uploaded using multipart/form-data under
+     *                              "attach://<file_attach_name>" if the video was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param float|NULL $duration Precise duration of the video in seconds; 0-60
      * @param float|NULL $cover_frame_timestamp Timestamp in seconds of the frame that will be used as the static cover for the story. Defaults to 0.0.
@@ -5197,7 +5239,7 @@
      *
      * @param string $sticker The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram
      *                              servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or pass
-     *                              “attach://<file_attach_name>” to upload a new file using multipart/form-data under
+     *                              "attach://<file_attach_name>" to upload a new file using multipart/form-data under
      *                              <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL. More
      *                              information on Sending Files »
      * @param string $format Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated”
@@ -5217,6 +5259,853 @@
     }
 
     /**
+     * Rich formatted message.
+     * 
+     * @see https://core.telegram.org/bots/api#richmessage
+     *
+     * @param RichBlock[] $blocks Content of the message
+     * @param bool|NULL $is_rtl True, if the rich message must be shown right-to-left
+     *
+     * @return array $args
+     */
+    public function RichMessage ( array $blocks, ?bool $is_rtl = NULL ) : array {
+      $args = [ 'blocks' => $blocks ]; 
+      if ( $is_rtl !== NULL ) $args['is_rtl'] = $is_rtl;
+      return $args;
+    }
+
+    /**
+     * Describes a rich message to be sent. Exactly one of the fields html or markdown must be used.
+     * 
+     * @see https://core.telegram.org/bots/api#inputrichmessage
+     *
+     * @param string|NULL $html Content of the rich message to send described using HTML formatting. See rich message formatting
+     *                              options for more details.
+     * @param string|NULL $markdown Content of the rich message to send described using Markdown formatting. See rich message formatting
+     *                              options for more details.
+     * @param bool|NULL $is_rtl Pass True if the rich message must be shown right-to-left
+     * @param bool|NULL $skip_entity_detection Pass True to skip automatic detection of entities (e.g., URLs, email addresses, username mentions,
+     *                              hashtags, cashtags, bot commands, or phone numbers) in the text
+     *
+     * @return array $args
+     */
+    public function InputRichMessage ( ?string $html = NULL, ?string $markdown = NULL, ?bool $is_rtl = NULL, ?bool $skip_entity_detection = NULL ) : array {
+      $args = []; 
+      if ( $html !== NULL ) $args['html'] = $html;
+      if ( $markdown !== NULL ) $args['markdown'] = $markdown;
+      if ( $is_rtl !== NULL ) $args['is_rtl'] = $is_rtl;
+      if ( $skip_entity_detection !== NULL ) $args['skip_entity_detection'] = $skip_entity_detection;
+      return $args;
+    }
+
+    /**
+     * This object represents a rich formatted text. Currently, it can be either a String for plain text,
+     * an Array of RichText, or any of the following types:
+     * 
+     * @see https://core.telegram.org/bots/api#richtext
+     *
+     *
+     * @return array $args
+     */
+    public function RichText ( ) : array {
+      return [];
+    }
+
+    /**
+     * A bold text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextbold
+     *
+     * @param string $type Type of the rich text, always “bold”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextBold ( string $type = 'bold', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * An italicized text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextitalic
+     *
+     * @param string $type Type of the rich text, always “italic”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextItalic ( string $type = 'italic', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * An underlined text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextunderline
+     *
+     * @param string $type Type of the rich text, always “underline”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextUnderline ( string $type = 'underline', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A strikethrough text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextstrikethrough
+     *
+     * @param string $type Type of the rich text, always “strikethrough”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextStrikethrough ( string $type = 'strikethrough', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A text covered by a spoiler.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextspoiler
+     *
+     * @param string $type Type of the rich text, always “spoiler”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextSpoiler ( string $type = 'spoiler', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * Formatted date and time.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextdatetime
+     *
+     * @param string $type Type of the rich text, always “date_time”
+     * @param RichText $text The text
+     * @param int $unix_time The Unix time associated with the entity
+     * @param string $date_time_format The string that defines the formatting of the date and time. See date-time entity formatting for
+     *                              more details.
+     *
+     * @return array $args
+     */
+    public function RichTextDateTime ( string $type = 'date_time', array $text, int $unix_time, string $date_time_format ) : array {
+      return [ 'type' => $type, 'text' => $text, 'unix_time' => $unix_time, 'date_time_format' => $date_time_format ];
+    }
+
+    /**
+     * A mention of a Telegram user by their identifier.
+     * 
+     * @see https://core.telegram.org/bots/api#richtexttextmention
+     *
+     * @param string $type Type of the rich text, always “text_mention”
+     * @param RichText $text The text
+     * @param User $user The mentioned user
+     *
+     * @return array $args
+     */
+    public function RichTextTextMention ( string $type = 'text_mention', array $text, array $user ) : array {
+      return [ 'type' => $type, 'text' => $text, 'user' => $user ];
+    }
+
+    /**
+     * A subscript text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextsubscript
+     *
+     * @param string $type Type of the rich text, always “subscript”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextSubscript ( string $type = 'subscript', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A superscript text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextsuperscript
+     *
+     * @param string $type Type of the rich text, always “superscript”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextSuperscript ( string $type = 'superscript', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A marked text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextmarked
+     *
+     * @param string $type Type of the rich text, always “marked”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextMarked ( string $type = 'marked', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A monowidth text.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextcode
+     *
+     * @param string $type Type of the rich text, always “code”
+     * @param RichText $text The text
+     *
+     * @return array $args
+     */
+    public function RichTextCode ( string $type = 'code', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A custom emoji.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextcustomemoji
+     *
+     * @param string $type Type of the rich text, always “custom_emoji”
+     * @param string $custom_emoji_id Unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker.
+     * @param string $alternative_text Alternative emoji for the custom emoji
+     *
+     * @return array $args
+     */
+    public function RichTextCustomEmoji ( string $type = 'custom_emoji', string $custom_emoji_id, string $alternative_text ) : array {
+      return [ 'type' => $type, 'custom_emoji_id' => $custom_emoji_id, 'alternative_text' => $alternative_text ];
+    }
+
+    /**
+     * A mathematical expression.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextmathematicalexpression
+     *
+     * @param string $type Type of the rich text, always “mathematical_expression”
+     * @param string $expression The expression in LaTeX format
+     *
+     * @return array $args
+     */
+    public function RichTextMathematicalExpression ( string $type = 'mathematical_expression', string $expression ) : array {
+      return [ 'type' => $type, 'expression' => $expression ];
+    }
+
+    /**
+     * A text with a link.
+     * 
+     * @see https://core.telegram.org/bots/api#richtexturl
+     *
+     * @param string $type Type of the rich text, always “url”
+     * @param RichText $text The text
+     * @param string $url URL of the link
+     *
+     * @return array $args
+     */
+    public function RichTextUrl ( string $type = 'url', array $text, string $url ) : array {
+      return [ 'type' => $type, 'text' => $text, 'url' => $url ];
+    }
+
+    /**
+     * A text with an email address.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextemailaddress
+     *
+     * @param string $type Type of the rich text, always “email_address”
+     * @param RichText $text The text
+     * @param string $email_address The email address
+     *
+     * @return array $args
+     */
+    public function RichTextEmailAddress ( string $type = 'email_address', array $text, string $email_address ) : array {
+      return [ 'type' => $type, 'text' => $text, 'email_address' => $email_address ];
+    }
+
+    /**
+     * A text with a phone number.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextphonenumber
+     *
+     * @param string $type Type of the rich text, always “phone_number”
+     * @param RichText $text The text
+     * @param string $phone_number The phone number
+     *
+     * @return array $args
+     */
+    public function RichTextPhoneNumber ( string $type = 'phone_number', array $text, string $phone_number ) : array {
+      return [ 'type' => $type, 'text' => $text, 'phone_number' => $phone_number ];
+    }
+
+    /**
+     * A text with a bank card number.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextbankcardnumber
+     *
+     * @param string $type Type of the rich text, always “bank_card_number”
+     * @param RichText $text The text
+     * @param string $bank_card_number The bank card number
+     *
+     * @return array $args
+     */
+    public function RichTextBankCardNumber ( string $type = 'bank_card_number', array $text, string $bank_card_number ) : array {
+      return [ 'type' => $type, 'text' => $text, 'bank_card_number' => $bank_card_number ];
+    }
+
+    /**
+     * A mention by a username.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextmention
+     *
+     * @param string $type Type of the rich text, always “mention”
+     * @param RichText $text The text
+     * @param string $username The username
+     *
+     * @return array $args
+     */
+    public function RichTextMention ( string $type = 'mention', array $text, string $username ) : array {
+      return [ 'type' => $type, 'text' => $text, 'username' => $username ];
+    }
+
+    /**
+     * A hashtag.
+     * 
+     * @see https://core.telegram.org/bots/api#richtexthashtag
+     *
+     * @param string $type Type of the rich text, always “hashtag”
+     * @param RichText $text The text
+     * @param string $hashtag The hashtag
+     *
+     * @return array $args
+     */
+    public function RichTextHashtag ( string $type = 'hashtag', array $text, string $hashtag ) : array {
+      return [ 'type' => $type, 'text' => $text, 'hashtag' => $hashtag ];
+    }
+
+    /**
+     * A cashtag.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextcashtag
+     *
+     * @param string $type Type of the rich text, always “cashtag”
+     * @param RichText $text The text
+     * @param string $cashtag The cashtag
+     *
+     * @return array $args
+     */
+    public function RichTextCashtag ( string $type = 'cashtag', array $text, string $cashtag ) : array {
+      return [ 'type' => $type, 'text' => $text, 'cashtag' => $cashtag ];
+    }
+
+    /**
+     * A bot command.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextbotcommand
+     *
+     * @param string $type Type of the rich text, always “bot_command”
+     * @param RichText $text The text
+     * @param string $bot_command The bot command
+     *
+     * @return array $args
+     */
+    public function RichTextBotCommand ( string $type = 'bot_command', array $text, string $bot_command ) : array {
+      return [ 'type' => $type, 'text' => $text, 'bot_command' => $bot_command ];
+    }
+
+    /**
+     * An anchor.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextanchor
+     *
+     * @param string $type Type of the rich text, always “anchor”
+     * @param string $name The name of the anchor
+     *
+     * @return array $args
+     */
+    public function RichTextAnchor ( string $type = 'anchor', string $name ) : array {
+      return [ 'type' => $type, 'name' => $name ];
+    }
+
+    /**
+     * A link to an anchor.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextanchorlink
+     *
+     * @param string $type Type of the rich text, always “anchor_link”
+     * @param RichText $text The link text
+     * @param string $anchor_name The name of the anchor. If the name is empty, then the link brings back to the top of the message.
+     *
+     * @return array $args
+     */
+    public function RichTextAnchorLink ( string $type = 'anchor_link', array $text, string $anchor_name ) : array {
+      return [ 'type' => $type, 'text' => $text, 'anchor_name' => $anchor_name ];
+    }
+
+    /**
+     * A reference.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextreference
+     *
+     * @param string $type Type of the rich text, always “reference”
+     * @param RichText $text Text of the reference
+     * @param string $name The name of the reference
+     *
+     * @return array $args
+     */
+    public function RichTextReference ( string $type = 'reference', array $text, string $name ) : array {
+      return [ 'type' => $type, 'text' => $text, 'name' => $name ];
+    }
+
+    /**
+     * A link to a reference.
+     * 
+     * @see https://core.telegram.org/bots/api#richtextreferencelink
+     *
+     * @param string $type Type of the rich text, always “reference_link”
+     * @param RichText $text The link text
+     * @param string $reference_name The name of the reference
+     *
+     * @return array $args
+     */
+    public function RichTextReferenceLink ( string $type = 'reference_link', array $text, string $reference_name ) : array {
+      return [ 'type' => $type, 'text' => $text, 'reference_name' => $reference_name ];
+    }
+
+    /**
+     * Caption of a rich formatted block.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockcaption
+     *
+     * @param RichText $text Block caption
+     * @param RichText|NULL $credit Block credit which corresponds to the HTML tag <cite>
+     *
+     * @return array $args
+     */
+    public function RichBlockCaption ( array $text, ?array $credit = NULL ) : array {
+      $args = [ 'text' => $text ]; 
+      if ( $credit !== NULL ) $args['credit'] = $credit;
+      return $args;
+    }
+
+    /**
+     * Cell in a table.
+     * 
+     * @see https://core.telegram.org/bots/api#richblocktablecell
+     *
+     * @param RichText|NULL $text Text in the cell. If omitted, then the cell is invisible.
+     * @param bool|NULL $is_header True, if the cell is a header cell
+     * @param int|NULL $colspan The number of columns the cell spans if it is bigger than 1
+     * @param int|NULL $rowspan The number of rows the cell spans if it is bigger than 1
+     * @param string $align Horizontal cell content alignment. Currently, must be one of “left”, “center”, or “right”.
+     * @param string $valign Vertical cell content alignment. Currently, must be one of “top”, “middle”, or “bottom”.
+     *
+     * @return array $args
+     */
+    public function RichBlockTableCell ( string $align, string $valign, ?array $text = NULL, ?bool $is_header = NULL, ?int $colspan = NULL, ?int $rowspan = NULL ) : array {
+      $args = [ 'align' => $align, 'valign' => $valign ]; 
+      if ( $text !== NULL ) $args['text'] = $text;
+      if ( $is_header !== NULL ) $args['is_header'] = $is_header;
+      if ( $colspan !== NULL ) $args['colspan'] = $colspan;
+      if ( $rowspan !== NULL ) $args['rowspan'] = $rowspan;
+      return $args;
+    }
+
+    /**
+     * An item of a list.
+     * 
+     * @see https://core.telegram.org/bots/api#richblocklistitem
+     *
+     * @param string $label Label of the item
+     * @param RichBlock[] $blocks The content of the item
+     * @param bool|NULL $has_checkbox True, if the item has a checkbox
+     * @param bool|NULL $is_checked True, if the item has a checked checkbox
+     * @param int|NULL $value For ordered lists, the numeric value of the item label
+     * @param string|NULL $type For ordered lists, the type of the item label; must be one of “a” for lowercase letters, “A”
+     *                              for uppercase letters, “i” for lowercase Roman numerals, “I” for uppercase Roman numerals,
+     *                              or “1” for decimal numbers
+     *
+     * @return array $args
+     */
+    public function RichBlockListItem ( string $label, array $blocks, ?bool $has_checkbox = NULL, ?bool $is_checked = NULL, ?int $value = NULL, ?string $type = NULL ) : array {
+      $args = [ 'label' => $label, 'blocks' => $blocks ]; 
+      if ( $has_checkbox !== NULL ) $args['has_checkbox'] = $has_checkbox;
+      if ( $is_checked !== NULL ) $args['is_checked'] = $is_checked;
+      if ( $value !== NULL ) $args['value'] = $value;
+      if ( $type !== NULL ) $args['type'] = $type;
+      return $args;
+    }
+
+    /**
+     * This object represents a block in a rich formatted message. Currently, it can be any of the
+     * following types:
+     * 
+     * @see https://core.telegram.org/bots/api#richblock
+     *
+     *
+     * @return array $args
+     */
+    public function RichBlock ( ) : array {
+      return [];
+    }
+
+    /**
+     * A text paragraph, corresponding to the HTML tag <p>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockparagraph
+     *
+     * @param string $type Type of the block, always “paragraph”
+     * @param RichText $text Text of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockParagraph ( string $type = 'paragraph', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A section heading, corresponding to the HTML tags <h1>, <h2>, <h3>, <h4>, <h5>, or <h6>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblocksectionheading
+     *
+     * @param string $type Type of the block, always “heading”
+     * @param RichText $text Text of the block
+     * @param int $size Relative size of the text font; 1-6, 1 is the largest, 6 is the smallest
+     *
+     * @return array $args
+     */
+    public function RichBlockSectionHeading ( string $type = 'heading', array $text, int $size ) : array {
+      return [ 'type' => $type, 'text' => $text, 'size' => $size ];
+    }
+
+    /**
+     * A preformatted text block, corresponding to the nested HTML tags <pre> and <code>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockpreformatted
+     *
+     * @param string $type Type of the block, always “pre”
+     * @param RichText $text Text of the block
+     * @param string|NULL $language The programming language of the text
+     *
+     * @return array $args
+     */
+    public function RichBlockPreformatted ( string $type = 'pre', array $text, ?string $language = NULL ) : array {
+      $args = [ 'type' => $type, 'text' => $text ]; 
+      if ( $language !== NULL ) $args['language'] = $language;
+      return $args;
+    }
+
+    /**
+     * A footer, corresponding to the HTML tag <footer>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockfooter
+     *
+     * @param string $type Type of the block, always “footer”
+     * @param RichText $text Text of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockFooter ( string $type = 'footer', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
+     * A divider, corresponding to the HTML tag <hr/>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockdivider
+     *
+     * @param string $type Type of the block, always “divider”
+     *
+     * @return array $args
+     */
+    public function RichBlockDivider ( string $type = 'divider' ) : array {
+      return [ 'type' => $type ];
+    }
+
+    /**
+     * A block with a mathematical expression in LaTeX format, corresponding to the custom HTML tag <tg-math-block>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockmathematicalexpression
+     *
+     * @param string $type Type of the block, always “mathematical_expression”
+     * @param string $expression The mathematical expression in LaTeX format
+     *
+     * @return array $args
+     */
+    public function RichBlockMathematicalExpression ( string $type = 'mathematical_expression', string $expression ) : array {
+      return [ 'type' => $type, 'expression' => $expression ];
+    }
+
+    /**
+     * A block with an anchor, corresponding to the HTML tag <a> with the attribute name.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockanchor
+     *
+     * @param string $type Type of the block, always “anchor”
+     * @param string $name The name of the anchor
+     *
+     * @return array $args
+     */
+    public function RichBlockAnchor ( string $type = 'anchor', string $name ) : array {
+      return [ 'type' => $type, 'name' => $name ];
+    }
+
+    /**
+     * A list of blocks, corresponding to the HTML tag <ul> or <ol> with multiple nested tags <li>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblocklist
+     *
+     * @param string $type Type of the block, always “list”
+     * @param RichBlockListItem[] $items Items of the list
+     *
+     * @return array $args
+     */
+    public function RichBlockList ( string $type = 'list', array $items ) : array {
+      return [ 'type' => $type, 'items' => $items ];
+    }
+
+    /**
+     * A block quotation, corresponding to the HTML tag <blockquote>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockblockquotation
+     *
+     * @param string $type Type of the block, always “blockquote”
+     * @param RichBlock[] $blocks Content of the block
+     * @param RichText|NULL $credit Credit of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockBlockQuotation ( string $type = 'blockquote', array $blocks, ?array $credit = NULL ) : array {
+      $args = [ 'type' => $type, 'blocks' => $blocks ]; 
+      if ( $credit !== NULL ) $args['credit'] = $credit;
+      return $args;
+    }
+
+    /**
+     * A quotation with centered text, loosely corresponding to the HTML tag <aside>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockpullquotation
+     *
+     * @param string $type Type of the block, always “pullquote”
+     * @param RichText $text Text of the block
+     * @param RichText|NULL $credit Credit of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockPullQuotation ( string $type = 'pullquote', array $text, ?array $credit = NULL ) : array {
+      $args = [ 'type' => $type, 'text' => $text ]; 
+      if ( $credit !== NULL ) $args['credit'] = $credit;
+      return $args;
+    }
+
+    /**
+     * A collage, corresponding to the custom HTML tag <tg-collage>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockcollage
+     *
+     * @param string $type Type of the block, always “collage”
+     * @param RichBlock[] $blocks Elements of the collage
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockCollage ( string $type = 'collage', array $blocks, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'blocks' => $blocks ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A slideshow, corresponding to the custom HTML tag <tg-slideshow>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockslideshow
+     *
+     * @param string $type Type of the block, always “slideshow”
+     * @param RichBlock[] $blocks Elements of the slideshow
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockSlideshow ( string $type = 'slideshow', array $blocks, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'blocks' => $blocks ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A table, corresponding to the HTML tag <table>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblocktable
+     *
+     * @param string $type Type of the block, always “table”
+     * @param Array<RichBlockTableCell[]> $cells Cells of the table
+     * @param bool|NULL $is_bordered True, if the table has borders
+     * @param bool|NULL $is_striped True, if the table is striped
+     * @param RichText|NULL $caption Caption of the table
+     *
+     * @return array $args
+     */
+    public function RichBlockTable ( string $type = 'table', array $cells, ?bool $is_bordered = NULL, ?bool $is_striped = NULL, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'cells' => $cells ]; 
+      if ( $is_bordered !== NULL ) $args['is_bordered'] = $is_bordered;
+      if ( $is_striped !== NULL ) $args['is_striped'] = $is_striped;
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * An expandable block for details disclosure, corresponding to the HTML tag <details>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockdetails
+     *
+     * @param string $type Type of the block, always “details”
+     * @param RichText $summary Always shown summary of the block
+     * @param RichBlock[] $blocks Content of the block
+     * @param bool|NULL $is_open True, if the content of the block is visible by default
+     *
+     * @return array $args
+     */
+    public function RichBlockDetails ( string $type = 'details', array $summary, array $blocks, ?bool $is_open = NULL ) : array {
+      $args = [ 'type' => $type, 'summary' => $summary, 'blocks' => $blocks ]; 
+      if ( $is_open !== NULL ) $args['is_open'] = $is_open;
+      return $args;
+    }
+
+    /**
+     * A block with a map, corresponding to the custom HTML tag <tg-map>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockmap
+     *
+     * @param string $type Type of the block, always “map”
+     * @param Location $location Location of the center of the map
+     * @param int $zoom Map zoom level; 13-20
+     * @param int $width Expected width of the map
+     * @param int $height Expected height of the map
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockMap ( string $type = 'map', array $location, int $zoom, int $width, int $height, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'location' => $location, 'zoom' => $zoom, 'width' => $width, 'height' => $height ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A block with an animation, corresponding to the HTML tag <video>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockanimation
+     *
+     * @param string $type Type of the block, always “animation”
+     * @param Animation $animation The animation
+     * @param bool|NULL $has_spoiler True, if the media preview is covered by a spoiler animation
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockAnimation ( string $type = 'animation', array $animation, ?bool $has_spoiler = NULL, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'animation' => $animation ]; 
+      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A block with a music file, corresponding to the HTML tag <audio>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockaudio
+     *
+     * @param string $type Type of the block, always “audio”
+     * @param Audio $audio The audio
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockAudio ( string $type = 'audio', array $audio, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'audio' => $audio ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A block with a photo, corresponding to the HTML tag <img>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockphoto
+     *
+     * @param string $type Type of the block, always “photo”
+     * @param PhotoSize[] $photo Available sizes of the photo
+     * @param bool|NULL $has_spoiler True, if the media preview is covered by a spoiler animation
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockPhoto ( string $type = 'photo', array $photo, ?bool $has_spoiler = NULL, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'photo' => $photo ]; 
+      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A block with a video, corresponding to the HTML tag <video>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockvideo
+     *
+     * @param string $type Type of the block, always “video”
+     * @param Video $video The video
+     * @param bool|NULL $has_spoiler True, if the media preview is covered by a spoiler animation
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockVideo ( string $type = 'video', array $video, ?bool $has_spoiler = NULL, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'video' => $video ]; 
+      if ( $has_spoiler !== NULL ) $args['has_spoiler'] = $has_spoiler;
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A block with a voice note, corresponding to the HTML tag <audio>.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockvoicenote
+     *
+     * @param string $type Type of the block, always “voice_note”
+     * @param Voice $voice_note The voice note
+     * @param RichBlockCaption|NULL $caption Caption of the block
+     *
+     * @return array $args
+     */
+    public function RichBlockVoiceNote ( string $type = 'voice_note', array $voice_note, ?array $caption = NULL ) : array {
+      $args = [ 'type' => $type, 'voice_note' => $voice_note ]; 
+      if ( $caption !== NULL ) $args['caption'] = $caption;
+      return $args;
+    }
+
+    /**
+     * A block with a “Thinking…” placeholder, corresponding to the custom HTML tag <tg-thinking>.
+     * The block may be used only in sendRichMessageDraft, therefore it can't be received in messages. See
+     * https://t.me/addemoji/AIActions for examples of custom emoji, which are recommended for usage in the
+     * block.
+     * 
+     * @see https://core.telegram.org/bots/api#richblockthinking
+     *
+     * @param string $type Type of the block, always “thinking”
+     * @param RichText $text Text of the block. See https://t.me/addemoji/AIActions for examples of custom emoji, which are
+     *                              recommended for usage in the block.
+     *
+     * @return array $args
+     */
+    public function RichBlockThinking ( string $type = 'thinking', array $text ) : array {
+      return [ 'type' => $type, 'text' => $text ];
+    }
+
+    /**
      * This object represents an incoming inline query. When the user sends an empty query, your bot could
      * return some default or trending results.
      * 
@@ -5229,7 +6118,7 @@
      * @param string|NULL $chat_type Type of the chat from which the inline query was sent. Can be either “sender” for a private chat
      *                              with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The
      *                              chat type should be always known for requests sent from official clients and most third-party
-     *                              clients, unless the request was sent from a secret chat
+     *                              clients, unless the request was sent from a secret chat.
      * @param Location|NULL $location Sender location, only for bots that request user location
      *
      * @return array $args
@@ -5319,7 +6208,7 @@
      *
      * @param string $type Type of the result, must be photo
      * @param string $id Unique identifier for this result, 1-64 bytes
-     * @param string $photo_url A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
+     * @param string $photo_url A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB.
      * @param string $thumbnail_url URL of the thumbnail for the photo
      * @param int|NULL $photo_width Width of the photo
      * @param int|NULL $photo_height Height of the photo
@@ -5364,7 +6253,7 @@
      * @param int|NULL $gif_duration Duration of the GIF in seconds
      * @param string $thumbnail_url URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
      * @param string|NULL $thumbnail_mime_type MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”.
-     *                              Defaults to “image/jpeg”
+     *                              Defaults to “image/jpeg”.
      * @param string|NULL $title Title for the result
      * @param string|NULL $caption Caption of the GIF file to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the caption. See formatting options for more details.
@@ -5406,7 +6295,7 @@
      * @param int|NULL $mpeg4_duration Video duration in seconds
      * @param string $thumbnail_url URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
      * @param string|NULL $thumbnail_mime_type MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”.
-     *                              Defaults to “image/jpeg”
+     *                              Defaults to “image/jpeg”.
      * @param string|NULL $title Title for the result
      * @param string|NULL $caption Caption of the MPEG-4 file to be sent, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the caption. See formatting options for more details.
@@ -5589,8 +6478,8 @@
      * @param float $longitude Location longitude in degrees
      * @param string $title Location title
      * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
-     * @param int|NULL $live_period Period in seconds during which the location can be updated, should be between 60 and 86400, or
-     *                              0x7FFFFFFF for live locations that can be edited indefinitely.
+     * @param int|NULL $live_period Period in seconds during which the location can be updated, must be between 60 and 86400, or
+     *                              0x7FFFFFFF for live locations that can be edited indefinitely
      * @param int|NULL $heading For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360
      *                              if specified.
      * @param int|NULL $proximity_alert_radius For live locations, a maximum distance for proximity alerts about approaching another chat member,
@@ -5951,7 +6840,7 @@
 
     /**
      * This object represents the content of a message to be sent as a result of an inline query. Telegram
-     * clients currently support the following 5 types:
+     * clients currently support the following types:
      * 
      * @see https://core.telegram.org/bots/api#inputmessagecontent
      *
@@ -5983,6 +6872,19 @@
     }
 
     /**
+     * Represents the content of a rich message to be sent as the result of an inline query.
+     * 
+     * @see https://core.telegram.org/bots/api#inputrichmessagecontent
+     *
+     * @param InputRichMessage $rich_message The message to be sent
+     *
+     * @return array $args
+     */
+    public function InputRichMessageContent ( array $rich_message ) : array {
+      return [ 'rich_message' => $rich_message ];
+    }
+
+    /**
      * Represents the content of a location message to be sent as the result of an inline query.
      * 
      * @see https://core.telegram.org/bots/api#inputlocationmessagecontent
@@ -5990,8 +6892,8 @@
      * @param float $latitude Latitude of the location in degrees
      * @param float $longitude Longitude of the location in degrees
      * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
-     * @param int|NULL $live_period Period in seconds during which the location can be updated, should be between 60 and 86400, or
-     *                              0x7FFFFFFF for live locations that can be edited indefinitely.
+     * @param int|NULL $live_period Period in seconds during which the location can be updated, must be between 60 and 86400, or
+     *                              0x7FFFFFFF for live locations that can be edited indefinitely
      * @param int|NULL $heading For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360
      *                              if specified.
      * @param int|NULL $proximity_alert_radius For live locations, a maximum distance for proximity alerts about approaching another chat member,
@@ -6263,7 +7165,7 @@
      * 
      * @see https://core.telegram.org/bots/api#refundedpayment
      *
-     * @param string $currency Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”
+     * @param string $currency Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars. Currently, always “XTR”.
      * @param int $total_amount Total refunded price in the smallest units of the currency (integer, not float/double). For example,
      *                              for a price of US$ 1.45, total_amount = 145. See the exp parameter in currencies.json, it shows the
      *                              number of digits past the decimal point for each currency (2 for the majority of currencies).
@@ -6563,9 +7465,9 @@
      * @param int|NULL $nanostar_amount The number of 1/1000000000 shares of Telegram Stars transferred by the transaction; from 0 to 999999999
      * @param int $date Date the transaction was created in Unix time
      * @param TransactionPartner|NULL $source Source of an incoming transaction (e.g., a user purchasing goods or services, Fragment refunding a
-     *                              failed withdrawal). Only for incoming transactions
+     *                              failed withdrawal). Only for incoming transactions.
      * @param TransactionPartner|NULL $receiver Receiver of an outgoing transaction (e.g., a user for a purchase refund, Fragment for a withdrawal).
-     *                              Only for outgoing transactions
+     *                              Only for outgoing transactions.
      *
      * @return array $args
      */
@@ -6871,12 +7773,12 @@
      *
      * @param string $title Title of the game
      * @param string $description Description of the game
-     * @param PhotoSize[] $photo Photo that will be displayed in the game message in chats.
+     * @param PhotoSize[] $photo Photo that will be displayed in the game message in chats
      * @param string|NULL $text Brief description of the game or high scores included in the game message. Can be automatically
      *                              edited to include current high scores for the game when the bot calls setGameScore, or manually
      *                              edited using editMessageText. 0-4096 characters.
      * @param MessageEntity[]|NULL $text_entities Special entities that appear in text, such as usernames, URLs, bot commands, etc.
-     * @param Animation|NULL $animation Animation that will be displayed in the game message in chats. Upload via BotFather
+     * @param Animation|NULL $animation Animation that will be displayed in the game message in chats. Upload via BotFather.
      *
      * @return array $args
      */

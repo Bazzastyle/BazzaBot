@@ -49,7 +49,7 @@
      * 
      * @see https://core.telegram.org/bots/api#setwebhook
      *
-     * @param string $url HTTPS URL to send updates to. Use an empty string to remove webhook integration
+     * @param string $url HTTPS URL to send updates to. Use an empty string to remove webhook integration.
      * @param InputFile|NULL $certificate Upload your public key certificate so that the root certificate in use can be checked. See our
      *                              self-signed guide for details.
      * @param string|NULL $ip_address The fixed IP address which will be used to send webhook requests instead of the IP address resolved
@@ -180,7 +180,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -291,7 +291,7 @@
      * @param int $message_id Message identifier in the chat specified in from_chat_id
      * @param int|NULL $video_start_timestamp New start timestamp for the copied video in the message
      * @param string|NULL $caption New caption for media, 0-1024 characters after entities parsing. If not specified, the original
-     *                              caption is kept
+     *                              caption is kept.
      * @param string|NULL $parse_mode Mode for parsing entities in the new caption. See formatting options for more details.
      * @param MessageEntity[]|NULL $caption_entities A JSON-serialized list of special entities that appear in the new caption, which can be specified
      *                              instead of parse_mode
@@ -307,7 +307,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -399,7 +399,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -511,7 +511,7 @@
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
@@ -523,7 +523,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -569,7 +569,7 @@
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $caption Document caption (may also be used when resending documents by file_id), 0-1024 characters after
      *                              entities parsing
@@ -587,7 +587,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -635,12 +635,12 @@
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param InputFile|string|NULL $cover Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram
      *                              servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass
-     *                              “attach://<file_attach_name>” to upload a new one using multipart/form-data under
-     *                              <file_attach_name> name. More information on Sending Files »
+     *                              "attach://<file_attach_name>" to upload a new one using multipart/form-data under <file_attach_name>
+     *                              name. More information on Sending Files »
      * @param int|NULL $start_timestamp Start timestamp for the video in the message
      * @param string|NULL $caption Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the video caption. See formatting options for more details.
@@ -659,7 +659,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -714,7 +714,7 @@
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param string|NULL $caption Animation caption (may also be used when resending animation by file_id), 0-1024 characters after
      *                              entities parsing
@@ -733,7 +733,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -795,7 +795,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -833,14 +833,14 @@
      *                              is sent to a direct messages chat
      * @param InputFile|string $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram
      *                              servers (recommended) or upload a new video using multipart/form-data. More information on Sending
-     *                              Files ». Sending video notes by a URL is currently unsupported
+     *                              Files ». Sending video notes by a URL is currently unsupported.
      * @param int|NULL $duration Duration of sent video in seconds
      * @param int|NULL $length Video width and height, i.e. diameter of the video message
      * @param InputFile|string|NULL $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                              server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                              width and height should not exceed 320. Ignored if the file is not uploaded using
      *                              multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
-     *                              pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
+     *                              pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
      *                              <file_attach_name>. More information on Sending Files »
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
@@ -852,7 +852,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -905,7 +905,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -981,7 +981,7 @@
      * @param float $longitude Longitude of the location
      * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
      * @param int|NULL $live_period Period in seconds during which the location will be updated (see Live Locations, should be between
-     *                              60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
+     *                              60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely
      * @param int|NULL $heading For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360
      *                              if specified.
      * @param int|NULL $proximity_alert_radius For live locations, a maximum distance for proximity alerts about approaching another chat member,
@@ -996,7 +996,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -1050,7 +1050,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -1099,7 +1099,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -1132,9 +1132,9 @@
      *                              private chats of bots with forum topic mode enabled only
      * @param string $question Poll question, 1-300 characters
      * @param string|NULL $question_parse_mode Mode for parsing entities in the question. See formatting options for more details. Currently, only
-     *                              custom emoji entities are allowed
+     *                              custom emoji entities are allowed.
      * @param MessageEntity[]|NULL $question_entities A JSON-serialized list of special entities that appear in the poll question. It can be specified
-     *                              instead of question_parse_mode
+     *                              instead of question_parse_mode.
      * @param InputPollOption[] $options A JSON-serialized list of 1-12 answer options
      * @param bool|NULL $is_anonymous True, if the poll needs to be anonymous, defaults to True
      * @param string|NULL $type Poll type, “quiz” or “regular”, defaults to “regular”
@@ -1148,15 +1148,16 @@
      * @param bool|NULL $members_only Pass True, if voting is limited to users who have been members of the chat where the poll is being
      *                              sent for more than 24 hours; for channel chats only
      * @param string[]|NULL $country_codes A JSON-serialized list of 0-12 two-letter ISO 3166-1 alpha-2 country codes indicating the countries
-     *                              from which users can vote in the poll; for channel chats only. If omitted or empty, then users from
-     *                              any country can participate in the poll.
+     *                              from which users can vote in the poll; for channel chats only. Use “FT” as a country code to
+     *                              allow users with anonymous numbers to vote. If omitted or empty, then users from any country can
+     *                              participate in the poll.
      * @param int[]|NULL $correct_option_ids A JSON-serialized list of monotonically increasing 0-based identifiers of the correct answer
      *                              options, required for polls in quiz mode
      * @param string|NULL $explanation Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style
      *                              poll, 0-200 characters with at most 2 line feeds after entities parsing
      * @param string|NULL $explanation_parse_mode Mode for parsing entities in the explanation. See formatting options for more details.
      * @param MessageEntity[]|NULL $explanation_entities A JSON-serialized list of special entities that appear in the poll explanation. It can be specified
-     *                              instead of explanation_parse_mode
+     *                              instead of explanation_parse_mode.
      * @param InputPollMedia|NULL $explanation_media Media added to the quiz explanation
      * @param int|NULL $open_period Amount of time in seconds the poll will be active after creation, 5-2628000. Can't be used together
      *                              with close_date.
@@ -1175,7 +1176,7 @@
      * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -1258,7 +1259,7 @@
      * @param string|NULL $emoji Emoji on which the dice throw animation is based. Currently, must be one of “🎲”, “🎯”,
      *                              “🏀”, “⚽”, “🎳”, or “🎰”. Dice can have values 1-6 for “🎲”,
      *                              “🎯” and “🎳”, values 1-5 for “🏀” and “⚽”, and values 1-64 for “🎰”.
-     *                              Defaults to “🎲”
+     *                              Defaults to “🎲”.
      * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding
      * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
@@ -1269,7 +1270,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -1299,7 +1300,7 @@
      *
      * @param int $chat_id Unique identifier for the target private chat
      * @param int|NULL $message_thread_id Unique identifier for the target message thread
-     * @param int $draft_id Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier
+     * @param int $draft_id Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier
      *                              are animated.
      * @param string|NULL $text Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show
      *                              a “Thinking…” placeholder.
@@ -1328,8 +1329,8 @@
      * @see https://core.telegram.org/bots/api#sendchataction
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the action will be sent
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target bot, supergroup or channel in the
-     *                              format @username. Channel chats and channel direct messages chats aren't supported.
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target bot or supergroup in the format
+     *                              @username. Channel chats and channel direct messages chats aren't supported.
      * @param int|NULL $message_thread_id Unique identifier for the target message thread or topic of a forum; for supergroups and private
      *                              chats of bots with forum topic mode enabled only
      * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for
@@ -1509,7 +1510,7 @@
      *                              can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes
      *                              permissions; the can_send_polls permission will imply the can_send_messages permission.
      * @param int|NULL $until_date Date when restrictions will be lifted for the user; Unix time. If user is restricted for more than
-     *                              366 days or less than 30 seconds from the current time, they are considered to be restricted forever
+     *                              366 days or less than 30 seconds from the current time, they are considered to be restricted forever.
      *
      * @return stdClass
      */
@@ -1536,7 +1537,7 @@
      * @param bool|NULL $can_delete_messages Pass True if the administrator can delete messages of other users
      * @param bool|NULL $can_manage_video_chats Pass True if the administrator can manage video chats
      * @param bool|NULL $can_restrict_members Pass True if the administrator can restrict, ban or unban chat members, or access supergroup
-     *                              statistics. For backward compatibility, defaults to True for promotions of channel administrators
+     *                              statistics. For backward compatibility, defaults to True for promotions of channel administrators.
      * @param bool|NULL $can_promote_members Pass True if the administrator can add new administrators with a subset of their own privileges or
      *                              demote administrators that they have promoted, directly or indirectly (promoted by administrators
      *                              that were appointed by him)
@@ -1697,7 +1698,7 @@
      * @param int|NULL $member_limit The maximum number of users that can be members of the chat simultaneously after joining the chat
      *                              via this invite link; 1-99999
      * @param bool|NULL $creates_join_request True, if users joining the chat via the link need to be approved by chat administrators. If True,
-     *                              member_limit can't be specified
+     *                              member_limit can't be specified.
      *
      * @return stdClass
      */
@@ -1724,7 +1725,7 @@
      * @param int|NULL $member_limit The maximum number of users that can be members of the chat simultaneously after joining the chat
      *                              via this invite link; 1-99999
      * @param bool|NULL $creates_join_request True, if users joining the chat via the link need to be approved by chat administrators. If True,
-     *                              member_limit can't be specified
+     *                              member_limit can't be specified.
      *
      * @return stdClass
      */
@@ -1822,6 +1823,37 @@
      */
     public function declineChatJoinRequest ( int|string $chat_id, int $user_id ) : stdClass {
       return $this->Request( __FUNCTION__, [ 'chat_id' => $chat_id, 'user_id' => $user_id ] );
+    }
+
+    /**
+     * Use this method to process a received chat join request query. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#answerchatjoinrequestquery
+     *
+     * @param string $chat_join_request_query_id Unique identifier of the join request query
+     * @param string $result Result of the query. Must be either “approve” to allow the user to join the chat, “decline”
+     *                              to disallow the user to join the chat, or “queue” to leave the decision to other administrators.
+     *
+     * @return stdClass
+     */
+    public function answerChatJoinRequestQuery ( string $chat_join_request_query_id, string $result ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'chat_join_request_query_id' => $chat_join_request_query_id, 'result' => $result ] );
+    }
+
+    /**
+     * Use this method to process a received chat join request query by showing a Mini App to the user
+     * before deciding the outcome. Call answerChatJoinRequestQuery to resolve the join request query based
+     * on the user interaction with the Mini App. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#sendchatjoinrequestwebapp
+     *
+     * @param string $chat_join_request_query_id Unique identifier of the join request query
+     * @param string $web_app_url The URL of the Mini App to be opened
+     *
+     * @return stdClass
+     */
+    public function sendChatJoinRequestWebApp ( string $chat_join_request_query_id, string $web_app_url ) : stdClass {
+      return $this->Request( __FUNCTION__, [ 'chat_join_request_query_id' => $chat_join_request_query_id, 'web_app_url' => $web_app_url ] );
     }
 
     /**
@@ -2094,7 +2126,7 @@
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username
      * @param string $name Topic name, 1-128 characters
      * @param int|NULL $icon_color Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590
-     *                              (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
+     *                              (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F).
      * @param string|NULL $icon_custom_emoji_id Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get
      *                              all allowed custom emoji identifiers.
      *
@@ -2117,10 +2149,10 @@
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username
      * @param int $message_thread_id Unique identifier for the target message thread of the forum topic
-     * @param string|NULL $name New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
+     * @param string|NULL $name New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept.
      * @param string|NULL $icon_custom_emoji_id New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to
      *                              get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified,
-     *                              the current icon will be kept
+     *                              the current icon will be kept.
      *
      * @return stdClass
      */
@@ -2295,7 +2327,7 @@
      * @see https://core.telegram.org/bots/api#answercallbackquery
      *
      * @param string $callback_query_id Unique identifier for the query to be answered
-     * @param string|NULL $text Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
+     * @param string|NULL $text Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters.
      * @param bool|NULL $show_alert If True, an alert will be shown by the client instead of a notification at the top of the chat
      *                              screen. Defaults to false.
      * @param string|NULL $url URL that will be opened by the user's client. If you have created a Game and accepted the conditions
@@ -2428,7 +2460,7 @@
      * @param BotCommandScope|NULL $scope A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to
      *                              BotCommandScopeDefault.
      * @param string|NULL $language_code A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given
-     *                              scope, for whose language there are no dedicated commands
+     *                              scope, for whose language there are no dedicated commands.
      *
      * @return stdClass
      */
@@ -2448,7 +2480,7 @@
      * @param BotCommandScope|NULL $scope A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to
      *                              BotCommandScopeDefault.
      * @param string|NULL $language_code A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given
-     *                              scope, for whose language there are no dedicated commands
+     *                              scope, for whose language there are no dedicated commands.
      *
      * @return stdClass
      */
@@ -2613,8 +2645,9 @@
      * 
      * @see https://core.telegram.org/bots/api#setchatmenubutton
      *
-     * @param int|NULL $chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
-     * @param MenuButton|NULL $menu_button A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
+     * @param int|NULL $chat_id Unique identifier for the target private chat. If not specified, the bot's default menu button will
+     *                              be changed.
+     * @param MenuButton|NULL $menu_button A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault.
      *
      * @return stdClass
      */
@@ -2631,7 +2664,8 @@
      * 
      * @see https://core.telegram.org/bots/api#getchatmenubutton
      *
-     * @param int|NULL $chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
+     * @param int|NULL $chat_id Unique identifier for the target private chat. If not specified, the bot's default menu button will
+     *                              be returned.
      *
      * @return stdClass
      */
@@ -2842,7 +2876,7 @@
      *
      * @param string $business_connection_id Unique identifier of the business connection on behalf of which to delete the messages
      * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. All messages must be from the
-     *                              same chat. See deleteMessage for limitations on which messages can be deleted
+     *                              same chat. See deleteMessage for limitations on which messages can be deleted.
      *
      * @return stdClass
      */
@@ -3004,7 +3038,7 @@
      * @param bool|NULL $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
      * @param string|NULL $offset Offset of the first entry to return as received from the previous request; use empty string to get
      *                              the first chunk of results
-     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100
+     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100.
      *
      * @return stdClass
      */
@@ -3038,7 +3072,7 @@
      * @param bool|NULL $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
      * @param string|NULL $offset Offset of the first entry to return as received from the previous request; use an empty string to
      *                              get the first chunk of results
-     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100
+     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100.
      *
      * @return stdClass
      */
@@ -3074,7 +3108,7 @@
      * @param bool|NULL $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
      * @param string|NULL $offset Offset of the first entry to return as received from the previous request; use an empty string to
      *                              get the first chunk of results
-     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100
+     * @param int|NULL $limit The maximum number of gifts to be returned; 1-100. Defaults to 100.
      *
      * @return stdClass
      */
@@ -3295,7 +3329,7 @@
      *
      * @param int $user_id Unique identifier of the target user that can use the button
      * @param KeyboardButton $button A JSON-serialized object describing the button to be saved. The button must be of the type
-     *                              request_users, request_chat, or request_managed_bot
+     *                              request_users, request_chat, or request_managed_bot.
      *
      * @return stdClass
      */
@@ -3304,36 +3338,39 @@
     }
 
     /**
-     * Use this method to edit text and game messages. On success, if the edited message is not an inline
-     * message, the edited Message is returned, otherwise True is returned. Note that business messages
-     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
-     * hours from the time they were sent.
+     * Use this method to edit text, rich and game messages. On success, if the edited message is not an
+     * inline message, the edited Message is returned, otherwise True is returned. Note that business
+     * messages that were not sent by the bot and do not contain an inline keyboard can only be edited
+     * within 48 hours from the time they were sent.
      * 
      * @see https://core.telegram.org/bots/api#editmessagetext
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                              the target bot, supergroup or channel in the format @username.
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param string $text New text of the message, 1-4096 characters after entities parsing
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
+     * @param string|NULL $text New text of the message, 1-4096 characters after entity parsing; required if rich_message isn't specified
      * @param string|NULL $parse_mode Mode for parsing entities in the message text. See formatting options for more details.
      * @param MessageEntity[]|NULL $entities A JSON-serialized list of special entities that appear in message text, which can be specified
      *                              instead of parse_mode
      * @param LinkPreviewOptions|NULL $link_preview_options Link preview generation options for the message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
+     * @param InputRichMessage|NULL $rich_message New rich content of the message; required if text isn't specified
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard
      *
      * @return stdClass
      */
-    public function editMessageText ( string $text, ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?string $parse_mode = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $reply_markup = NULL ) : stdClass {
-      $args = [ 'text' => $text ]; 
+    public function editMessageText ( ?string $business_connection_id = NULL, int|string|null $chat_id = NULL, ?int $message_id = NULL, ?string $inline_message_id = NULL, ?string $text = NULL, ?string $parse_mode = NULL, ?array $entities = NULL, ?array $link_preview_options = NULL, ?array $rich_message = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = []; 
       if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
       if ( $chat_id !== NULL ) $args['chat_id'] = $chat_id;
       if ( $message_id !== NULL ) $args['message_id'] = $message_id;
       if ( $inline_message_id !== NULL ) $args['inline_message_id'] = $inline_message_id;
+      if ( $text !== NULL ) $args['text'] = $text;
       if ( $parse_mode !== NULL ) $args['parse_mode'] = $parse_mode;
       if ( $entities !== NULL ) $args['entities'] = json_encode( $entities );
       if ( $link_preview_options !== NULL ) $args['link_preview_options'] = json_encode( $link_preview_options );
+      if ( $rich_message !== NULL ) $args['rich_message'] = json_encode( $rich_message );
       if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
       return $this->Request( __FUNCTION__, $args );
     }
@@ -3349,15 +3386,15 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                              the target bot, supergroup or channel in the format @username.
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
      * @param string|NULL $caption New caption of the message, 0-1024 characters after entities parsing
      * @param string|NULL $parse_mode Mode for parsing entities in the message caption. See formatting options for more details.
      * @param MessageEntity[]|NULL $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
      *                              instead of parse_mode
      * @param bool|NULL $show_caption_above_media Pass True, if the caption must be shown above the message media. Supported only for animation, photo
      *                              and video messages.
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard
      *
      * @return stdClass
      */
@@ -3376,24 +3413,24 @@
     }
 
     /**
-     * Use this method to edit animation, audio, document, live photo, photo, or video messages, or to add
-     * media to text messages. If a message is part of a message album, then it can be edited only to an
-     * audio for audio albums, only to a document for document albums and to a photo, a live photo, or a
-     * video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously
-     * uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline
-     * message, the edited Message is returned, otherwise True is returned. Note that business messages
-     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
-     * hours from the time they were sent.
+     * Use this method to edit animation, audio, document, live photo, photo, or video messages, or to
+     * replace a text or a rich message with a media. If a message is part of a message album, then it can
+     * be edited only to an audio for audio albums, only to a document for document albums and to a photo,
+     * a live photo, or a video otherwise. When an inline message is edited, a new file can't be uploaded;
+     * use a previously uploaded file via its file_id or specify a URL. On success, if the edited message
+     * is not an inline message, the edited Message is returned, otherwise True is returned. Note that
+     * business messages that were not sent by the bot and do not contain an inline keyboard can only be
+     * edited within 48 hours from the time they were sent.
      * 
      * @see https://core.telegram.org/bots/api#editmessagemedia
      *
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                              the target bot, supergroup or channel in the format @username.
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
      * @param InputMedia $media A JSON-serialized object for a new media content of the message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard
      *
      * @return stdClass
      */
@@ -3417,19 +3454,19 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                              the target bot, supergroup or channel in the format @username.
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
      * @param float $latitude Latitude of new location
      * @param float $longitude Longitude of new location
      * @param int|NULL $live_period New period in seconds during which the location can be updated, starting from the message send date.
      *                              If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must
      *                              not exceed the current live_period by more than a day, and the live location expiration date must
-     *                              remain within the next 90 days. If not specified, then live_period remains unchanged
+     *                              remain within the next 90 days. If not specified, then live_period remains unchanged.
      * @param float|NULL $horizontal_accuracy The radius of uncertainty for the location, measured in meters; 0-1500
      * @param int|NULL $heading Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
      * @param int|NULL $proximity_alert_radius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be
      *                              between 1 and 100000 if specified.
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard
      *
      * @return stdClass
      */
@@ -3456,9 +3493,9 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                              the target bot, supergroup or channel in the format @username.
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message with live location to stop
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard.
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message with live location to stop.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new inline keyboard
      *
      * @return stdClass
      */
@@ -3503,9 +3540,9 @@
      * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @param int|string|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                              the target bot, supergroup or channel in the format @username.
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard.
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the message to edit.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for an inline keyboard
      *
      * @return stdClass
      */
@@ -3528,7 +3565,7 @@
      * @param int|string $chat_id Unique identifier for the target chat or username of the target bot, supergroup or channel in the
      *                              format @username
      * @param int $message_id Identifier of the original message with the poll
-     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new message inline keyboard.
+     * @param InlineKeyboardMarkup|NULL $reply_markup A JSON-serialized object for a new message inline keyboard
      *
      * @return stdClass
      */
@@ -3549,7 +3586,7 @@
      * @param int $message_id Identifier of a suggested post message to approve
      * @param int|NULL $send_date Point in time (Unix timestamp) when the post is expected to be published; omit if the date has
      *                              already been specified when the suggested post was created. If specified, then the date must be not
-     *                              more than 2678400 seconds (30 days) in the future
+     *                              more than 2678400 seconds (30 days) in the future.
      *
      * @return stdClass
      */
@@ -3610,7 +3647,7 @@
      * @param int|string $chat_id Unique identifier for the target chat or username of the target bot, supergroup or channel in the
      *                              format @username
      * @param int[] $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations
-     *                              on which messages can be deleted
+     *                              on which messages can be deleted.
      *
      * @return stdClass
      */
@@ -3624,7 +3661,7 @@
      * 
      * @see https://core.telegram.org/bots/api#deletemessagereaction
      *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @username)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username
      * @param int $message_id Identifier of the target message
      * @param int|NULL $user_id Identifier of the user whose reaction will be removed, if the reaction was added by a user
      * @param int|NULL $actor_chat_id Identifier of the chat whose reaction will be removed, if the reaction was added by a chat
@@ -3645,7 +3682,7 @@
      * 
      * @see https://core.telegram.org/bots/api#deleteallmessagereactions
      *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format @username)
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup in the format @username
      * @param int|NULL $user_id Identifier of the user whose reactions will be removed, if the reactions were added by a user
      * @param int|NULL $actor_chat_id Identifier of the chat whose reactions will be removed, if the reactions were added by a chat
      *
@@ -3686,7 +3723,7 @@
      *                              suggested post is automatically declined.
      * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
      *
      * @return stdClass
      */
@@ -3942,7 +3979,7 @@
      *
      * @param string $name Sticker set name
      * @param string|NULL $custom_emoji_id Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the
-     *                              thumbnail and use the first sticker as the thumbnail.
+     *                              thumbnail and use the first sticker as the thumbnail
      *
      * @return stdClass
      */
@@ -3963,6 +4000,72 @@
      */
     public function deleteStickerSet ( string $name ) : stdClass {
       return $this->Request( __FUNCTION__, [ 'name' => $name ] );
+    }
+
+    /**
+     * Use this method to send rich messages. If the message contains a block with a media element, then
+     * the bot must have the right to send the media to the chat. On success, the sent Message is returned.
+     * 
+     * @see https://core.telegram.org/bots/api#sendrichmessage
+     *
+     * @param string|NULL $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent. Bot can
+     *                              send rich messages on behalf of a business account only if the corresponding user can send rich messages.
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target bot, supergroup or channel in the
+     *                              format @username
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread (topic) of a forum; for forum supergroups and
+     *                              private chats of bots with forum topic mode enabled only
+     * @param int|NULL $direct_messages_topic_id Identifier of the direct messages topic to which the message will be sent; required if the message
+     *                              is sent to a direct messages chat
+     * @param InputRichMessage $rich_message The message to be sent
+     * @param bool|NULL $disable_notification Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|NULL $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|NULL $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                              Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance.
+     * @param string|NULL $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param SuggestedPostParameters|NULL $suggested_post_parameters A JSON-serialized object containing the parameters of the suggested post to send; for direct
+     *                              messages chats only. If the message is sent as a reply to another suggested post, then that
+     *                              suggested post is automatically declined.
+     * @param ReplyParameters|NULL $reply_parameters Description of the message to reply to
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|NULL $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
+     *                              keyboard, instructions to remove a reply keyboard or to force a reply from the user.
+     *
+     * @return stdClass
+     */
+    public function sendRichMessage ( int|string $chat_id, array $rich_message, ?string $business_connection_id = NULL, ?int $message_thread_id = NULL, ?int $direct_messages_topic_id = NULL, ?bool $disable_notification = NULL, ?bool $protect_content = NULL, ?bool $allow_paid_broadcast = NULL, ?string $message_effect_id = NULL, ?array $suggested_post_parameters = NULL, ?array $reply_parameters = NULL, ?array $reply_markup = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'rich_message' => json_encode( $rich_message ) ]; 
+      if ( $business_connection_id !== NULL ) $args['business_connection_id'] = $business_connection_id;
+      if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      if ( $direct_messages_topic_id !== NULL ) $args['direct_messages_topic_id'] = $direct_messages_topic_id;
+      if ( $disable_notification !== NULL ) $args['disable_notification'] = $disable_notification;
+      if ( $protect_content !== NULL ) $args['protect_content'] = $protect_content;
+      if ( $allow_paid_broadcast !== NULL ) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
+      if ( $message_effect_id !== NULL ) $args['message_effect_id'] = $message_effect_id;
+      if ( $suggested_post_parameters !== NULL ) $args['suggested_post_parameters'] = json_encode( $suggested_post_parameters );
+      if ( $reply_parameters !== NULL ) $args['reply_parameters'] = json_encode( $reply_parameters );
+      if ( $reply_markup !== NULL ) $args['reply_markup'] = json_encode( $reply_markup );
+      return $this->Request( __FUNCTION__, $args );
+    }
+
+    /**
+     * Use this method to stream a partial rich message to a user while the message is being generated.
+     * Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the
+     * output is finalized, you must call sendRichMessage with the complete message to persist it in the
+     * user's chat. Returns True on success.
+     * 
+     * @see https://core.telegram.org/bots/api#sendrichmessagedraft
+     *
+     * @param int $chat_id Unique identifier for the target private chat
+     * @param int|NULL $message_thread_id Unique identifier for the target message thread
+     * @param int $draft_id Unique identifier of the message draft; must be non-zero. Changes to drafts with the same identifier
+     *                              are animated.
+     * @param InputRichMessage $rich_message The partial message to be streamed
+     *
+     * @return stdClass
+     */
+    public function sendRichMessageDraft ( int $chat_id, int $draft_id, array $rich_message, ?int $message_thread_id = NULL ) : stdClass {
+      $args = [ 'chat_id' => $chat_id, 'draft_id' => $draft_id, 'rich_message' => json_encode( $rich_message ) ]; 
+      if ( $message_thread_id !== NULL ) $args['message_thread_id'] = $message_thread_id;
+      return $this->Request( __FUNCTION__, $args );
     }
 
     /**
@@ -4023,7 +4126,7 @@
      * @param string|NULL $start_parameter Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay
      *                              button, allowing multiple users to pay directly from the forwarded message, using the same invoice.
      *                              If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the
-     *                              bot (instead of a Pay button), with the value used as the start parameter
+     *                              bot (instead of a Pay button), with the value used as the start parameter.
      * @param string|NULL $provider_data JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed
      *                              description of required fields should be provided by the payment provider.
      * @param string|NULL $photo_url URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a
@@ -4337,11 +4440,11 @@
      * @param int $user_id User identifier
      * @param int $score New score, must be non-negative
      * @param bool|NULL $force Pass True if the high score is allowed to decrease. This can be useful when fixing mistakes or
-     *                              banning cheaters
+     *                              banning cheaters.
      * @param bool|NULL $disable_edit_message Pass True if the game message should not be automatically edited to include the current scoreboard
-     * @param int|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the sent message
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param int|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat.
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the sent message.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
      *
      * @return stdClass
      */
@@ -4362,9 +4465,9 @@
      * @see https://core.telegram.org/bots/api#getgamehighscores
      *
      * @param int $user_id Target user id
-     * @param int|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat
-     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the sent message
-     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param int|NULL $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat.
+     * @param int|NULL $message_id Required if inline_message_id is not specified. Identifier of the sent message.
+     * @param string|NULL $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message.
      *
      * @return stdClass
      */
