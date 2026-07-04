@@ -5,9 +5,15 @@
   "license": "AGPL-3.0-or-later",
   "require": {
     "ext-json": "*",
+    "ext-pdo": "*",
     "php": "^8.4",
     "amphp/http-client": "^v5.0@dev",
-    "amphp/file": "^v3.0@dev"
+    "amphp/file": "^v3.0@dev",
+    "monolog/monolog": "^3.7",
+    "psr/log": "^3.0"
+  },
+  "suggest": {
+    "vlucas/phpdotenv": "Allows loading secrets from a .env file via EnvLoader (optional; getenv() is used as fallback when absent)"
   },
   "autoload": {
     "psr-4": {

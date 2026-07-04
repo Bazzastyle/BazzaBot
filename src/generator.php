@@ -1,4 +1,6 @@
 <?php
+  declare(strict_types=1);
+
   namespace BazzaBot;
   require_once( __DIR__ . '/Types.php' );
   require_once( __DIR__ . '/ApiInterface.php' );
@@ -6,7 +8,12 @@
   require_once( __DIR__ . '/Client.php' );
 
   function api() : object|string {
-    return json_decode( Client::cURL( 'https://raw.githubusercontent.com/davtur19/TuriBotGen/refs/heads/master/botapi.json' ) );
+    $context = stream_context_create( [ 'http' => [ 'timeout' => 30 ] ] );
+    $schema  = file_get_contents( 'https://raw.githubusercontent.com/davtur19/TuriBotGen/refs/heads/master/botapi.json', context: $context );
+
+    if ( $schema === false ) throw new \RuntimeException( 'Unable to download the Telegram Bot API schema.' );
+
+    return json_decode( $schema );
   }
 
   function divideText($text, $type, $length = 100) {

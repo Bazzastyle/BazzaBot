@@ -1,6 +1,12 @@
 <?php
+  declare(strict_types=1);
+
   require_once "vendor/autoload.php";
   require_once __DIR__ . '/env.php';
+
+  use BazzaBot\Client;
+  use BazzaBot\Logging\LoggerFactory;
+  use function Amp\async;
 
   setlocale( LC_ALL, $env[ 'setLocale' ] ?? 'it_IT.utf8' );
 	error_reporting( E_ALL & ~E_NOTICE & ~E_DEPRECATED );
@@ -11,10 +17,8 @@
 	ini_set( 'error_log', __DIR__ . $env[ 'errorLog' ] );
 	ini_set( 'ignore_repeated_errors', $env[ 'ignoreRepeatedErrors' ] ?? TRUE );
 
-  use BazzaBot\Client;
-  use function Amp\async;
-
-  $client = new Client( $env );
+  $logger = LoggerFactory::createFromEnv( $env, __DIR__ . $env[ 'errorLog' ], 'getUpdates' );
+  $client = new Client( $env, $logger );
   $offset = 0;
 
   function handleUpdate ( Client $client, object $update, array $env ) : void {
@@ -39,19 +43,19 @@
 		elseif ( isset( $update->managed_bot ) ) require __DIR__ . '/update/managed_bot.php';
   }
 
-  function getUpdatesCatch ( Client $client, int $offset, array $env ) {
+  function getUpdatesCatch ( Client $client, int $offset, array $env, \Psr\Log\LoggerInterface $logger ) : object|false {
     try { return $client->getUpdates( offset: $offset, limit: $env[ 'limit' ], timeout: $env[ 'timeout' ], allowed_updates: $env[ 'allowedUpdates' ] ); }
-    catch ( Throwable $e ) { echo "getUpdates error: $e" . PHP_EOL; }
+    catch ( \Throwable $e ) { $logger->error( 'getUpdates failed', [ 'exception' => $e->getMessage() ] ); }
     return false;
   }
 
   while ( true ) {
-    $updates = getUpdatesCatch( $client, $offset, $env[ 'getUpdates' ] );
+    $updates = getUpdatesCatch( $client, $offset, $env[ 'getUpdates' ], $logger );
     if ( isset( $updates->ok ) && $updates->ok ) {
       foreach ($updates->result as $update) {
         $offset = $update->update_id + 1;
         async( handleUpdate( ... ), $client, $update, $env );
       }
     }
-    else echo isset( $updates->description ) ? "Error: " . $updates->description . PHP_EOL : "Error: No description available" . PHP_EOL;
+    else $logger->warning( 'getUpdates returned an error', [ 'description' => $updates->description ?? 'No description available' ] );
   }

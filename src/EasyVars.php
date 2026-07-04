@@ -1,6 +1,11 @@
 <?php
+	declare(strict_types=1);
+
 	namespace BazzaBot;
 
+	use Psr\Log\{LoggerInterface, NullLogger};
+
+	#[\AllowDynamicProperties]
 	class EasyVars {
 		private static array $update_types = [
 			'message',
@@ -33,13 +38,17 @@
 
 		public static function getUpdateTypes () : array { return self::$update_types; }
 
-		public function __construct ( object $update ) {
+		public function __construct ( object $update, ?LoggerInterface $logger = null ) {
+			$logger ??= new NullLogger();
+
 			foreach ( self::$update_types as $update_type ) {
 				if ( isset( $update->{$update_type} ) ) {
 					$this->update_type = $update_type;
 					break;
 				}
 			}
+
+			if ( ! isset( $this->update_type ) ) $logger->debug( 'Received an update with no recognized update_type', [ 'update_id' => $update->update_id ?? null ] );
 
 			if ( isset ( $this->update_type ) ) {
 				$this->update_id = $update->update_id ?? null;

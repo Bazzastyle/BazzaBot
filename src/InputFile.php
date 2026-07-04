@@ -1,5 +1,7 @@
 <?php
 
+	declare(strict_types=1);
+
 	namespace BazzaBot;
 
 	use Amp\Http\Client\Body\FileBody;
