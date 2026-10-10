@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Bazzastyle\BazzaBot\Update;
+
+enum UpdateType: string
+{
+    case Message = 'message';
+    case EditedMessage = 'edited_message';
+    case GuestMessage = 'guest_message';
+    case ChannelPost = 'channel_post';
+    case EditedChannelPost = 'edited_channel_post';
+    case BusinessConnection = 'business_connection';
+    case BusinessMessage = 'business_message';
+    case EditedBusinessMessage = 'edited_business_message';
+    case DeletedBusinessMessages = 'deleted_business_messages';
+    case MessageReaction = 'message_reaction';
+    case MessageReactionCount = 'message_reaction_count';
+    case InlineQuery = 'inline_query';
+    case ChosenInlineResult = 'chosen_inline_result';
+    case CallbackQuery = 'callback_query';
+    case ShippingQuery = 'shipping_query';
+    case PreCheckoutQuery = 'pre_checkout_query';
+    case PurchasedPaidMedia = 'purchased_paid_media';
+    case Poll = 'poll';
+    case PollAnswer = 'poll_answer';
+    case MyChatMember = 'my_chat_member';
+    case ChatMember = 'chat_member';
+    case ChatJoinRequest = 'chat_join_request';
+    case ChatBoost = 'chat_boost';
+    case RemovedChatBoost = 'removed_chat_boost';
+    case ManagedBot = 'managed_bot';
+    case Subscription = 'subscription';
+    case Unknown = 'unknown';
+
+    public static function detect(\stdClass $update): self
+    {
+        foreach (self::cases() as $case) {
+            if ($case !== self::Unknown && isset($update->{$case->value})) {
+                return $case;
+            }
+        }
+
+        return self::Unknown;
+    }
+}

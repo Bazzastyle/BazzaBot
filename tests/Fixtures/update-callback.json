@@ -1,0 +1,22 @@
+{
+    "update_id": 100002,
+    "callback_query": {
+        "id": "callback123",
+        "from": {
+            "id": 222,
+            "is_bot": false,
+            "first_name": "Luigi"
+        },
+        "message": {
+            "message_id": 55,
+            "chat": {
+                "id": 222,
+                "type": "private"
+            },
+            "date": 1752900000,
+            "text": "Scegli un'opzione"
+        },
+        "chat_instance": "abc",
+        "data": "menu:main"
+    }
+}
