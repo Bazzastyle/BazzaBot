@@ -26,7 +26,7 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param WebAppInfo|array|null $web_app Optional. Description of the Web App that will be launched when the user presses the button. The Web
  *     App will be able to send an arbitrary message on behalf of the user using the method
  *     answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for
- *     messages sent on behalf of a business account. (optional)
+ *     messages sent on behalf of a business account and ephemeral messages. (optional)
  * @param LoginUrl|array|null $login_url Optional. An HTTPS URL used to automatically authorize the user. Can be used as a replacement for
  *     the Telegram Login Widget. Not supported for ephemeral messages. (optional)
  * @param ?string $switch_inline_query Optional. If set, pressing the button will prompt the user to select one of their chats, open that

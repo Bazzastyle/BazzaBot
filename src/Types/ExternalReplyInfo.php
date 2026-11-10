@@ -29,6 +29,7 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param Video|array|null $video Optional. Message is a video, information about the video (optional)
  * @param VideoNote|array|null $video_note Optional. Message is a video note, information about the video message (optional)
  * @param Voice|array|null $voice Optional. Message is a voice message, information about the file (optional)
+ * @param Widget|array|null $widget Optional. Message is an HTML widget, information about the widget (optional)
  * @param ?bool $has_media_spoiler Optional. True, if the message media is covered by a spoiler animation (optional)
  * @param Checklist|array|null $checklist Optional. Message is a checklist (optional)
  * @param Contact|array|null $contact Optional. Message is a shared contact, information about the contact (optional)
@@ -59,6 +60,7 @@ final class ExternalReplyInfo implements \JsonSerializable
         public readonly Video|array|null $video = null,
         public readonly VideoNote|array|null $video_note = null,
         public readonly Voice|array|null $voice = null,
+        public readonly Widget|array|null $widget = null,
         public readonly ?bool $has_media_spoiler = null,
         public readonly Checklist|array|null $checklist = null,
         public readonly Contact|array|null $contact = null,
@@ -107,6 +109,8 @@ final class ExternalReplyInfo implements \JsonSerializable
         if ($this->video_note !== null) $data['video_note'] = $this->video_note;
 
         if ($this->voice !== null) $data['voice'] = $this->voice;
+
+        if ($this->widget !== null) $data['widget'] = $this->widget;
 
         if ($this->has_media_spoiler !== null) $data['has_media_spoiler'] = $this->has_media_spoiler;
 

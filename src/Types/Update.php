@@ -44,6 +44,8 @@ namespace Bazzastyle\BazzaBot\Types;
  *     Please see our documentation on the feedback collecting for details on how to enable these updates
  *     for your bot. (optional)
  * @param CallbackQuery|array|null $callback_query Optional. New incoming callback query (optional)
+ * @param WidgetQuery|array|null $widget_query Optional. New incoming query from a widget in a message sent by the bot or via the bot (optional)
+ * @param SharedWidgetQuery|array|null $shared_widget_query Optional. New incoming query from a forwarded message with a shared widget (optional)
  * @param ShippingQuery|array|null $shipping_query Optional. New incoming shipping query. Only for invoices with flexible price. (optional)
  * @param PreCheckoutQuery|array|null $pre_checkout_query Optional. New incoming pre-checkout query. Contains full information about checkout. (optional)
  * @param PaidMediaPurchased|array|null $purchased_paid_media Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat (optional)
@@ -84,6 +86,8 @@ final class Update implements \JsonSerializable
         public readonly InlineQuery|array|null $inline_query = null,
         public readonly ChosenInlineResult|array|null $chosen_inline_result = null,
         public readonly CallbackQuery|array|null $callback_query = null,
+        public readonly WidgetQuery|array|null $widget_query = null,
+        public readonly SharedWidgetQuery|array|null $shared_widget_query = null,
         public readonly ShippingQuery|array|null $shipping_query = null,
         public readonly PreCheckoutQuery|array|null $pre_checkout_query = null,
         public readonly PaidMediaPurchased|array|null $purchased_paid_media = null,
@@ -134,6 +138,10 @@ final class Update implements \JsonSerializable
         if ($this->chosen_inline_result !== null) $data['chosen_inline_result'] = $this->chosen_inline_result;
 
         if ($this->callback_query !== null) $data['callback_query'] = $this->callback_query;
+
+        if ($this->widget_query !== null) $data['widget_query'] = $this->widget_query;
+
+        if ($this->shared_widget_query !== null) $data['shared_widget_query'] = $this->shared_widget_query;
 
         if ($this->shipping_query !== null) $data['shipping_query'] = $this->shipping_query;
 

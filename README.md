@@ -6,7 +6,7 @@ Nessuna dipendenza runtime a parte le estensioni PHP native (`curl`, `json`, `mb
 
 ## Caratteristiche
 
-- **Copertura completa API Telegram**: tutti i 185 metodi delle Bot API (v10.3.0) generati come
+- **Copertura completa API Telegram**: tutti i 193 metodi delle Bot API (v10.4.0) generati come
   metodi PHP tipizzati (parametri obbligatori/opzionali fedeli alla spec ufficiale), rigenerabili
   in un comando quando Telegram rilascia una nuova versione (vedi `tools/generate-api.php`).
   `call(string $method, array $params)` resta disponibile per i metodi aggiunti da Telegram prima

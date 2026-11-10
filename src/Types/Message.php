@@ -93,10 +93,12 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param Video|array|null $video Optional. Message is a video, information about the video (optional)
  * @param VideoNote|array|null $video_note Optional. Message is a video note, information about the video message (optional)
  * @param Voice|array|null $voice Optional. Message is a voice message, information about the file (optional)
- * @param ?string $caption Optional. Caption for the animation, audio, document, paid media, photo, video or voice (optional)
+ * @param Widget|array|null $widget Optional. Message is an HTML widget, information about the widget (optional)
+ * @param ?string $caption Optional. Caption for the animation, audio, document, live photo, paid media, photo, video, voice,
+ *     or widget (optional)
  * @param ?array $caption_entities Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc.
  *     that appear in the caption (optional)
- * @param ?bool $show_caption_above_media Optional. True, if the caption must be shown above the message media (optional)
+ * @param ?bool $show_caption_above_media Optional. True, if the caption must be shown above the message media or the widget (optional)
  * @param ?bool $has_media_spoiler Optional. True, if the message media is covered by a spoiler animation (optional)
  * @param Checklist|array|null $checklist Optional. Message is a checklist (optional)
  * @param Contact|array|null $contact Optional. Message is a shared contact, information about the contact (optional)
@@ -173,6 +175,8 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param GiveawayCompleted|array|null $giveaway_completed Optional. Service message: a giveaway without public winners was completed (optional)
  * @param ManagedBotCreated|array|null $managed_bot_created Optional. Service message: user created a bot that will be managed by the current bot (optional)
  * @param PaidMessagePriceChanged|array|null $paid_message_price_changed Optional. Service message: the price for paid messages has changed in the chat (optional)
+ * @param PaidMessagesWaived|array|null $paid_messages_waived Optional. Service message: the sender of the message used a link of the other user, which allows
+ *     sending messages to the user without paying Telegram Stars (optional)
  * @param PollOptionAdded|array|null $poll_option_added Optional. Service message: answer option was added to a poll (optional)
  * @param PollOptionDeleted|array|null $poll_option_deleted Optional. Service message: answer option was deleted from a poll (optional)
  * @param SuggestedPostApproved|array|null $suggested_post_approved Optional. Service message: a suggested post was approved (optional)
@@ -180,6 +184,7 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param SuggestedPostDeclined|array|null $suggested_post_declined Optional. Service message: a suggested post was declined (optional)
  * @param SuggestedPostPaid|array|null $suggested_post_paid Optional. Service message: payment for a suggested post was received (optional)
  * @param SuggestedPostRefunded|array|null $suggested_post_refunded Optional. Service message: payment for a suggested post was refunded (optional)
+ * @param TonWalletTransfer|array|null $ton_wallet_transfer Optional. Service message: a transfer with a TON wallet (optional)
  * @param VideoChatScheduled|array|null $video_chat_scheduled Optional. Service message: video chat scheduled (optional)
  * @param VideoChatStarted|array|null $video_chat_started Optional. Service message: video chat started (optional)
  * @param VideoChatEnded|array|null $video_chat_ended Optional. Service message: video chat ended (optional)
@@ -241,6 +246,7 @@ final class Message implements MaybeInaccessibleMessage, \JsonSerializable
         public readonly Video|array|null $video = null,
         public readonly VideoNote|array|null $video_note = null,
         public readonly Voice|array|null $voice = null,
+        public readonly Widget|array|null $widget = null,
         public readonly ?string $caption = null,
         public readonly ?array $caption_entities = null,
         public readonly ?bool $show_caption_above_media = null,
@@ -298,6 +304,7 @@ final class Message implements MaybeInaccessibleMessage, \JsonSerializable
         public readonly GiveawayCompleted|array|null $giveaway_completed = null,
         public readonly ManagedBotCreated|array|null $managed_bot_created = null,
         public readonly PaidMessagePriceChanged|array|null $paid_message_price_changed = null,
+        public readonly PaidMessagesWaived|array|null $paid_messages_waived = null,
         public readonly PollOptionAdded|array|null $poll_option_added = null,
         public readonly PollOptionDeleted|array|null $poll_option_deleted = null,
         public readonly SuggestedPostApproved|array|null $suggested_post_approved = null,
@@ -305,6 +312,7 @@ final class Message implements MaybeInaccessibleMessage, \JsonSerializable
         public readonly SuggestedPostDeclined|array|null $suggested_post_declined = null,
         public readonly SuggestedPostPaid|array|null $suggested_post_paid = null,
         public readonly SuggestedPostRefunded|array|null $suggested_post_refunded = null,
+        public readonly TonWalletTransfer|array|null $ton_wallet_transfer = null,
         public readonly VideoChatScheduled|array|null $video_chat_scheduled = null,
         public readonly VideoChatStarted|array|null $video_chat_started = null,
         public readonly VideoChatEnded|array|null $video_chat_ended = null,
@@ -416,6 +424,8 @@ final class Message implements MaybeInaccessibleMessage, \JsonSerializable
         if ($this->video_note !== null) $data['video_note'] = $this->video_note;
 
         if ($this->voice !== null) $data['voice'] = $this->voice;
+
+        if ($this->widget !== null) $data['widget'] = $this->widget;
 
         if ($this->caption !== null) $data['caption'] = $this->caption;
 
@@ -531,6 +541,8 @@ final class Message implements MaybeInaccessibleMessage, \JsonSerializable
 
         if ($this->paid_message_price_changed !== null) $data['paid_message_price_changed'] = $this->paid_message_price_changed;
 
+        if ($this->paid_messages_waived !== null) $data['paid_messages_waived'] = $this->paid_messages_waived;
+
         if ($this->poll_option_added !== null) $data['poll_option_added'] = $this->poll_option_added;
 
         if ($this->poll_option_deleted !== null) $data['poll_option_deleted'] = $this->poll_option_deleted;
@@ -544,6 +556,8 @@ final class Message implements MaybeInaccessibleMessage, \JsonSerializable
         if ($this->suggested_post_paid !== null) $data['suggested_post_paid'] = $this->suggested_post_paid;
 
         if ($this->suggested_post_refunded !== null) $data['suggested_post_refunded'] = $this->suggested_post_refunded;
+
+        if ($this->ton_wallet_transfer !== null) $data['ton_wallet_transfer'] = $this->ton_wallet_transfer;
 
         if ($this->video_chat_scheduled !== null) $data['video_chat_scheduled'] = $this->video_chat_scheduled;
 

@@ -7,18 +7,18 @@ namespace Bazzastyle\BazzaBot\Types;
 /**
  * AUTO-GENERATED — DO NOT EDIT BY HAND. Regenerate with: php tools/generate-types.php
  *
- * Describes the position of a clickable area within a story.
+ * Describes the position of a rectangle area on a story media or a TON wallet card.
  *
- * @see https://core.telegram.org/bots/api#storyareaposition
+ * @see https://core.telegram.org/bots/api#areaposition
  *
- * @param float $x_percentage The abscissa of the area's center, as a percentage of the media width
- * @param float $y_percentage The ordinate of the area's center, as a percentage of the media height
- * @param float $width_percentage The width of the area's rectangle, as a percentage of the media width
- * @param float $height_percentage The height of the area's rectangle, as a percentage of the media height
+ * @param float $x_percentage The abscissa of the area's center, as a percentage of the media or the card width
+ * @param float $y_percentage The ordinate of the area's center, as a percentage of the media or the card height
+ * @param float $width_percentage The width of the area's rectangle, as a percentage of the media or the card width
+ * @param float $height_percentage The height of the area's rectangle, as a percentage of the media or the card height
  * @param float $rotation_angle The clockwise rotation angle of the rectangle, in degrees; 0-360
- * @param float $corner_radius_percentage The radius of the rectangle corner rounding, as a percentage of the media width
+ * @param float $corner_radius_percentage The radius of the rectangle corner rounding, as a percentage of the media or the card width
  */
-final class StoryAreaPosition implements \JsonSerializable
+final class AreaPosition implements \JsonSerializable
 {
     public function __construct(
         public readonly float $x_percentage,

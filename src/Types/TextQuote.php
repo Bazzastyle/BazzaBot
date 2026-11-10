@@ -12,10 +12,17 @@ namespace Bazzastyle\BazzaBot\Types;
  *
  * @see https://core.telegram.org/bots/api#textquote
  *
- * @param string $text Text of the quoted part of a message that is replied to by the given message
- * @param int $position Approximate quote position in the original message in UTF-16 code units as specified by the sender
+ * @param string $text Text of the quoted part of a message that is replied to by the given message; may be empty if the
+ *     quote was chosen from a rich message
+ * @param int $position Approximate quote position in the original message in UTF-16 code units as specified by the sender.
+ *     For quotes from rich messages, it is the position in the text formed by joining plain texts of all
+ *     quotable texts of the message, separated by line feeds.
  * @param ?array $entities Optional. Special entities that appear in the quote. Currently, only bold, italic, underline,
  *     strikethrough, spoiler, custom_emoji, and date_time entities are kept in quotes. (optional)
+ * @param ?array $rich_texts Optional. Rich text of the quote if it was chosen from a rich message. May contain only plain text,
+ *     RichTextBold, RichTextItalic, RichTextUnderline, RichTextStrikethrough, RichTextSpoiler,
+ *     RichTextSubscript, RichTextSuperscript, RichTextDateTime, RichTextCustomEmoji,
+ *     RichTextMathematicalExpression, and arrays of them. (optional)
  * @param ?bool $is_manual Optional. True, if the quote was chosen manually by the message sender. Otherwise, the quote was
  *     added automatically by the server. (optional)
  */
@@ -25,6 +32,7 @@ final class TextQuote implements \JsonSerializable
         public readonly string $text,
         public readonly int $position,
         public readonly ?array $entities = null,
+        public readonly ?array $rich_texts = null,
         public readonly ?bool $is_manual = null,
     ) {
     }
@@ -38,6 +46,8 @@ final class TextQuote implements \JsonSerializable
         $data['text'] = $this->text;
         $data['position'] = $this->position;
         if ($this->entities !== null) $data['entities'] = $this->entities;
+
+        if ($this->rich_texts !== null) $data['rich_texts'] = $this->rich_texts;
 
         if ($this->is_manual !== null) $data['is_manual'] = $this->is_manual;
 

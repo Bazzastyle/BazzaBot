@@ -10,7 +10,7 @@ namespace Bazzastyle\BazzaBot\Types;
  * This object represents the content of a message to be sent as a result of an inline query. Telegram
  * clients currently support the following types:
  *
- * Implemented by: InputTextMessageContent, InputRichMessageContent, InputLocationMessageContent, InputVenueMessageContent, InputContactMessageContent, InputInvoiceMessageContent.
+ * Implemented by: InputTextMessageContent, InputRichMessageContent, InputLocationMessageContent, InputVenueMessageContent, InputContactMessageContent, InputInvoiceMessageContent, InputWidgetMessageContent, InputSharedWidgetMessageContent.
  *
  * @see https://core.telegram.org/bots/api#inputmessagecontent
  */

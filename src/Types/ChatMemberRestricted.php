@@ -23,7 +23,7 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param bool $can_send_video_notes True, if the user is allowed to send video notes
  * @param bool $can_send_voice_notes True, if the user is allowed to send voice notes
  * @param bool $can_send_polls True, if the user is allowed to send polls and checklists
- * @param bool $can_send_other_messages True, if the user is allowed to send animations, games, stickers and use inline bots
+ * @param bool $can_send_other_messages True, if the user is allowed to send animations, games, stickers, widgets and use inline bots
  * @param bool $can_add_web_page_previews True, if the user is allowed to add web page previews to their messages
  * @param bool $can_react_to_messages True, if the user is allowed to react to messages
  * @param bool $can_edit_tag True, if the user is allowed to edit their own tag

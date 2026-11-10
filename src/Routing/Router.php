@@ -85,7 +85,7 @@ final class Router
      */
     public function command(string $name, callable $handler): static
     {
-        $this->commandHandlers[ltrim($name, $this->prefixCharMask)] = $handler;
+        $this->commandHandlers[strtolower(ltrim($name, $this->prefixCharMask))] = $handler;
 
         return $this;
     }
@@ -231,6 +231,6 @@ final class Router
             return null;
         }
 
-        return [$matches[1], isset($matches[2]) ? trim($matches[2]) : ''];
+        return [strtolower($matches[1]), isset($matches[2]) ? trim($matches[2]) : ''];
     }
 }

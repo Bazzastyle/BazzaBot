@@ -91,6 +91,9 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param User|array|null $guard_bot Optional. The bot that processes join request queries in the chat. The field is only available to
  *     chat administrators. (optional)
  * @param Community|array|null $community Optional. The Community to which the chat belongs (optional)
+ * @param TonWalletCard|array|null $ton_wallet_card Optional. For private chats, the TON wallet card of the user, which is shown on their profile page (optional)
+ * @param ChatShareTheme|array|null $share_theme Optional. For private chats, supergroups and channels, the theme of the screen for sharing a link to
+ *     the user or the chat; omitted if the default theme is used (optional)
  */
 final class ChatFullInfo implements \JsonSerializable
 {
@@ -148,6 +151,8 @@ final class ChatFullInfo implements \JsonSerializable
         public readonly ?int $paid_message_star_count = null,
         public readonly User|array|null $guard_bot = null,
         public readonly Community|array|null $community = null,
+        public readonly TonWalletCard|array|null $ton_wallet_card = null,
+        public readonly ChatShareTheme|array|null $share_theme = null,
     ) {
     }
 
@@ -257,6 +262,10 @@ final class ChatFullInfo implements \JsonSerializable
         if ($this->guard_bot !== null) $data['guard_bot'] = $this->guard_bot;
 
         if ($this->community !== null) $data['community'] = $this->community;
+
+        if ($this->ton_wallet_card !== null) $data['ton_wallet_card'] = $this->ton_wallet_card;
+
+        if ($this->share_theme !== null) $data['share_theme'] = $this->share_theme;
 
 
         return $data;

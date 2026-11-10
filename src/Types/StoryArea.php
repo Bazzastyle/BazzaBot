@@ -11,13 +11,13 @@ namespace Bazzastyle\BazzaBot\Types;
  *
  * @see https://core.telegram.org/bots/api#storyarea
  *
- * @param StoryAreaPosition|array $position Position of the area
+ * @param AreaPosition|array $position Position of the area
  * @param StoryAreaType|array $type Type of the area
  */
 final class StoryArea implements \JsonSerializable
 {
     public function __construct(
-        public readonly StoryAreaPosition|array $position,
+        public readonly AreaPosition|array $position,
         public readonly StoryAreaType|array $type,
     ) {
     }
