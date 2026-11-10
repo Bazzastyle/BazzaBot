@@ -141,6 +141,8 @@ final class Update
         return self::prop($this->message(), 'from')
             ?? self::prop($this->callbackQuery(), 'from')
             ?? self::prop(self::prop($this->raw, 'inline_query'), 'from')
+            ?? self::prop(self::prop($this->raw, 'widget_query'), 'from')
+            ?? self::prop(self::prop($this->raw, 'shared_widget_query'), 'from')
             ?? self::prop(self::prop($this->raw, 'my_chat_member'), 'from')
             ?? self::prop(self::prop($this->raw, 'chat_member'), 'from')
             ?? self::prop(self::prop($this->raw, 'chat_join_request'), 'from')

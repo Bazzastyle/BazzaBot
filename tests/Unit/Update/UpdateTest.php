@@ -60,6 +60,23 @@ final class UpdateTest extends TestCase
         self::assertSame('hello', $update->getCommandArgs());
     }
 
+    public function testWidgetQueriesAreDetectedAndExposeTheSender(): void
+    {
+        foreach (['widget_query' => UpdateType::WidgetQuery, 'shared_widget_query' => UpdateType::SharedWidgetQuery] as $key => $type) {
+            $update = Update::fromJson((string) json_encode([
+                'update_id' => 100004,
+                $key => [
+                    'id' => 'w1',
+                    'from' => ['id' => 444, 'is_bot' => false, 'first_name' => 'W'],
+                    'data' => 'x',
+                ],
+            ]));
+
+            self::assertSame($type, $update->type);
+            self::assertSame(444, $update->getFromId());
+        }
+    }
+
     public function testRejectsPayloadMissingUpdateId(): void
     {
         $this->expectException(InvalidUpdateException::class);

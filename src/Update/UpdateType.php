@@ -18,6 +18,8 @@ enum UpdateType: string
     case MessageReaction = 'message_reaction';
     case MessageReactionCount = 'message_reaction_count';
     case InlineQuery = 'inline_query';
+    case WidgetQuery = 'widget_query';
+    case SharedWidgetQuery = 'shared_widget_query';
     case ChosenInlineResult = 'chosen_inline_result';
     case CallbackQuery = 'callback_query';
     case ShippingQuery = 'shipping_query';

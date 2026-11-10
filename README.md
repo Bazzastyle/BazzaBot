@@ -164,6 +164,7 @@ su `$bot->router` invece di essere incluso condizionalmente da un dispatcher cen
 | `reaction.php` | `message_reaction`, `message_reaction_count` |
 | `channel.php` | `channel_post`, `edited_channel_post` |
 | `business.php` | `business_connection`, `business_message`, `edited_business_message`, `deleted_business_messages` |
+| `widget.php` | `widget_query`, `shared_widget_query` |
 | `managed_bot.php` | `managed_bot` |
 | `subscription.php` | `subscription` |
 
