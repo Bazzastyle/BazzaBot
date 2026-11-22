@@ -150,7 +150,8 @@ namespace Bazzastyle\BazzaBot\Types;
  *     » (optional)
  * @param WriteAccessAllowed|array|null $write_access_allowed Optional. Service message: the user allowed the bot to write messages after adding it to the
  *     attachment or side menu, launching a Web App from a link, or accepting an explicit request from a
- *     Web App sent by the method requestWriteAccess (optional)
+ *     Web App sent by the method requestWriteAccess, or the user was invited to the private chat with the
+ *     bot by the owner of the bot (optional)
  * @param PassportData|array|null $passport_data Optional. Telegram Passport data (optional)
  * @param ProximityAlertTriggered|array|null $proximity_alert_triggered Optional. Service message: a user in the chat triggered another user's proximity alert while sharing
  *     Live Location (optional)

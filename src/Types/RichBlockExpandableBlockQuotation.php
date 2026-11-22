@@ -12,14 +12,14 @@ namespace Bazzastyle\BazzaBot\Types;
  * @see https://core.telegram.org/bots/api#richblockexpandableblockquotation
  *
  * @param string $type Type of the block, always “expandable_blockquote”
- * @param RichText|array $text Content of the block
+ * @param array $blocks Content of the block
  * @param RichText|array|null $credit Optional. Credit of the block (optional)
  */
 final class RichBlockExpandableBlockQuotation implements RichBlock, \JsonSerializable
 {
     public function __construct(
         public readonly string $type,
-        public readonly RichText|array $text,
+        public readonly array $blocks,
         public readonly RichText|array|null $credit = null,
     ) {
     }
@@ -31,7 +31,7 @@ final class RichBlockExpandableBlockQuotation implements RichBlock, \JsonSeriali
     {
         $data = [];
         $data['type'] = $this->type;
-        $data['text'] = $this->text;
+        $data['blocks'] = $this->blocks;
         if ($this->credit !== null) $data['credit'] = $this->credit;
 
 

@@ -29,7 +29,8 @@ namespace Bazzastyle\BazzaBot\Types;
  *     chats only. (optional)
  * @param KeyboardButtonRequestManagedBot|array|null $request_managed_bot Optional. If specified, pressing the button will ask the user to create and share a bot that will be
  *     managed by the current bot. Available for bots that enabled management of other bots in the
- *     @BotFather Mini App. Available in private chats only. (optional)
+ *     @BotFather Mini App or using the parameter can_manage_bots of the method setMySettings. Available in
+ *     private chats only. (optional)
  * @param ?bool $request_contact Optional. If True, the user's phone number will be sent as a contact when the button is pressed.
  *     Available in private chats only. (optional)
  * @param ?bool $request_location Optional. If True, the user's current location will be sent when the button is pressed. Available in

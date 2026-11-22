@@ -20,7 +20,8 @@ namespace Bazzastyle\BazzaBot\Types;
  *     private chat with the inline query sender, “private”, “group”, “supergroup”, or
  *     “channel”. The chat type should be always known for requests sent from official clients and most
  *     third-party clients, unless the request was sent from a secret chat. (optional)
- * @param Location|array|null $location Optional. Sender location, only for bots that request user location (optional)
+ * @param Location|array|null $location Optional. Sender location, only for bots that enabled user location requests via @BotFather or using
+ *     the parameter needs_inline_query_location of the method setMySettings (optional)
  */
 final class InlineQuery implements \JsonSerializable
 {

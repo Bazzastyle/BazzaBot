@@ -42,7 +42,8 @@ namespace Bazzastyle\BazzaBot\Types;
  * @param InlineQuery|array|null $inline_query Optional. New incoming inline query (optional)
  * @param ChosenInlineResult|array|null $chosen_inline_result Optional. The result of an inline query that was chosen by a user and sent to their chat partner.
  *     Please see our documentation on the feedback collecting for details on how to enable these updates
- *     for your bot. (optional)
+ *     for your bot. The updates can also be enabled using the parameter inline_feedback_share_denominator
+ *     of the method setMySettings. (optional)
  * @param CallbackQuery|array|null $callback_query Optional. New incoming callback query (optional)
  * @param WidgetQuery|array|null $widget_query Optional. New incoming query from a widget in a message sent by the bot or via the bot (optional)
  * @param SharedWidgetQuery|array|null $shared_widget_query Optional. New incoming query from a forwarded message with a shared widget (optional)
